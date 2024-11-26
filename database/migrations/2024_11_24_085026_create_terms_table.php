@@ -13,8 +13,15 @@ return new class extends Migration
     {
         Schema::create('terms', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->notNullable();
             $table->timestamps();
+        });
+
+        Schema::create('term_translations', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('term_id')->constrained()->cascadeOnDelete();
+            $table->string('locale')->index();
+            $table->string('name');
+            $table->unique(['term_id', 'locale']);
         });
     }
 
@@ -23,6 +30,7 @@ return new class extends Migration
      */
     public function down(): void
     {
+        Schema::dropIfExists('term_translations');
         Schema::dropIfExists('terms');
     }
 };

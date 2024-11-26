@@ -6,7 +6,6 @@ use App\Mail\PasswordResetMail;
 use App\Mail\SendVerivicationCode;
 use App\Models\User;
 use App\Models\User\UserActivation;
-// use App\Models\UserActivation;
 use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;

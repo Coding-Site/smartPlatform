@@ -16,11 +16,11 @@ class DatabaseSeeder extends Seeder
             UsersTableSeeder::class,
             TermsTableSeeder::class,
             StagesTableSeeder::class,
-            ClassesTableSeeder::class,
-            CoursesTableSeeder::class,
-            BooksTableSeeder::class,
-            UnitsTableSeeder::class,
-            VideosTableSeeder::class,
+            GradesTableSeeder::class,
+            // CoursesTableSeeder::class,
+            // BooksTableSeeder::class,
+            // UnitsTableSeeder::class,
+            // VideosTableSeeder::class,
         ]);
     }
 }

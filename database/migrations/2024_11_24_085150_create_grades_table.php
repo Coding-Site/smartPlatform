@@ -11,11 +11,18 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('classes', function (Blueprint $table) {
+        Schema::create('grades', function (Blueprint $table) {
             $table->id();
-            $table->integer('name')->notNullable();
             $table->foreignId('stage_id')->constrained('stages')->onDelete('cascade');
             $table->timestamps();
+        });
+
+        Schema::create('grade_translations', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('grade_id')->constrained('grades')->cascadeOnDelete();
+            $table->string('locale')->index();
+            $table->string('name')->notNullable();
+            $table->unique(['grade_id', 'locale']);
         });
     }
 
@@ -24,6 +31,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('classes');
+        Schema::dropIfExists('grade_translations');
+        Schema::dropIfExists('grades');
     }
 };

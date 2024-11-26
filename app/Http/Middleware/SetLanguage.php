@@ -16,9 +16,7 @@ class SetLanguage
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $locale = $request->get('lang', 'en'); // Default to English ('en') if not provided.
-
-        // Check if the locale is supported
+        $locale = $request->get('lang', 'en'); 
         if (in_array($locale, ['en', 'ar'])) {
             App::setLocale($locale);
         }

@@ -17,7 +17,7 @@ return new class extends Migration
             $table->integer('price')->default(0);
             $table->integer('quantity')->default(0);
             $table->foreignId('teacher_id')->constrained('users')->onDelete('cascade');
-            $table->foreignId('class_id')->constrained('classes')->onDelete('cascade');
+            $table->foreignId('grade_id')->constrained('grades')->onDelete('cascade');
             $table->timestamps();
         });
     }

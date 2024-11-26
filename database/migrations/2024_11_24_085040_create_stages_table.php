@@ -13,10 +13,18 @@ return new class extends Migration
     {
         Schema::create('stages', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->notNullable();
             $table->foreignId('term_id')->constrained('terms')->onDelete('cascade');
             $table->timestamps();
         });
+
+        Schema::create('stage_translations', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('stage_id')->constrained('stages')->cascadeOnDelete();
+            $table->string('locale')->index();
+            $table->string('name')->notNullable();
+            $table->unique(['stage_id', 'locale']);
+        });
+
     }
 
     /**
@@ -24,6 +32,7 @@ return new class extends Migration
      */
     public function down(): void
     {
+        Schema::dropIfExists('stage_translations');
         Schema::dropIfExists('stages');
     }
 };

@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Term\Term;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -13,14 +14,26 @@ class TermsTableSeeder extends Seeder
      */
     public function run(): void
     {
-        $term = [
+        $terms = [
             [
-                "name" => 'first'
+                'en' => ['name' => 'First Term'],
+                'ar' => ['name' => 'الترم الأول'],
             ],
             [
-                "name" => 'second'
-            ]
+                'en' => ['name' => 'Second Term'],
+                'ar' => ['name' => 'الترم الثاني'],
+            ],
         ];
-        DB::table('terms')->insert($term);
+
+
+        foreach ($terms as $termData) {
+            $term = new Term();
+
+            foreach ($termData as $locale => $data) {
+                $term->translateOrNew($locale)->name = $data['name'];
+            }
+
+            $term->save();
+        }
     }
 }
