@@ -16,6 +16,7 @@ class TeacherAuthRepository
 {
     public function createTeacher(array $data)
     {
+        $data['password'] = Hash::make($data['password']);
         return Teacher::create($data);
     }
 
@@ -83,7 +84,6 @@ class TeacherAuthRepository
         DB::beginTransaction();
         try {
             $verifyTeacher = TeacherActivation::where('token', $token)->first();
-
             if (!$verifyTeacher) {
                 throw new Exception(__('messages.Verification_token_not_found'));
             }
@@ -108,7 +108,9 @@ class TeacherAuthRepository
 
     public function changeTeacherPassword($teacher, $currentPassword, $newPassword)
     {
+
         if (!Hash::check($currentPassword, $teacher->password)) {
+
             throw new Exception(__('messages.Current_password_is_incorrect'));
         }
 

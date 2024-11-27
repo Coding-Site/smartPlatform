@@ -2,6 +2,7 @@
 
 
 use App\Http\Controllers\Auth\UserAuthController;
+use App\Http\Controllers\Term\TermController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -19,3 +20,4 @@ Route::middleware(['set-language'])->group(function () {
     });
 
 });
+Route::post('/set-term/{id}', [TermController::class, 'setActiveTerm'])->name('term.set');

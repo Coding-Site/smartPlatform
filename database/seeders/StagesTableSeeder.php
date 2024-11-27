@@ -43,8 +43,6 @@ class StagesTableSeeder extends Seeder
             }
 
             $stage->save();
-
-            $stage->terms()->attach([1,2]);
         }
     }
 }

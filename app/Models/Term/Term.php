@@ -2,6 +2,7 @@
 
 namespace App\Models\Term;
 
+use App\Models\Course\Course;
 use App\Models\Stage\Stage;
 use Astrotomic\Translatable\Translatable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -13,9 +14,9 @@ class Term extends Model
 
     public $translatedAttributes = ['name'];
 
-    public function stages()
+    public function courses()
     {
-        return $this->belongsToMany(Stage::class, 'term_stage');
+        return $this->hasMany(Course::class);
     }
 
 

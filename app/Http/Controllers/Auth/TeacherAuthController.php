@@ -11,9 +11,11 @@ use App\Http\Requests\Auth\Teacher\RegisterRequest;
 use App\Http\Requests\Auth\Teacher\ResetPasswordRequest;
 use App\Http\Requests\Auth\Teacher\VerifyEmailRequest;
 use App\Http\Resources\Teacher\TeacherResource;
+use App\Models\Teacher\Teacher;
 use App\Repositories\Auth\TeacherAuthRepository;
 use Exception;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class TeacherAuthController extends Controller
 {
@@ -41,7 +43,7 @@ class TeacherAuthController extends Controller
     {
         try {
             $teacher = $this->authRepository->verifyTeacher($request->validated()['token']);
-            return ApiResponse::sendResponse(200, __('messages.Email_verified_successfully'), new UserResource($teacher));
+            return ApiResponse::sendResponse(200, __('messages.Email_verified_successfully'), new TeacherResource($teacher));
         } catch (Exception $e) {
             return ApiResponse::sendResponse(400, $e->getMessage());
         }
@@ -50,13 +52,12 @@ class TeacherAuthController extends Controller
     public function login(LoginRequest $request)
     {
         try {
-            if (!Auth::guard('teacher')->attempt($request->only('email', 'password'))) {
-                return ApiResponse::sendResponse(401, __('messages.Invalid_credentials'));
+            $teacher = Teacher::where('email',$request->email)->first();
+            if (!$teacher || !Hash::check($request->password, $teacher->password)) {
+                return ApiResponse::sendResponse(401,  __('messages.Invalid_credentials'));
             }
 
-            $teacher = Auth::guard('teacher')->user();
-
-            if (!$teacher->hasVerifiedEmail()) {
+            if (!$teacher->email_verified_at) {
                 return ApiResponse::sendResponse(403, __('messages.User_not_found'));
             }
 
@@ -103,14 +104,12 @@ class TeacherAuthController extends Controller
         try {
             $data = $request->validated();
             $teacher = Auth::guard('teacher')->user();
-
             $updatedTeacher = $this->authRepository->changeTeacherPassword(
                 $teacher,
                 $data['current_password'],
                 $data['new_password']
             );
-
-            return ApiResponse::sendResponse(200, __('message.Password_changed_successfully'), new UserResource($updatedTeacher));
+            return ApiResponse::sendResponse(200, __('message.Password_changed_successfully'), new TeacherResource($updatedTeacher));
         } catch (Exception $e) {
             return ApiResponse::sendResponse(400, __('message.Failed_to_change_password'), $e->getMessage());
         }

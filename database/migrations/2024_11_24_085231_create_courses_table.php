@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->bigInteger('term_price')->nullable();
             $table->bigInteger('monthly_price')->nullable();
+            $table->foreignId('term_id')->constrained('terms')->onDelete('cascade');
             $table->foreignId('teacher_id')->constrained('teachers')->onDelete('cascade');
             $table->foreignId('grade_id')->constrained('grades')->onDelete('cascade');
             $table->timestamps();
