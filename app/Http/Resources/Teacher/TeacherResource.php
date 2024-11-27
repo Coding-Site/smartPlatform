@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Resources\User;
+namespace App\Http\Resources\Teacher;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class UserResource extends JsonResource
+class TeacherResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -18,11 +18,9 @@ class UserResource extends JsonResource
             'name'      => $this->name,
             'email'     => $this->email,
             'phone'     => $this->phone,
-            'gender'    => $this->gender,
-            'grade'     => $this->class,
+            'courses'     => $this->class,
             'stage'     => $this->stage,
             "token"     => $this->when(isset($this->token), $this->token),
-
         ];
     }
 }

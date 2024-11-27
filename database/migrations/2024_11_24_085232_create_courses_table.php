@@ -13,11 +13,19 @@ return new class extends Migration
     {
         Schema::create('courses', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->notNullable();
-            $table->integer('price');
-            $table->foreignId('teacher_id')->constrained('users')->onDelete('cascade');
+            $table->bigInteger('term_price')->nullable();
+            $table->bigInteger('monthly_price')->nullable();
+            $table->foreignId('teacher_id')->constrained('teachers')->onDelete('cascade');
             $table->foreignId('grade_id')->constrained('grades')->onDelete('cascade');
             $table->timestamps();
+        });
+
+        Schema::create('course_translations', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('course_id')->constrained('courses')->onDelete('cascade');
+            $table->string('locale')->index();
+            $table->string('name');
+            $table->unique(['course_id', 'locale']);
         });
     }
 
@@ -26,6 +34,7 @@ return new class extends Migration
      */
     public function down(): void
     {
+        Schema::dropIfExists('course_translations');
         Schema::dropIfExists('courses');
     }
 };

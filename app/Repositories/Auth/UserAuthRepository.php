@@ -4,6 +4,7 @@ namespace App\Repositories\Auth;
 
 use App\Mail\PasswordResetMail;
 use App\Mail\SendVerivicationCode;
+use App\Models\Teacher\Teacher;
 use App\Models\User;
 use App\Models\User\UserActivation;
 use Exception;
@@ -11,11 +12,16 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 
-class AuthRepository
+class UserAuthRepository
 {
     public function create(array $data)
     {
+        $data['password'] = Hash::make($data['password']);
         return User::create($data);
+    }
+    public function createTeacher(array $data)
+    {
+        return Teacher::create($data);
     }
 
     public function generateActivationToken($user)

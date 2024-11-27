@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Course\Course;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -13,28 +14,40 @@ class UnitsTableSeeder extends Seeder
      */
     public function run(): void
     {
-        $units = [
-            [
-                "title"     => "unit 1",
-                "course_id" => 1
-            ],
-            [
-                "title"     => "unit 2",
-                "course_id" => 2
-            ],
-            [
-                "title"     => "unit 3",
-                "course_id" => 3
-            ],
-            [
-                "title"     => "unit 4",
-                "course_id" => 4
-            ],
-            [
-                "title"     => "unit 5",
-                "course_id" => 5
-            ],
-        ];
-        DB::table('units')->insert($units);
+        $courses = Course::all();
+
+        foreach ($courses as $course) {
+            $unitsData = [
+                [
+                    'translations' => [
+                        'en' => ['title' => 'Unit One'],
+                        'ar' => ['title' => 'الوحدة الأولى'],
+                    ],
+                ],
+                [
+                    'translations' => [
+                        'en' => ['title' => 'Unit Two'],
+                        'ar' => ['title' => 'الوحدة الثانية'],
+                    ],
+                ],
+                [
+                    'translations' => [
+                        'en' => ['title' => 'Unit Three'],
+                        'ar' => ['title' => 'الوحدة الثالثة'],
+                    ],
+                ],
+            ];
+
+            foreach ($unitsData as $unitData) {
+                $unit = $course->units()->create();
+
+                foreach ($unitData['translations'] as $locale => $translation) {
+                    $unit->translateOrNew($locale)->title = $translation['title'];
+                }
+
+                $unit->save();
+            }
+        }
+
     }
 }

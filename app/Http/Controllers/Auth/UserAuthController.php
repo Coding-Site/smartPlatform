@@ -4,23 +4,23 @@ namespace App\Http\Controllers\Auth;
 
 use App\Helpers\ApiResponse;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Auth\ChangePasswordRequest;
-use App\Http\Requests\Auth\ForgotPasswordRequest;
-use App\Http\Requests\Auth\LoginRequest;
-use App\Http\Requests\Auth\RegisterRequest;
-use App\Http\Requests\Auth\ResetPasswordRequest;
-use App\Http\Requests\Auth\VerifyEmailRequest;
+use App\Http\Requests\Auth\Student\ChangePasswordRequest;
+use App\Http\Requests\Auth\Student\ForgotPasswordRequest;
+use App\Http\Requests\Auth\Student\LoginRequest;
+use App\Http\Requests\Auth\Student\RegisterRequest;
+use App\Http\Requests\Auth\Student\ResetPasswordRequest;
+use App\Http\Requests\Auth\Student\VerifyEmailRequest;
 use App\Http\Resources\User\UserResource;
-use App\Repositories\Auth\AuthRepository;
+use App\Repositories\Auth\UserAuthRepository;
 use Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
-class AuthController extends Controller
+class UserAuthController extends Controller
 {
     protected $authRepository;
 
-    public function __construct(AuthRepository $authRepository)
+    public function __construct(UserAuthRepository $authRepository)
     {
         $this->authRepository = $authRepository;
     }
@@ -28,12 +28,7 @@ class AuthController extends Controller
     public function register(RegisterRequest $request)
     {
         try {
-            $user = $this->authRepository->create([
-                'name' => $request->name,
-                'email' => $request->email,
-                'password' => Hash::make($request->password),
-            ]);
-
+            $user = $this->authRepository->create($request->validated());
             $token = $this->authRepository->generateActivationToken($user);
             $this->authRepository->sendActivationEmail($user, $token);
 
@@ -61,9 +56,8 @@ class AuthController extends Controller
             }
 
             $user = Auth::user();
-
-            if (!$user->hasVerifiedEmail()) {
-                return ApiResponse::sendResponse(403, __('messages.User_not_found'));
+            if (!$user->email_verified_at) {
+                return ApiResponse::sendResponse(403, __('messages.User_not_verify'));
             }
 
             $user->token = $user->createToken('UserToken')->plainTextToken;
@@ -118,7 +112,7 @@ class AuthController extends Controller
 
             return ApiResponse::sendResponse(200, __('message.Password_changed_successfully'), new UserResource($updatedUser));
         } catch (Exception $e) {
-            return ApiResponse::sendResponse(400, __('message.Failed_to_change_password') , $e->getMessage());
+            return ApiResponse::sendResponse(400, __('message.Failed_to_change_password') );
         }
     }
 

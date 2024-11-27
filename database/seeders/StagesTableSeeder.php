@@ -16,57 +16,35 @@ class StagesTableSeeder extends Seeder
     {
         $stages = [
             [
-                'term_id' => 1,
                 'translations' => [
                     'en' => ['name' => 'Primary School'],
                     'ar' => ['name' => 'المرحلة الابتدائية'],
                 ],
             ],
             [
-                'term_id' => 1,
                 'translations' => [
                     'en' => ['name' => 'Preparatory School'],
                     'ar' => ['name' => 'المرحلة الاعدادية'],
                 ],
             ],
             [
-                'term_id' => 1,
                 'translations' => [
                     'en' => ['name' => 'Middle School'],
                     'ar' => ['name' => 'المرحلة المتوسطة'],
                 ],
-            ],
-            [
-                'term_id' => 2,
-                'translations' => [
-                    'en' => ['name' => 'Primary School'],
-                    'ar' => ['name' => 'المرحلة الابتدائية'],
-                ],
-            ],
-            [
-                'term_id' => 2,
-                'translations' => [
-                    'en' => ['name' => 'Middle School'],
-                    'ar' => ['name' => 'المرحلة المتوسطة'],
-                ],
-            ],
-            [
-                'term_id' => 2,
-                'translations' => [
-                    'en' => ['name' => 'Secondary School'],
-                    'ar' => ['name' => 'المرحلة الثانوية'],
-                ],
-            ],
+            ]
         ];
 
         foreach ($stages as $stageData) {
-            $stage = Stage::create(['term_id' => $stageData['term_id']]);
+            $stage = new Stage();
 
             foreach ($stageData['translations'] as $locale => $translation) {
                 $stage->translateOrNew($locale)->name = $translation['name'];
             }
 
             $stage->save();
+
+            $stage->terms()->attach([1,2]);
         }
     }
 }

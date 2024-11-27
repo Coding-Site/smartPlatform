@@ -7,6 +7,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable implements MustVerifyEmail
@@ -20,7 +21,7 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var array<int, string>
      */
     protected $fillable = [
-        'name', 'email', 'phone', 'gender', 'user_type', 'class', 'stage', 'password',
+        'name', 'email', 'phone', 'gender','grade', 'stage', 'password',
     ];
 
     /**
@@ -41,4 +42,11 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    // public function setPasswordAttribute($value)
+    // {
+    //     if (!empty($value)) {
+    //         $this->attributes['password'] = Hash::make($value);
+    //     }
+    // }
 }

@@ -11,17 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('terms', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
-        });
-
-        Schema::create('term_translations', function (Blueprint $table) {
+        Schema::create('term_stage', function (Blueprint $table) {
             $table->id();
             $table->foreignId('term_id')->constrained()->cascadeOnDelete();
-            $table->string('name');
-            $table->string('locale')->index();
-            $table->unique(['term_id', 'locale']);
+            $table->foreignId('stage_id')->constrained()->cascadeOnDelete();
+            $table->timestamps();
+            $table->unique(['term_id', 'stage_id']);
         });
     }
 
@@ -30,7 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('term_translations');
-        Schema::dropIfExists('terms');
+        Schema::dropIfExists('term_stage');
     }
 };

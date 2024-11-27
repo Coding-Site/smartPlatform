@@ -14,8 +14,8 @@ class Stage extends Model
     public $translatedAttributes = ['name'];
     protected $fillable = ['term_id'];
 
-    public function term()
+    public function terms()
     {
-        return $this->belongsTo(Term::class);
+        return $this->belongsToMany(Term::class, 'term_stage');
     }
 }

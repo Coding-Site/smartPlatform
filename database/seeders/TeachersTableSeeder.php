@@ -7,44 +7,41 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
-class UsersTableSeeder extends Seeder
+class TeachersTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        $users = [
+        $teachers = [
             [
-                "name"       => "user",
-                "email"      => "user@user.com",
+                "name"       => "teacher",
+                "email"      => "teacher@teacher.com",
                 "phone"      => "01069734921",
-                "gender"     => "male",
-                "grade"      => 1,
+                "courses"    => "Arabic",
                 "stage"      => "primary",
                 'password'   => Hash::make('Mm.1@23456'),
             ],
             [
-                "name"       => "user 1",
-                "email"      => "user1@user.com",
+                "name"       => "teacher 1",
+                "email"      => "teacher1@teacher.com",
                 "phone"      => "01062734921",
-                "gender"     => "male",
-                "grade"      => 6,
+                "courses"    => "Math",
                 "stage"      => "primary",
                 'password'   => Hash::make('Mm.1@23456'),
             ],
             [
-                "name"       => "user 2",
-                "email"      => "user2@user.com",
+                "name"       => "teacher 2",
+                "email"      => "teacher2@teacher.com",
                 "phone"      => "01069714921",
-                "gender"     => "male",
-                "grade"      => 1,
+                "courses"    => "English",
                 "stage"      => "primary",
                 'password'   => Hash::make('Mm.1@23456'),
             ],
 
         ];
 
-        DB::table('users')->insert($users);
+        DB::table('teachers')->insert($teachers);
     }
 }

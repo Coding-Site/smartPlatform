@@ -25,7 +25,6 @@ class TermsTableSeeder extends Seeder
             ],
         ];
 
-
         foreach ($terms as $termData) {
             $term = new Term();
 

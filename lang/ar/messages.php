@@ -12,6 +12,7 @@
         'logout_fail'           => 'فشل في تسجيل الخروج',
         'Invalid_credentials'   => 'خطأ في البريد الالكتروني او كلمة السر ',
         'User_not_found'        => 'المستخدم غير موجود',
+        'User_not_verify'       => 'بريدك غير مغعل ',
         'already_verified'            => 'بريدك مأكد بالفعل ',
         'Registration_failed'         => 'خطأ في انشاء الحساب',
         'Email_verified_successfully' => 'تم تأكيد الحساب بنجاح',

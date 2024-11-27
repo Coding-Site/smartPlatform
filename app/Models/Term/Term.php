@@ -15,7 +15,7 @@ class Term extends Model
 
     public function stages()
     {
-        return $this->hasMany(Stage::class);
+        return $this->belongsToMany(Stage::class, 'term_stage');
     }
 
 

@@ -13,15 +13,14 @@ return new class extends Migration
     {
         Schema::create('stages', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('term_id')->constrained('terms')->onDelete('cascade');
             $table->timestamps();
         });
 
         Schema::create('stage_translations', function (Blueprint $table) {
             $table->id();
             $table->foreignId('stage_id')->constrained('stages')->cascadeOnDelete();
-            $table->string('locale')->index();
             $table->string('name')->notNullable();
+            $table->string('locale')->index();
             $table->unique(['stage_id', 'locale']);
         });
 

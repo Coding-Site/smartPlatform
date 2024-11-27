@@ -13,6 +13,7 @@
         'log_out'               => 'Logged Out Successfully',
         'Invalid_credentials'   => 'Invalid credentials',
         'User_not_found'        => 'User Not Found',
+        'User_not_verify'       => 'User Not verify',
         'already_verified'      => 'Your email has already been verified',
         'Registration_failed'   => 'Registration failed',
         'Invalid_reset_token_or_email'  => 'Invalid reset token or email',
