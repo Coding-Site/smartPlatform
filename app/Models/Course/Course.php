@@ -14,10 +14,15 @@ use Illuminate\Database\Eloquent\Model;
 class Course extends Model
 {
     use HasFactory, Translatable;
-
+    protected $fillable = [
+        'term_price',
+        'monthly_price',
+        'term_id',
+        'teacher_id',
+        'grade_id',
+    ];
 
     public $translatedAttributes = ['name'];
-    protected $fillable = ['term_price', 'teacher_id','monthly_price'];
 
 
     protected static function booted()
@@ -26,16 +31,16 @@ class Course extends Model
             static::addGlobalScope(new TermScope(session('term_id')));
         }
     }
-    public function grades()
+    public function grade()
     {
         return $this->belongsTo(Grade::class);
     }
-    public function terms()
+    public function term()
     {
         return $this->belongsTo(Term::class);
     }
 
-    public function teachers()
+    public function teacher()
     {
         return $this->belongsTo(Teacher::class);
     }
