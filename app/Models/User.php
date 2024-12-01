@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Cart\Cart;
 use App\Models\Grade\Grade;
 use App\Models\Stage\Stage;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -61,5 +62,10 @@ class User extends Authenticatable implements MustVerifyEmail
     public function stage() : BelongsTo
     {
         return $this->belongsTo(Stage::class);
+    }
+
+    public function cart()
+    {
+        return $this->hasOne(Cart::class);
     }
 }
