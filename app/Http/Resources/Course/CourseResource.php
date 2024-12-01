@@ -21,12 +21,13 @@ class CourseResource extends JsonResource
                 'term'          => $this->term->name ?? null,
                 'teacher'       => $this->teacher->name ?? null,
                 'grade'         => $this->grade->name ?? null,
-                'translations'  => $this->translations->map(function ($translation) {
-                    return [
-                        'locale' => $translation->locale,
-                        'name'   => $translation->name,
-                    ];
-                }),
+                'name'          => $this->name
+                // 'translations'  => $this->translations->map(function ($translation) {
+                //     return [
+                //         'locale' => $translation->locale,
+                //         'name'   => $translation->name,
+                //     ];
+                // }),
             ];
         }
 }

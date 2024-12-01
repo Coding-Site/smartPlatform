@@ -3,7 +3,7 @@
 namespace App\Models\Unit;
 
 use App\Models\Course\Course;
-use App\Models\Video\Video;
+use App\Models\Lesson\Lesson;
 use Astrotomic\Translatable\Translatable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -19,8 +19,9 @@ class Unit extends Model
     {
         return $this->belongsTo(Course::class);
     }
-    public function videos()
+    public function lesson()
     {
-        return $this->hasMany(Video::class);
+        return $this->hasMany(Lesson::class);
     }
+
 }

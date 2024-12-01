@@ -22,8 +22,8 @@ class StoreCourseRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'term_price'            => 'nullable|numeric',
-            'monthly_price'         => 'nullable|numeric',
+            'term_price'            => 'required|numeric',
+            'monthly_price'         => 'required|numeric',
             'term_id'               => 'required|exists:terms,id',
             'teacher_id'            => 'required|exists:teachers,id',
             'grade_id'              => 'required|exists:grades,id',
@@ -31,5 +31,13 @@ class StoreCourseRequest extends FormRequest
             'translations.*.locale' => 'required|string|max:2',
             'translations.*.name'   => 'required|string|max:255',
         ];
+    }
+
+
+    public function prepareForValidation()
+    {
+        $this->merge(input: [
+            'teacher_id' => auth()->user()->id
+        ]);
     }
 }

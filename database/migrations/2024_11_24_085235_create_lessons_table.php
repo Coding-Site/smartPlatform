@@ -11,13 +11,22 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('videos', function (Blueprint $table) {
+        Schema::create('lessons', function (Blueprint $table) {
             $table->id();
-            $table->string('title')->notNullable();
             $table->string('url')->notNullable();
             $table->foreignId('unit_id')->constrained('units')->onDelete('cascade');
             $table->timestamps();
         });
+
+        Schema::create('lesson_translations', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('lesson_id')->constrained('lessons')->cascadeOnDelete();
+            $table->string('title')->notNullable();
+            $table->string('locale')->index();
+            $table->unique(['lesson_id', 'locale']);
+        });
+
+
     }
 
     /**
