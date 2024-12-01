@@ -16,9 +16,11 @@ return new class extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->string('phone')->unique()->nullable();
-            $table->string('courses');
-            $table->string('stage');
+            $table->foreignId('course_id')->constrained()->onDelete('cascade');
+            $table->foreignId('stage_id')->constrained()->onDelete('cascade');
             $table->string('password');
+            $table->text('bio')->nullable();
+            $table->string('video_preview')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->timestamps();
         });

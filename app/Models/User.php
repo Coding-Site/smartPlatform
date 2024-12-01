@@ -2,7 +2,10 @@
 
 namespace App\Models;
 
+use App\Models\Grade\Grade;
+use App\Models\Stage\Stage;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -49,4 +52,14 @@ class User extends Authenticatable implements MustVerifyEmail
     //         $this->attributes['password'] = Hash::make($value);
     //     }
     // }
+
+    public function grade() : BelongsTo
+    {
+        return $this->belongsTo(Grade::class);
+    }
+
+    public function stage() : BelongsTo
+    {
+        return $this->belongsTo(Stage::class);
+    }
 }

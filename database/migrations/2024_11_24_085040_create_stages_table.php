@@ -19,7 +19,7 @@ return new class extends Migration
         Schema::create('stage_translations', function (Blueprint $table) {
             $table->id();
             $table->foreignId('stage_id')->constrained('stages')->cascadeOnDelete();
-            $table->string('name')->notNullable();
+            $table->string('name');
             $table->string('locale')->index();
             $table->unique(['stage_id', 'locale']);
         });
