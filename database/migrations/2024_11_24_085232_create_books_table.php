@@ -13,10 +13,11 @@ return new class extends Migration
     {
         Schema::create('books', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->notNullable();
-            $table->integer('price')->default(0);
+            $table->string('name');
+            $table->decimal('price', 8, 2)->default(0);
+            $table->string('file')->nullable();
             $table->integer('quantity')->default(0);
-            $table->foreignId('teacher_id')->constrained('users')->onDelete('cascade');
+            $table->foreignId('teacher_id')->constrained('teachers')->onDelete('cascade');
             $table->foreignId('grade_id')->constrained('grades')->onDelete('cascade');
             $table->foreignId('course_id')->constrained('courses')->onDelete('cascade');
             $table->timestamps();

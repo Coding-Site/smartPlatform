@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('lessons', function (Blueprint $table) {
             $table->id();
-            $table->string('url')->notNullable();
+            $table->string('url');
             $table->foreignId('unit_id')->constrained('units')->onDelete('cascade');
             $table->timestamps();
         });

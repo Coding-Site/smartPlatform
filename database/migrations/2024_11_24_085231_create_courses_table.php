@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('courses', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('term_price')->nullable();
-            $table->bigInteger('monthly_price')->nullable();
+            $table->decimal('term_price', 8, 2)->nullable();
+            $table->decimal('monthly_price', 8, 2)->nullable();
             $table->foreignId('term_id')->constrained('terms')->onDelete('cascade');
             $table->foreignId('teacher_id')->constrained('teachers')->onDelete('cascade');
             $table->foreignId('grade_id')->constrained('grades')->onDelete('cascade');

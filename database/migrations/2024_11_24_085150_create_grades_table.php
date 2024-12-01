@@ -20,7 +20,7 @@ return new class extends Migration
         Schema::create('grade_translations', function (Blueprint $table) {
             $table->id();
             $table->foreignId('grade_id')->constrained('grades')->cascadeOnDelete();
-            $table->string('name')->notNullable();
+            $table->string('name');
             $table->string('locale')->index();
             $table->unique(['grade_id', 'locale']);
         });

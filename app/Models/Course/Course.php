@@ -10,6 +10,8 @@ use App\Models\Unit\Unit;
 use Astrotomic\Translatable\Translatable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Course extends Model
 {
@@ -31,21 +33,21 @@ class Course extends Model
             static::addGlobalScope(new TermScope(session('term_id')));
         }
     }
-    public function grade()
+    public function grade() : BelongsTo
     {
         return $this->belongsTo(Grade::class);
     }
-    public function term()
+    public function term() : BelongsTo
     {
         return $this->belongsTo(Term::class);
     }
 
-    public function teacher()
+    public function teacher() : BelongsTo
     {
         return $this->belongsTo(Teacher::class);
     }
 
-    public function units()
+    public function units() : HasMany
     {
         return $this->hasMany(Unit::class);
     }
