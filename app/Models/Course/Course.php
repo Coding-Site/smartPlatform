@@ -25,12 +25,11 @@ class Course extends Model
     public $translatedAttributes = ['name'];
 
 
-    protected static function booted()
+    protected static function booted(): void
     {
-        if (session('term_id')) {
-            static::addGlobalScope(new TermScope(session('term_id')));
-        }
+        static::addGlobalScope(new TermScope(2));
     }
+
     public function grade()
     {
         return $this->belongsTo(Grade::class);

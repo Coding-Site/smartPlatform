@@ -19,7 +19,7 @@ class Unit extends Model
     {
         return $this->belongsTo(Course::class);
     }
-    public function lesson()
+    public function lessons()
     {
         return $this->hasMany(Lesson::class);
     }

@@ -43,6 +43,7 @@ class TeacherAuthController extends Controller
     {
         try {
             $teacher = $this->authRepository->verifyTeacher($request->validated()['token']);
+            $teacher->token = $teacher->createToken('TeacherToken')->plainTextToken;
             return ApiResponse::sendResponse(200, __('messages.Email_verified_successfully'), new TeacherResource($teacher));
         } catch (Exception $e) {
             return ApiResponse::sendResponse(400, $e->getMessage());

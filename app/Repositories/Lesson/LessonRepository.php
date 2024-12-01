@@ -20,7 +20,7 @@ class LessonRepository
     {
         $lesson = Lesson::create($data);
         foreach ($data['translations'] as $translation) {
-            $lesson->translateOrNew($translation['locale'])->name = $translation['title'];
+            $lesson->translateOrNew($translation['locale'])->title = $translation['title'];
         }
         $lesson->save();
         return$lesson;
@@ -33,7 +33,7 @@ class LessonRepository
 
         if (!empty($data['translations'])) {
             foreach ($data['translations'] as $translation) {
-                $lesson->translateOrNew($translation['locale'])->name = $translation['title'];
+                $lesson->translateOrNew($translation['locale'])->title = $translation['title'];
             }
             $lesson->save();
         }

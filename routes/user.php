@@ -20,4 +20,3 @@ Route::middleware(['set-language'])->group(function () {
     });
 
 });
-Route::post('/set-term/{id}', [TermController::class, 'setActiveTerm'])->name('term.set');

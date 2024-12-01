@@ -12,7 +12,7 @@ class CourseRepository
 
     public function findById($id)
     {
-        return Course::with('translations')->findOrFail($id);
+        return Course::with('units')->with('translations')->findOrFail($id);
     }
 
     public function create(array $data): Course
