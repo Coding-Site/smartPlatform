@@ -15,7 +15,7 @@ class UnitsTableSeeder extends Seeder
     public function run(): void
     {
         $courses = Course::all();
-
+        
         foreach ($courses as $course) {
             $unitsData = [
                 [

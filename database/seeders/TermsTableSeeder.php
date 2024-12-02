@@ -14,12 +14,12 @@ class TermsTableSeeder extends Seeder
     {
         $terms = [
             [
-                'grade_id' => 1,
+                // 'grade_id' => 1,
                 'en' => ['name' => 'First Term'],
                 'ar' => ['name' => 'الترم الأول'],
             ],
             [
-                'grade_id' => 1,
+                // 'grade_id' => 1,
                 'en' => ['name' => 'Second Term'],
                 'ar' => ['name' => 'الترم الثاني'],
             ],
@@ -27,7 +27,7 @@ class TermsTableSeeder extends Seeder
 
         foreach ($terms as $termData) {
             $term = new Term();
-            $term->grade_id = $termData['grade_id'];
+            // $term->grade_id = $termData['grade_id'];
 
             foreach ($termData as $locale => $data) {
                 if ($locale !== 'grade_id') {

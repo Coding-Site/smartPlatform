@@ -17,7 +17,7 @@ class Teacher extends Model
     use HasFactory, HasApiTokens, Notifiable;
 
     protected $fillable = [
-        'name', 'email', 'phone','course', 'stage','password'
+        'name', 'email', 'phone','course_id', 'stage_id','password'
     ];
 
     public function books() : HasMany
