@@ -19,8 +19,10 @@ class CoursesTableSeeder extends Seeder
                     'term_price'    => 200,
                     'term_id'       => 1,
                     'monthly_price' => 100,
-                    'teacher_id'    => 1,
-                    'grade_id'      => $gradeId,
+                    'teacher_id' => 1,
+                    'term_id' => 1,
+                    'grade_id' => $gradeId,
+
                     'translations' => [
                         'en' => ['name' => 'Mathematics'],
                         'ar' => ['name' => 'الرياضيات'],
@@ -31,6 +33,7 @@ class CoursesTableSeeder extends Seeder
                     'term_id'       => 1,
                     'monthly_price' => 80,
                     'teacher_id' => 2,
+                    'term_id' => 1,
                     'grade_id' => $gradeId,
                     'translations' => [
                         'en' => ['name' => 'English Language'],
@@ -42,6 +45,7 @@ class CoursesTableSeeder extends Seeder
                     'term_id'       => 1,
                     'monthly_price' => 90,
                     'teacher_id' => 3,
+                    'term_id' => 1,
                     'grade_id' => $gradeId,
                     'translations' => [
                         'en' => ['name' => 'Science'],
@@ -53,6 +57,7 @@ class CoursesTableSeeder extends Seeder
                     'term_id'       => 1,
                     'monthly_price' => 110,
                     'teacher_id' => 1,
+                    'term_id' => 1,
                     'grade_id' => $gradeId,
                     'translations' => [
                         'en' => ['name' => 'History'],
@@ -64,6 +69,7 @@ class CoursesTableSeeder extends Seeder
                     'term_id'       => 1,
                     'monthly_price' => 105,
                     'teacher_id' => 2,
+                    'term_id' => 1,
                     'grade_id' => $gradeId,
                     'translations' => [
                         'en' => ['name' => 'Geography'],
@@ -78,6 +84,7 @@ class CoursesTableSeeder extends Seeder
                     'term_id'    => $courseData['term_id'],
                     'monthly_price' => $courseData['monthly_price'],
                     'teacher_id' => $courseData['teacher_id'],
+                    'term_id' => $courseData['term_id'],
                     'grade_id' => $courseData['grade_id'],
                 ]);
 

@@ -18,8 +18,10 @@ class DatabaseSeeder extends Seeder
             TermsTableSeeder::class,
             StagesTableSeeder::class,
             GradesTableSeeder::class,
-            // CoursesTableSeeder::class,
-            // UnitsTableSeeder::class,
+            CoursesTableSeeder::class,
+            UnitsTableSeeder::class,
+            LessonSeeder::class,
+            QuizSeeder::class,
             // BooksTableSeeder::class,
             // VideosTableSeeder::class,
         ]);

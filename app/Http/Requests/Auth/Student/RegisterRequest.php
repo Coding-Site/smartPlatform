@@ -25,9 +25,8 @@ class RegisterRequest extends FormRequest
             'name'     => 'required|string|max:255',
             'email'    => 'required|email|unique:users',
             'password' => 'required|string|min:8|confirmed',
-            'gender'   => 'in:male,female',
-            'grade'    => 'required|integer',
-            'stage'    => 'required|string',
+            'grade_id'    => 'required|integer|exists:grades,id',
+            'stage_id'    => 'required|integer|exists:stages,id',
             'phone' => [
                 'required',
                 'unique:users,phone,',
