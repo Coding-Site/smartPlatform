@@ -3,6 +3,7 @@
 
 use App\Http\Controllers\Auth\UserAuthController;
 use App\Http\Controllers\Cart\CartController;
+use App\Http\Controllers\Order\OrderController;
 use App\Http\Controllers\Term\TermController;
 use Illuminate\Support\Facades\Route;
 
@@ -22,8 +23,11 @@ Route::middleware(['set-language'])->group(function () {
 
 });
 
-Route::post('/cart/{course}/add', [CartController::class, 'addToCart'])->middleware('ensurecarttoken');
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth:sanctum'])->group(function () {
+    Route::post('cart/add/{itemType}/{itemId}', [CartController::class, 'addToCart']);
     Route::get('/cart', [CartController::class, 'viewCart']);
-    Route::post('/cart/checkout', [CartController::class, 'checkout']);
+
+    Route::post('/checkout', [OrderController::class, 'checkout'])->name('order.checkout');
+    Route::get('/orders', [OrderController::class, 'index'])->name('order.index');
+
 });

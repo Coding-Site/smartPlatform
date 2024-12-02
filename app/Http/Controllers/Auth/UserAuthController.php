@@ -42,6 +42,7 @@ class UserAuthController extends Controller
     {
         try {
             $user = $this->authRepository->verify($request->validated()['token']);
+            $user->token = $user->createToken('studentToken')->plainTextToken;
             return ApiResponse::sendResponse(200, __('messages.Email_verified_successfully'), new UserResource($user));
         } catch (Exception $e) {
             return ApiResponse::sendResponse(400, $e->getMessage());

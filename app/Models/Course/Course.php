@@ -27,10 +27,10 @@ class Course extends Model
     public $translatedAttributes = ['name'];
 
 
-    protected static function booted(): void
-    {
-        static::addGlobalScope(new TermScope(2));
-    }
+    // protected static function booted(): void
+    // {
+    //     static::addGlobalScope(new TermScope(2));
+    // }
 
     public function grade() : BelongsTo
     {

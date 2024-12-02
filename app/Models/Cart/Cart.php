@@ -9,6 +9,9 @@ use Illuminate\Database\Eloquent\Model;
 class Cart extends Model
 {
     use HasFactory;
+    protected $fillable= [
+        'cart_token','user_id'
+    ];
 
 
     public function user()

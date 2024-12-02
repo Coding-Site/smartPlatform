@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\Cart\Cart;
 use App\Models\Grade\Grade;
+use App\Models\Order\Order;
 use App\Models\Stage\Stage;
 use App\Models\UserAnswer\UserAnswer;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -73,6 +74,10 @@ class User extends Authenticatable implements MustVerifyEmail
     public function cart()
     {
         return $this->hasOne(Cart::class);
+    }
 
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
     }
 }
