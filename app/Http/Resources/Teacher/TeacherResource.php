@@ -18,7 +18,7 @@ class TeacherResource extends JsonResource
             'name'      => $this->name,
             'email'     => $this->email,
             'phone'     => $this->phone,
-            'courses'     => $this->class,
+            'courses'   => $this->courses,
             'stage'     => $this->stage,
             "token"     => $this->when(isset($this->token), $this->token),
         ];
