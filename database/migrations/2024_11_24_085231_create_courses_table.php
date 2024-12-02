@@ -17,6 +17,7 @@ return new class extends Migration
             $table->decimal('monthly_price', 8, 2)->nullable();
             $table->foreignId('term_id')->constrained('terms')->onDelete('cascade');
             $table->foreignId('teacher_id')->constrained('teachers')->onDelete('cascade');
+            $table->foreignId('stage_id')->constrained('stages')->onDelete('cascade');
             $table->foreignId('grade_id')->constrained('grades')->onDelete('cascade');
             $table->timestamps();
         });

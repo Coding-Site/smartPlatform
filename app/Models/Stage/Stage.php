@@ -35,5 +35,9 @@ class Stage extends Model
         return $this->hasMany(Teacher::class);
     }
 
+    public function courses()
+    {
+        return $this->hasManyThrough(Course::class, Grade::class,'stage_id','grade_id');
+    }
 
 }
