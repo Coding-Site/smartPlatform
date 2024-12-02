@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::create('terms', function (Blueprint $table) {
             $table->id();
-            // $table->foreignId('grade_id'); 1-m
             $table->timestamps();
         });
 
