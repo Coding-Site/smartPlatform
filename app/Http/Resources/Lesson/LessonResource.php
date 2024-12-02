@@ -17,7 +17,6 @@ class LessonResource extends JsonResource
         return [
             'id'      => $this->id,
             'url'     => $this->url,
-            'unit_id' => $this->unit_id,
             'title'   => $this->title,
         ];
     }

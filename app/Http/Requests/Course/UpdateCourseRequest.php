@@ -25,6 +25,8 @@ class UpdateCourseRequest extends FormRequest
             'term_price'            => 'required|numeric',
             'monthly_price'         => 'required|numeric',
             'term_id'               => 'required|exists:terms,id',
+            'teacher_id'            => 'required|exists:teachers,id',
+            'stage_id'              => 'required|exists:stages,id',
             'grade_id'              => 'required|exists:grades,id',
             'translations'          => 'required|array',
             'translations.*.locale' => 'required|string|max:2',
