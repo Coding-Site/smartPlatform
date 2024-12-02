@@ -19,7 +19,10 @@ class Grade extends Model
     use HasFactory, Translatable ;
 
     public $translatedAttributes = ['name'];
-    protected $fillable = ['stage_id'];
+    protected $fillable = [
+        'stage_id',
+        'term_id'
+    ];
 
 
 
@@ -34,9 +37,9 @@ class Grade extends Model
         return $this->hasMany(Exam::class);
     }
 
-    public function terms() : HasMany
+    public function term() : BelongsTo
     {
-        return $this->hasMany(Term::class);
+        return $this->belongsTo(Term::class);
     }
 
     public function courses() : HasMany
