@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Course;
 
+use App\Http\Resources\Unit\UnitResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -21,7 +22,8 @@ class CourseResource extends JsonResource
                 'term'          => $this->term->name ?? null,
                 'teacher'       => $this->teacher->name ?? null,
                 'grade'         => $this->grade->name ?? null,
-                'name'          => $this->name
+                'name'          => $this->name,
+                'units'         => UnitResource::collection($this->units),
                 // 'translations'  => $this->translations->map(function ($translation) {
                 //     return [
                 //         'locale' => $translation->locale,

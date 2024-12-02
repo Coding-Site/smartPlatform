@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Unit;
 
+use App\Http\Resources\Lesson\LessonResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -17,7 +18,8 @@ class UnitResource extends JsonResource
         return [
             'id'        => $this->id,
             'course_id' => $this->course_id,
-            'title'     => $this->title
+            'title'     => $this->title,
+            'lessons'   => LessonResource::collection($this->lessons),
         ];
     }
 }
