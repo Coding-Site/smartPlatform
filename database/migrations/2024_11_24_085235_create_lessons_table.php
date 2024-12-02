@@ -21,7 +21,7 @@ return new class extends Migration
         Schema::create('lesson_translations', function (Blueprint $table) {
             $table->id();
             $table->foreignId('lesson_id')->constrained('lessons')->cascadeOnDelete();
-            $table->string('title')->notNullable();
+            $table->string('title');
             $table->string('locale')->index();
             $table->unique(['lesson_id', 'locale']);
         });

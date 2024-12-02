@@ -4,6 +4,7 @@ namespace App\Models\Question;
 
 use App\Models\Choice\Choice;
 use App\Models\Quiz\Quiz;
+use App\Models\UserAnswer\UserAnswer;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -26,5 +27,10 @@ class Question extends Model
     public function choices() : HasMany
     {
         return $this->hasMany(Choice::class);
+    }
+
+    public function userAnswers() : HasMany
+    {
+        return $this->hasMany(UserAnswer::class);
     }
 }

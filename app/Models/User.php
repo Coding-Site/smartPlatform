@@ -4,8 +4,10 @@ namespace App\Models;
 
 use App\Models\Grade\Grade;
 use App\Models\Stage\Stage;
+use App\Models\UserAnswer\UserAnswer;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -24,7 +26,7 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var array<int, string>
      */
     protected $fillable = [
-        'name', 'email', 'phone', 'gender','grade', 'stage', 'password',
+        'name', 'email', 'phone','grade_id', 'stage_id', 'password',
     ];
 
     /**
@@ -61,5 +63,10 @@ class User extends Authenticatable implements MustVerifyEmail
     public function stage() : BelongsTo
     {
         return $this->belongsTo(Stage::class);
+    }
+
+    public function userAnswers() : HasMany
+    {
+        return $this->hasMany(UserAnswer::class);
     }
 }

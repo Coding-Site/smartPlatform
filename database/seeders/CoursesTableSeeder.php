@@ -19,6 +19,7 @@ class CoursesTableSeeder extends Seeder
                     'term_price' => 200,
                     'monthly_price' => 100,
                     'teacher_id' => 1,
+                    'term_id' => 1,
                     'grade_id' => $gradeId,
                     'translations' => [
                         'en' => ['name' => 'Mathematics'],
@@ -29,6 +30,7 @@ class CoursesTableSeeder extends Seeder
                     'term_price' => 150,
                     'monthly_price' => 80,
                     'teacher_id' => 2,
+                    'term_id' => 1,
                     'grade_id' => $gradeId,
                     'translations' => [
                         'en' => ['name' => 'English Language'],
@@ -39,6 +41,7 @@ class CoursesTableSeeder extends Seeder
                     'term_price' => 180,
                     'monthly_price' => 90,
                     'teacher_id' => 3,
+                    'term_id' => 1,
                     'grade_id' => $gradeId,
                     'translations' => [
                         'en' => ['name' => 'Science'],
@@ -49,6 +52,7 @@ class CoursesTableSeeder extends Seeder
                     'term_price' => 220,
                     'monthly_price' => 110,
                     'teacher_id' => 1,
+                    'term_id' => 1,
                     'grade_id' => $gradeId,
                     'translations' => [
                         'en' => ['name' => 'History'],
@@ -59,6 +63,7 @@ class CoursesTableSeeder extends Seeder
                     'term_price' => 210,
                     'monthly_price' => 105,
                     'teacher_id' => 2,
+                    'term_id' => 1,
                     'grade_id' => $gradeId,
                     'translations' => [
                         'en' => ['name' => 'Geography'],
@@ -72,6 +77,7 @@ class CoursesTableSeeder extends Seeder
                     'term_price' => $courseData['term_price'],
                     'monthly_price' => $courseData['monthly_price'],
                     'teacher_id' => $courseData['teacher_id'],
+                    'term_id' => $courseData['term_id'],
                     'grade_id' => $courseData['grade_id'],
                 ]);
 
