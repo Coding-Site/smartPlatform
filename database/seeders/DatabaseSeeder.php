@@ -22,6 +22,7 @@ class DatabaseSeeder extends Seeder
             UnitsTableSeeder::class,
             LessonSeeder::class,
             QuizSeeder::class,
+            CommentSeeder::class,
             // BooksTableSeeder::class,
             // VideosTableSeeder::class,
         ]);

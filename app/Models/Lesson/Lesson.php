@@ -3,6 +3,7 @@
 namespace App\Models\Lesson;
 
 use App\Models\Card\Card;
+use App\Models\Comment\Comment;
 use App\Models\LessonNote\LessonNote;
 use App\Models\Quiz\Quiz;
 use App\Models\Unit\Unit;
@@ -41,6 +42,11 @@ class Lesson extends Model
     public function quiz() : HasOne
     {
         return $this->hasOne(Quiz::class);
+    }
+
+    public function comments() : HasMany
+    {
+        return $this->hasMany(Comment::class);
     }
 
 }
