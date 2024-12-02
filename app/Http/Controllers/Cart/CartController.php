@@ -25,12 +25,10 @@ class CartController extends Controller
 
         $cartItem = $cart->items()->updateOrCreate(
             ['course_id' => $courseId],
-            ['quantity' => DB::raw('quantity + 1')]
+            // ['quantity' => DB::raw('quantity + 1')]
         );
         return ApiResponse::sendResponse(200,'Course added to cart',$cartItem);
     }
-
-
 
     public function viewCart(Request $request)
     {

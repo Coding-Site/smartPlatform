@@ -10,6 +10,6 @@
     <p>Dear {{ $name }},</p>
     <p>Your verification code is: <strong>{{ $token }}</strong></p>
     <p>If you did not request this, please ignore this email.</p>
-    <p>Best regards,<br>Quran Platform</p>
+    <p>Best regards,<br>Smart Platform</p>
 </body>
 </html>

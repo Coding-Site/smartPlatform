@@ -29,6 +29,7 @@ class TeacherAuthController extends Controller
     public function register(RegisterRequest $request)
     {
         try {
+            // dd($request->validated());
             $teacher = $this->authRepository->createTeacher($request->validated());
             $token = $this->authRepository->generateTeacherActivationToken($teacher);
             $this->authRepository->sendTeacherActivationEmail($teacher, $token);
