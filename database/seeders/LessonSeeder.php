@@ -2,9 +2,9 @@
 
 namespace Database\Seeders;
 
-use App\Models\Unit\Unit;
+use App\Models\Lesson\Lesson;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Str;
+use Illuminate\Support\Facades\DB;
 
 class LessonSeeder extends Seeder
 {
@@ -13,35 +13,40 @@ class LessonSeeder extends Seeder
      */
     public function run(): void
     {
-        $units = Unit::all();
+        $unitIds = DB::table('units')->pluck('id');
 
-        foreach ($units as $unit) {
-            $lessonsData = [
+        foreach ($unitIds as $unitId) {
+            $lessons = [
                 [
+                    'url' => 'https://example.com/lesson-1',
+                    'unit_id' => $unitId,
                     'translations' => [
-                        'en' => ['title' => 'Lesson One: Introduction to Programming'],
-                        'ar' => ['title' => 'الدرس الأول: مقدمة في البرمجة'],
+                        'en' => ['title' => 'Introduction to Programming'],
+                        'ar' => ['title' => 'مقدمة في البرمجة'],
                     ],
                 ],
                 [
+                    'url' => 'https://example.com/lesson-2',
+                    'unit_id' => $unitId,
                     'translations' => [
-                        'en' => ['title' => 'Lesson Two: Understanding Variables'],
-                        'ar' => ['title' => 'الدرس الثاني: فهم المتغيرات'],
+                        'en' => ['title' => 'Advanced Programming Concepts'],
+                        'ar' => ['title' => 'مفاهيم البرمجة المتقدمة'],
                     ],
                 ],
                 [
+                    'url' => 'https://example.com/lesson-3',
+                    'unit_id' => $unitId,
                     'translations' => [
-                        'en' => ['title' => 'Lesson Three: Functions and Loops'],
-                        'ar' => ['title' => 'الدرس الثالث: الدوال والحلقات'],
+                        'en' => ['title' => 'Object-Oriented Programming'],
+                        'ar' => ['title' => 'البرمجة كائنية التوجه'],
                     ],
                 ],
             ];
 
-            foreach ($lessonsData as $lessonData) {
-                $url = 'https://example.com/lessons/' . Str::slug($lessonData['translations']['en']['title']);
-
-                $lesson = $unit->lessons()->create([
-                    'url' => $url,
+            foreach ($lessons as $lessonData) {
+                $lesson = Lesson::create([
+                    'url' => $lessonData['url'],
+                    'unit_id' => $lessonData['unit_id'],
                 ]);
 
                 foreach ($lessonData['translations'] as $locale => $translation) {

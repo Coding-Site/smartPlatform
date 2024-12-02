@@ -2,8 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\Course\Course;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Unit\Unit;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -14,40 +13,46 @@ class UnitsTableSeeder extends Seeder
      */
     public function run(): void
     {
-        $courses = Course::all();
-        
-        foreach ($courses as $course) {
-            $unitsData = [
+        $courseIds = DB::table('courses')->pluck('id');
+
+        foreach ($courseIds as $courseId) {
+            $units = [
                 [
+                    'course_id' => $courseId,
                     'translations' => [
-                        'en' => ['title' => 'Unit One'],
-                        'ar' => ['title' => 'الوحدة الأولى'],
+                        'en' => ['title' => 'Introduction to Programming'],
+                        'ar' => ['title' => 'مقدمة في البرمجة'],
                     ],
                 ],
                 [
+                    'course_id' => $courseId,
                     'translations' => [
-                        'en' => ['title' => 'Unit Two'],
-                        'ar' => ['title' => 'الوحدة الثانية'],
+                        'en' => ['title' => 'Advanced Programming Concepts'],
+                        'ar' => ['title' => 'مفاهيم البرمجة المتقدمة'],
                     ],
                 ],
                 [
+                    'course_id' => $courseId,
                     'translations' => [
-                        'en' => ['title' => 'Unit Three'],
-                        'ar' => ['title' => 'الوحدة الثالثة'],
+                        'en' => ['title' => 'Object-Oriented Programming'],
+                        'ar' => ['title' => 'البرمجة كائنية التوجه'],
                     ],
                 ],
             ];
 
-            foreach ($unitsData as $unitData) {
-                $unit = $course->units()->create();
+            foreach ($units as $unitData) {
+                $unit = Unit::create([
+                    'course_id' => $unitData['course_id'],
+                ]);
 
                 foreach ($unitData['translations'] as $locale => $translation) {
-                    $unit->translateOrNew($locale)->title = $translation['title'];
+                    DB::table('unit_translations')->insert([
+                        'unit_id' => $unit->id,
+                        'locale' => $locale,
+                        'title' => $translation['title'],
+                    ]);
                 }
-
-                $unit->save();
             }
         }
-
     }
 }

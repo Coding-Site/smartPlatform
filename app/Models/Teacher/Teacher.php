@@ -17,7 +17,7 @@ class Teacher extends Model
     use HasFactory, HasApiTokens, Notifiable;
 
     protected $fillable = [
-        'name', 'email', 'phone','course_id', 'stage_id','password'
+        'name', 'email', 'phone','course_id', 'stage_id','password','bio','video_preview'
     ];
 
     public function books() : HasMany
@@ -25,7 +25,7 @@ class Teacher extends Model
         return $this->hasMany(Book::class);
     }
 
-    public function courses() : HasMany
+    public function course() : HasMany
     {
         return $this->hasMany(Course::class);
     }

@@ -17,7 +17,6 @@ class CoursesTableSeeder extends Seeder
             $courses = [
                 [
                     'term_price'    => 200,
-                    'term_id'       => 1,
                     'monthly_price' => 100,
                     'teacher_id' => 1,
                     'term_id' => 1,
@@ -30,7 +29,6 @@ class CoursesTableSeeder extends Seeder
                 ],
                 [
                     'term_price' => 150,
-                    'term_id'       => 1,
                     'monthly_price' => 80,
                     'teacher_id' => 2,
                     'term_id' => 1,
@@ -42,7 +40,6 @@ class CoursesTableSeeder extends Seeder
                 ],
                 [
                     'term_price' => 180,
-                    'term_id'       => 1,
                     'monthly_price' => 90,
                     'teacher_id' => 3,
                     'term_id' => 1,
@@ -54,7 +51,6 @@ class CoursesTableSeeder extends Seeder
                 ],
                 [
                     'term_price' => 220,
-                    'term_id'       => 1,
                     'monthly_price' => 110,
                     'teacher_id' => 1,
                     'term_id' => 1,
@@ -66,7 +62,6 @@ class CoursesTableSeeder extends Seeder
                 ],
                 [
                     'term_price' => 210,
-                    'term_id'       => 1,
                     'monthly_price' => 105,
                     'teacher_id' => 2,
                     'term_id' => 1,
@@ -81,7 +76,6 @@ class CoursesTableSeeder extends Seeder
             foreach ($courses as $courseData) {
                 $course = Course::create([
                     'term_price' => $courseData['term_price'],
-                    'term_id'    => $courseData['term_id'],
                     'monthly_price' => $courseData['monthly_price'],
                     'teacher_id' => $courseData['teacher_id'],
                     'term_id' => $courseData['term_id'],

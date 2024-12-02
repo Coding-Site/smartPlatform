@@ -18,6 +18,7 @@ class GradesTableSeeder extends Seeder
         $grades = [
             [
                 'stage_id' => 1,
+                'term_id' => 1,
                 'translations' => [
                     'en' => ['name' => 'Class One'],
                     'ar' => ['name' => 'الصف الاول'],
@@ -25,6 +26,7 @@ class GradesTableSeeder extends Seeder
             ],
             [
                 'stage_id' => 1,
+                'term_id' => 1,
                 'translations' => [
                     'en' => ['name' => 'Class Two'],
                     'ar' => ['name' => 'الصف الثاني'],
@@ -32,6 +34,7 @@ class GradesTableSeeder extends Seeder
             ],
             [
                 'stage_id' => 1,
+                'term_id' => 1,
                 'translations' => [
                     'en' => ['name' => 'Class Three'],
                     'ar' => ['name' => 'الصف الثالث'],
@@ -39,6 +42,7 @@ class GradesTableSeeder extends Seeder
             ],
             [
                 'stage_id' => 1,
+                'term_id' => 1,
                 'translations' => [
                     'en' => ['name' => 'Class Four'],
                     'ar' => ['name' => 'الصف الرابع'],
@@ -46,6 +50,7 @@ class GradesTableSeeder extends Seeder
                 ],
             [
                 'stage_id' => 1,
+                'term_id' => 1,
                 'translations' => [
                     'en' => ['name' => 'Class Five'],
                     'ar' => ['name' => 'الصف الخامس'],
@@ -53,6 +58,7 @@ class GradesTableSeeder extends Seeder
             ],
             [
                 'stage_id' => 2,
+                'term_id' => 1,
                 'translations' => [
                     'en' => ['name' => 'Class Six'],
                     'ar' => ['name' => 'الصف السادس'],
@@ -60,6 +66,7 @@ class GradesTableSeeder extends Seeder
             ],
             [
                 'stage_id' => 2,
+                'term_id' => 1,
                 'translations' => [
                     'en' => ['name' => 'Class Seven'],
                     'ar' => ['name' => 'الصف السابع'],
@@ -67,6 +74,7 @@ class GradesTableSeeder extends Seeder
             ],
             [
                 'stage_id' => 2,
+                'term_id' => 1,
                 'translations' => [
                     'en' => ['name' => 'Class Eight'],
                     'ar' => ['name' => 'الصف الثامن'],
@@ -74,6 +82,7 @@ class GradesTableSeeder extends Seeder
             ],
             [
                 'stage_id' => 2,
+                'term_id' => 1,
                 'translations' => [
                     'en' => ['name' => 'Class Nine'],
                     'ar' => ['name' => 'الصف التاسع'],
@@ -81,6 +90,7 @@ class GradesTableSeeder extends Seeder
             ],
             [
                 'stage_id' => 3,
+                'term_id' => 1,
                 'translations' => [
                     'en' => ['name' => 'Class Ten'],
                     'ar' => ['name' => 'الصف العاشر'],
@@ -88,6 +98,7 @@ class GradesTableSeeder extends Seeder
             ],
             [
                 'stage_id' => 3,
+                'term_id' => 1,
                 'translations' => [
                     'en' => ['name' => 'Class Eleven'],
                     'ar' => ['name' => 'الصف الحادي عشر'],
@@ -95,6 +106,7 @@ class GradesTableSeeder extends Seeder
             ],
             [
                 'stage_id' => 3,
+                'term_id' => 1,
                 'translations' => [
                     'en' => ['name' => 'Class Twelve'],
                     'ar' => ['name' => 'الصف الثاني عشر'],
@@ -103,7 +115,7 @@ class GradesTableSeeder extends Seeder
         ];
 
         foreach ($grades as $grade) {
-            $class = Grade::create(['stage_id' => $grade['stage_id']]);
+            $class = Grade::create(['stage_id' => $grade['stage_id'], 'term_id' => $grade['term_id']]);
 
             foreach ($grade['translations'] as $locale => $translation) {
                 $class->translateOrNew($locale)->name = $translation['name'];

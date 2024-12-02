@@ -28,9 +28,9 @@ class Term extends Model
         return $this->hasMany(Exam::class);
     }
 
-    public function grade() : BelongsTo
+    public function grade() : hasMany
     {
-        return $this->belongsTo(Grade::class);
+        return $this->hasMany(Grade::class);
     }
 
 }
