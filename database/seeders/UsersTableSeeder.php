@@ -29,6 +29,7 @@ class UsersTableSeeder extends Seeder
                 "phone"      => "01062734921",
                 "grade_id"      => 1,
                 "stage_id"      => 1,
+
                 'password'   => Hash::make('Mm.1@23456'),
             ],
             [
@@ -37,6 +38,7 @@ class UsersTableSeeder extends Seeder
                 "phone"      => "01069714921",
                 "grade_id"      => 1,
                 "stage_id"      => 1,
+
                 'password'   => Hash::make('Mm.1@23456'),
             ],
 

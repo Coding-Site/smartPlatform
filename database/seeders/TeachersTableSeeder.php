@@ -21,6 +21,7 @@ class TeachersTableSeeder extends Seeder
                 "phone"      => "01069734921",
                 "course_id"    => 1,
                 "stage_id"      => 1,
+
                 'password'   => Hash::make('Mm.1@23456'),
             ],
             [
@@ -29,6 +30,7 @@ class TeachersTableSeeder extends Seeder
                 "phone"      => "01062734921",
                 "course_id"    => 1,
                 "stage_id"      => 1,
+
                 'password'   => Hash::make('Mm.1@23456'),
             ],
             [
@@ -37,11 +39,10 @@ class TeachersTableSeeder extends Seeder
                 "phone"      => "01069714921",
                 "course_id"    => 1,
                 "stage_id"      => 1,
+
                 'password'   => Hash::make('Mm.1@23456'),
             ],
-
         ];
-
         DB::table('teachers')->insert($teachers);
     }
 }

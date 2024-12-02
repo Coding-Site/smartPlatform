@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Cart\Cart;
 use App\Models\Grade\Grade;
 use App\Models\Stage\Stage;
 use App\Models\UserAnswer\UserAnswer;
@@ -68,5 +69,10 @@ class User extends Authenticatable implements MustVerifyEmail
     public function userAnswers() : HasMany
     {
         return $this->hasMany(UserAnswer::class);
+    }
+    public function cart()
+    {
+        return $this->hasOne(Cart::class);
+
     }
 }

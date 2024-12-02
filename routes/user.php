@@ -2,6 +2,7 @@
 
 
 use App\Http\Controllers\Auth\UserAuthController;
+use App\Http\Controllers\Cart\CartController;
 use App\Http\Controllers\Term\TermController;
 use Illuminate\Support\Facades\Route;
 
@@ -20,4 +21,9 @@ Route::middleware(['set-language'])->group(function () {
     });
 
 });
-Route::post('/set-term/{id}', [TermController::class, 'setActiveTerm'])->name('term.set');
+
+Route::post('/cart/{course}/add', [CartController::class, 'addToCart'])->middleware('ensurecarttoken');
+Route::middleware('auth')->group(function () {
+    Route::get('/cart', [CartController::class, 'viewCart']);
+    Route::post('/cart/checkout', [CartController::class, 'checkout']);
+});
