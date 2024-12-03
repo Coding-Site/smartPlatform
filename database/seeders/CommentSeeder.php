@@ -15,8 +15,8 @@ class CommentSeeder extends Seeder
     {
         $faker = Faker::create();
 
-        $lessons = Lesson::all();
-        $users = User::all();
+        $lessons = Lesson::limit(10)->get();
+        $users = User::limit(10)->get();
 
         foreach ($lessons as $lesson) {
 
