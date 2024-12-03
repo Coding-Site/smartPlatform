@@ -14,6 +14,7 @@ Route::middleware(['set-language'])->group(function () {
         Route::post('/login','login');
         Route::post('/forgot-password','forgotPassword');
         Route::post('/reset-password','resetPassword');
+
         Route::middleware(['auth:sanctum'])->group(function () {
             Route::post('/change-password','changePassword');
             Route::post('/logout','logout');
