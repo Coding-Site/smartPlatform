@@ -22,12 +22,12 @@ class RegisterRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name'     => 'required|string|max:255',
-            'email'    => 'required|email|unique:users',
-            'password' => 'required|string|min:8|confirmed',
-            'course_id'  => 'required|integer|exists:courses,id',
-            'stage_id'    => 'required|integer|exists:stages,id',
-            'phone'    => [
+            'name'      => 'required|string|max:255',
+            'email'     => 'required|email|unique:teachers,email',
+            'password'  => 'required|string|min:8|confirmed',
+            'course_id' => 'required|exists:courses,id',
+            'stage_id'  => 'required|exists:stages,id',
+            'phone'     => [
                 'required',
                 'unique:teachers,phone,',
                 'regex:/(01)[0-9]{9}/',
@@ -36,5 +36,6 @@ class RegisterRequest extends FormRequest
                 'max:11',
             ],
         ];
+
     }
 }

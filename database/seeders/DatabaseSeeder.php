@@ -25,6 +25,7 @@ class DatabaseSeeder extends Seeder
             CommentSeeder::class,
             // BooksTableSeeder::class,
             // VideosTableSeeder::class,
+            RolePermissionsSeeder::class
         ]);
     }
 }

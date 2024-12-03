@@ -25,9 +25,7 @@ Route::middleware(['auth:teacher'])->group(function () {
     Route::apiResource('units', UnitController::class);
     Route::apiResource('lessons', LessonController::class);
 
-    // Route::controller(DashboardCourseController::class)->group(function (){
-    //     Route::post('courses',  'store');
-    // });
+
 });
 
 

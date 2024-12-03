@@ -27,7 +27,7 @@ return [
         'role' => Spatie\Permission\Models\Role::class,
 
     ],
-
+    // 'guard_name' => 'teacher',
     'table_names' => [
 
         /*

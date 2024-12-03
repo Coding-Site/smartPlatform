@@ -13,10 +13,13 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
-class Teacher extends Authenticatable
-{
-    use HasFactory, HasApiTokens, Notifiable;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Spatie\Permission\Traits\HasRoles;
 
+class Teacher extends Authenticatable implements MustVerifyEmail
+{
+    use HasFactory, HasApiTokens, Notifiable,HasRoles;
+    protected $guard_name = 'teacher';
     protected $fillable = [
         'name', 'email', 'phone','course_id', 'stage_id','password' , 'bio','video_preview'
     ];
