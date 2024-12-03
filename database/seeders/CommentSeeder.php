@@ -28,7 +28,7 @@ class CommentSeeder extends Seeder
                     'user_id' => $user->id,
                     'lesson_id' => $lesson->id,
                     'content' => $faker->paragraph(2),
-                    'status' => Status::PENDING->value,
+                    'status' => Status::APPROVED->value,
                 ]);
 
                 $this->createReplies($comment, $users, $faker);
@@ -46,7 +46,7 @@ class CommentSeeder extends Seeder
                 'user_id' => $user->id,
                 'lesson_id' => $parentComment->lesson_id,
                 'content' => $faker->sentence(5),
-                'status' => Status::PENDING->value,
+                'status' => Status::APPROVED->value,
                 'parent_id' => $parentComment->id,
             ]);
         }

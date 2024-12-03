@@ -9,18 +9,20 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
-class Comment extends Model
+class Comment extends Model implements HasMedia
 {
-    use HasFactory;
+    use HasFactory , InteractsWithMedia;
 
-    protected $fillable = ['user_id', 'lesson_id', 'content', 'parent_id', 'status'];
-
-    protected $casts = [
-        'status' => Status::class,
+    protected $fillable = [
+        'user_id',
+        'lesson_id',
+        'content',
+        'parent_id',
+        'status',
     ];
-
-
     public function user() : BelongsTo
     {
         return $this->belongsTo(User::class);
