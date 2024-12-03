@@ -14,12 +14,22 @@ class CommentResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return [
+        $voiceNoteUrl = $this->getFirstMediaUrl('voice_notes');
+
+        $response = [
             'id' => $this->id,
-            'content' => $this->content,
             'user' => $this->user->name,
             'created_at' => $this->created_at->diffForHumans(),
-            'replies' => CommentResource::collection($this->whenLoaded('replies')),
         ];
+
+        if ($voiceNoteUrl) {
+            $response['voice_note'] = $voiceNoteUrl;
+        } else {
+            $response['content'] = $this->content;
+        }
+
+        $response['replies'] = CommentResource::collection($this->whenLoaded('replies'));
+
+        return $response;
     }
 }
