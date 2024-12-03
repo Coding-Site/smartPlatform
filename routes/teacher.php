@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\Auth\TeacherAuthController;
 use App\Http\Controllers\Course\DashboardCourseController;
-use App\Http\Controllers\Lesson\LessonController;
+use App\Http\Controllers\Lesson\DashboardLessonController;
 use App\Http\Controllers\Unit\UnitController;
 use Illuminate\Support\Facades\Route;
 
@@ -23,7 +23,7 @@ Route::controller(TeacherAuthController::class)->group(function (){
 Route::middleware(['auth:teacher'])->group(function () {
     Route::apiResource('courses', DashboardCourseController::class);
     Route::apiResource('units', UnitController::class);
-    Route::apiResource('lessons', LessonController::class);
+    Route::apiResource('lessons', DashboardLessonController::class);
 
     // Route::controller(DashboardCourseController::class)->group(function (){
     //     Route::post('courses',  'store');
