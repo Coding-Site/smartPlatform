@@ -60,7 +60,7 @@ class TeacherAuthController extends Controller
             }
 
             if (!$teacher->email_verified_at) {
-                return ApiResponse::sendResponse(403, __('messages.User_not_found'));
+                return ApiResponse::sendResponse(403, __('messages.User_not_verify'));
             }
 
             $teacher->token = $teacher->createToken('TeacherToken')->plainTextToken;

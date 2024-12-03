@@ -16,7 +16,7 @@ class OrderItemResource extends JsonResource
     {
         return [
             'type'     => $this->course ? 'course' : 'note',
-            'name'     => $this->course ? $this->course->name : $this->note->name,
+            'name'     => $this->course ? $this->course->name : $this->book->name,
             'quantity' => $this->quantity,
         ];
     }

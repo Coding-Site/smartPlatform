@@ -4,7 +4,6 @@
 use App\Http\Controllers\Auth\UserAuthController;
 use App\Http\Controllers\Cart\CartController;
 use App\Http\Controllers\Order\OrderController;
-use App\Http\Controllers\Term\TermController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -24,10 +23,19 @@ Route::middleware(['set-language'])->group(function () {
 });
 
 Route::middleware(['auth:sanctum'])->group(function () {
-    Route::post('cart/add/{itemType}/{itemId}', [CartController::class, 'addToCart']);
+
+    Route::post('cart/add-course/{courseId}', [CartController::class, 'addCourseToCart']);
+    Route::post('cart/add-book/{bookId}', [CartController::class, 'addBookToCart']);
+
+    Route::post('cart/book/increase/{bookId}', [CartController::class, 'increaseBookQuantity']);
+    Route::post('cart/book/decrease/{bookId}', [CartController::class, 'decreaseBookQuantity']);
+
+    Route::post('cart/book/remove/{bookId}', [CartController::class, 'removeBookFromCart']);
+    Route::post('cart/course/remove/{courseId}', [CartController::class, 'removeCourseFromCart']);
+
     Route::get('/cart', [CartController::class, 'viewCart']);
 
-    Route::post('/checkout', [OrderController::class, 'checkout'])->name('order.checkout');
-    Route::get('/orders', [OrderController::class, 'index'])->name('order.index');
+    Route::post('/checkout', [OrderController::class, 'checkout']);
+    Route::get('/orders', [OrderController::class, 'index']);
 
 });

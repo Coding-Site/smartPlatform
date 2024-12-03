@@ -54,7 +54,7 @@ class OrderRepository
                 return [
                     'order_id'  => $order->id,
                     'course_id' => $item->course_id,
-                    'note_id'   => $item->note_id,
+                    'book_id'   => $item->book_id,
                     'quantity'  => $item->quantity,
                     'price'     => $item->price,
                 ];

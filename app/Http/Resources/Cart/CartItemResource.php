@@ -18,7 +18,7 @@ class CartItemResource extends JsonResource
         return [
             'id'        => $this->id,
             'course_id' => $this->course_id,
-            'note_id'   => $this->note_id,
+            'book_id'   => $this->book_id,
             'price'     => $this->price,
             'quantity'  => $this->quantity,
             // 'course'    => $this->course ? new CourseResource($this->course) : null,

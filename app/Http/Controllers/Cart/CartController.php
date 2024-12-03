@@ -5,9 +5,12 @@ namespace App\Http\Controllers\Cart;
 use App\Helpers\ApiResponse;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Cart\CartResource;
+use App\Models\Book\Book;
 use App\Models\Cart\Cart;
+use App\Models\Cart\CartItem;
 use App\Models\Course\Course;
 use App\Repositories\Cart\CartRepository;
+use Dotenv\Exception\ValidationException;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -22,19 +25,129 @@ class CartController extends Controller
         $this->cartRepo = $cartRepo;
     }
 
-    public function addToCart(Request $request, $itemType, $itemId)
+    public function addCourseToCart(Request $request, $courseId)
     {
         try {
-            if (!in_array($itemType, ['course', 'note'])) {
-                return ApiResponse::sendResponse(400, 'Invalid item type');
+            $cart = $this->getCartForUserOrGuest($request);
+
+            $course = Course::find($courseId);
+            if (!$course) {
+                return ApiResponse::sendResponse(404, 'Course not found');
             }
 
-            $cart = $this->getCartForUserOrGuest($request);
-            $cartItem = $this->cartRepo->createOrUpdateCartItem($cart, $itemType, $itemId, $request);
+            $price = $this->getCoursePrice($request, $course);
+            if (!$price) {
+                return ApiResponse::sendResponse(400, 'Price is unavailable for this course');
+            }
 
-            return ApiResponse::sendResponse(200, ucfirst($itemType) . ' added to cart', $cartItem);
+            $cartItem = $cart->items()->updateOrCreate(
+                ['course_id' => $courseId],
+                ['price' => $price, 'quantity' => 1]
+            );
+
+            return ApiResponse::sendResponse(200, 'Course added to cart', $cartItem);
         } catch (Exception $e) {
-            return ApiResponse::sendResponse(500, 'Failed to add item to cart: ' . $e->getMessage());
+            return ApiResponse::sendResponse(500, 'Failed to add course to cart: ' . $e->getMessage());
+        }
+    }
+
+    public function addBookToCart(Request $request, $bookId)
+    {
+        try {
+            $cart = $this->getCartForUserOrGuest($request);
+
+            $book = Book::find($bookId);
+            if (!$book) {
+                return ApiResponse::sendResponse(404, 'Book not found');
+            }
+
+            $price = $book->price;
+            if (!$price) {
+                return ApiResponse::sendResponse(400, 'Price is unavailable for this book');
+            }
+
+            $cartItem = $cart->items()->updateOrCreate(
+                ['book_id' => $bookId],
+                ['price'   => $price, 'quantity' => $request->input('quantity', 1)]
+            );
+
+            return ApiResponse::sendResponse(200, 'Book added to cart', $cartItem);
+        } catch (Exception $e) {
+            return ApiResponse::sendResponse(500, 'Failed to add book to cart: ' . $e->getMessage());
+        }
+    }
+
+    public function increaseBookQuantity(Request $request, $bookId)
+    {
+        try {
+            $cart = $this->getCartForUserOrGuest($request);
+
+            $cartItem = $cart->items()->where('book_id', $bookId)->first();
+            // dd($cartItem);
+            if (!$cartItem) {
+                return ApiResponse::sendResponse(404, 'Book not found in cart');
+            }
+
+            $book = Book::find($bookId);
+            if (!$book) {
+                return ApiResponse::sendResponse(404, 'Book not found');
+            }
+
+            if ($book->quantity < $cartItem->quantity + 1) {
+                return ApiResponse::sendResponse(400, 'Insufficient stock for this book');
+            }
+
+            $cartItem->quantity += 1;
+            $cartItem->save();
+
+            return ApiResponse::sendResponse(200, 'Book quantity increased', $cartItem);
+        } catch (Exception $e) {
+            return ApiResponse::sendResponse(500, 'Failed to increase book quantity: ' . $e->getMessage());
+        }
+    }
+
+    public function decreaseBookQuantity(Request $request, $bookId)
+    {
+        try {
+            $cart = $this->getCartForUserOrGuest($request);
+
+            $cartItem = $cart->items()->where('book_id', $bookId)->first();
+            if (!$cartItem) {
+                return ApiResponse::sendResponse(404, 'Book not found in cart');
+            }
+
+            if ($cartItem->quantity > 1) {
+                $cartItem->quantity -= 1;
+                $cartItem->save();
+
+                return ApiResponse::sendResponse(200, 'Book quantity decreased', $cartItem);
+            } else {
+                $cartItem->delete();
+                return ApiResponse::sendResponse(200, 'Book removed from cart');
+            }
+        } catch (Exception $e) {
+            return ApiResponse::sendResponse(500, 'Failed to decrease book quantity: ' . $e->getMessage());
+        }
+    }
+
+    private function getCoursePrice(Request $request, $course)
+    {
+        try {
+            $request->validate([
+                'price_type' => ['nullable', 'in:term,monthly'],
+            ]);
+
+            $priceType = $request->input('price_type', 'term');
+            if ($priceType === 'term' && $course->term_price !== null) {
+                return $course->term_price;
+            }
+            if ($priceType === 'monthly' && $course->monthly_price !== null) {
+                return $course->monthly_price;
+            }
+
+            throw new Exception('Price is unavailable for the selected term or monthly option');
+        } catch (Exception $e) {
+            throw new Exception('Error getting course price: ' . $e->getMessage());
         }
     }
 
@@ -65,6 +178,44 @@ class CartController extends Controller
             }
         } catch (Exception $e) {
             throw new Exception('Error fetching or creating cart: ' . $e->getMessage());
+        }
+    }
+
+
+    public function removeBookFromCart(Request $request, $bookId)
+    {
+        try {
+            $cart = $this->getCartForUserOrGuest($request);
+            $cartItem = $cart->items()->where('book_id', $bookId)->first();
+
+            if (!$cartItem) {
+                return ApiResponse::sendResponse(404, 'Book not found in cart');
+            }
+
+            $cartItem->delete();
+
+            return ApiResponse::sendResponse(200, 'Book removed from cart');
+        } catch (Exception $e) {
+            return ApiResponse::sendResponse(500, 'Failed to remove book from cart: ' . $e->getMessage());
+        }
+    }
+
+    public function removeCourseFromCart(Request $request, $courseId)
+    {
+        try {
+            $cart = $this->getCartForUserOrGuest($request);
+
+            $cartItem = $cart->items()->where('course_id', $courseId)->first();
+
+            if (!$cartItem) {
+                return ApiResponse::sendResponse(404, 'Course not found in cart');
+            }
+
+            $cartItem->delete();
+
+            return ApiResponse::sendResponse(200, 'Course removed from cart');
+        } catch (Exception $e) {
+            return ApiResponse::sendResponse(500, 'Failed to remove course from cart: ' . $e->getMessage());
         }
     }
 
