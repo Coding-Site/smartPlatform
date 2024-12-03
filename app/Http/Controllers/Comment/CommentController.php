@@ -3,12 +3,12 @@
 namespace App\Http\Controllers\Comment;
 
 use App\Enums\Comment\Status;
+use App\Helpers\ApiResponse;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Comment\CommentRequest;
 use App\Http\Resources\Comment\CommentResource;
 use App\Models\Comment\Comment;
 use App\Models\Lesson\Lesson;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class CommentController extends Controller
@@ -16,7 +16,7 @@ class CommentController extends Controller
     public function store(CommentRequest $request, Lesson $lesson)
     {
         if (!Auth::check()) {
-            return response()->json(['error' => 'Unauthorized'], 401);
+            return ApiResponse::sendResponse(401, 'Unauthorized');
         }
 
         $validated = $request->validated();
@@ -25,11 +25,11 @@ class CommentController extends Controller
 
         if ($parentComment) {
             if ($parentComment->lesson_id !== $lesson->id) {
-                return response()->json(['error' => 'This reply does not belong to the correct lesson'], 400);
+                return ApiResponse::sendResponse(400, 'This reply does not belong to the correct lesson');
             }
 
             if ($parentComment->user_id !== Auth::id() && !Auth::guard('teacher')->check()) {
-                return response()->json(['error' => 'Unauthorized to reply to this comment'], 403);
+                return ApiResponse::sendResponse(403, 'Unauthorized to reply to this comment');
             }
             $lessonId = $parentComment->lesson_id;
         } else {
@@ -50,7 +50,7 @@ class CommentController extends Controller
             ? 'Your comment has been created'
             : 'Your comment is pending approval';
 
-        return response()->json(['success' => $message], 201);
+        return ApiResponse::sendResponse(201, $message);
     }
 
     public function showComments(Lesson $lesson)
@@ -65,28 +65,28 @@ class CommentController extends Controller
             ])
             ->get();
 
-        return CommentResource::collection($comments);
+        return ApiResponse::sendResponse(200, 'Comments retrieved successfully', CommentResource::collection($comments));
     }
 
     public function approve(Comment $comment)
     {
         if (!Auth::guard('teacher')->check()) {
-            return response()->json(['error' => 'Unauthorized. Teacher access required'], 403);
+            return ApiResponse::sendResponse(403, 'Unauthorized. Teacher access required');
         }
 
         $comment->update(['status' => Status::APPROVED->value]);
 
-        return response()->json(['success' => 'Comment approved'], 200);
+        return ApiResponse::sendResponse(200, 'Comment approved');
     }
 
     public function reject(Comment $comment)
     {
         if (!Auth::guard('teacher')->check()) {
-            return response()->json(['error' => 'Unauthorized. Teacher access required'], 403);
+            return ApiResponse::sendResponse(403, 'Unauthorized. Teacher access required');
         }
 
         $comment->update(['status' => Status::REJECTED->value]);
 
-        return response()->json(['success' => 'Comment Rejected'], 200);
+        return ApiResponse::sendResponse(200, 'Comment rejected');
     }
 }

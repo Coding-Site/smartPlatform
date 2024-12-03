@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Lesson;
 
+use App\Http\Resources\Comment\CommentResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -18,6 +19,7 @@ class LessonResource extends JsonResource
             'id'      => $this->id,
             'url'     => $this->url,
             'title'   => $this->title,
+            'comments'=> CommentResource::collection($this->comments),
         ];
     }
 }
