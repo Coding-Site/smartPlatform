@@ -15,12 +15,12 @@ class CommentSeeder extends Seeder
     {
         $faker = Faker::create();
 
-        $lessons = Lesson::limit(10)->get();
-        $users = User::limit(10)->get();
+        $lessons = Lesson::limit(5)->get();
+        $users = User::limit(5)->get();
 
         foreach ($lessons as $lesson) {
 
-            for ($i = 0; $i < 5; $i++) {
+            for ($i = 0; $i < 3; $i++) {
 
                 $user = $users->random();
 
