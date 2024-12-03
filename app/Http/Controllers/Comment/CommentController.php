@@ -19,6 +19,10 @@ class CommentController extends Controller
             return ApiResponse::sendResponse(401, 'Unauthorized');
         }
 
+        if (($request->has('content') && $request->hasFile('voice_note')) || (!$request->has('content') && !$request->hasFile('voice_note'))) {
+            return ApiResponse::sendResponse(422, 'Please provide either content or a voice note, but not both.');
+        }
+
         $validated = $request->validated();
 
         $parentComment = $request->parent_id ? Comment::find($request->parent_id) : null;
@@ -38,13 +42,28 @@ class CommentController extends Controller
 
         $status = Auth::guard('teacher')->check() ? Status::APPROVED->value : Status::PENDING->value;
 
-        Comment::create([
-            'user_id' => Auth::id(),
-            'lesson_id' => $lessonId,
-            'content' => $validated['content'],
-            'parent_id' => $request->parent_id,
-            'status' => $status,
-        ]);
+        if ($request->hasFile('voice_note')) {
+            $voiceNotePath = $request->file('voice_note')->store('voice_notes', 'public');
+
+            Comment::create([
+                'user_id' => Auth::id(),
+                'lesson_id' => $lessonId,
+                'content' => null,
+                'parent_id' => $request->parent_id,
+                'status' => $status,
+            ]);
+
+            $comment = Comment::latest()->first();
+            $comment->addMedia(storage_path("app/public/{$voiceNotePath}"))->toMediaCollection('voice_notes');
+        }else{
+            Comment::create([
+                'user_id' => Auth::id(),
+                'lesson_id' => $lessonId,
+                'content' => $validated['content'],
+                'parent_id' => $request->parent_id,
+                'status' => $status,
+            ]);
+        }
 
         $message = (Auth::guard('teacher')->check())
             ? 'Your comment has been created'

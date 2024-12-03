@@ -11,7 +11,7 @@ use App\Repositories\Lesson\LessonRepository;
 use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
-class LessonController extends Controller
+class DashboardLessonController extends Controller
 {
     protected $lessonRepository;
 

@@ -22,8 +22,11 @@ class CommentRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'content' => 'required|string',
+            'content' => 'nullable|string|required_without:voice_note',
+            'voice_note' => 'nullable|mimes:mp3,wav,ogg|max:10240|required_without:content',
             'parent_id' => 'nullable|exists:comments,id',
         ];
     }
+
+
 }

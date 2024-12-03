@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('lesson_id')->constrained()->onDelete('cascade');
-            $table->text('content');
+            $table->text('content')->nullable();
             $table->unsignedBigInteger('parent_id')->nullable();
             $table->string('status')->default(\App\Enums\Comment\Status::PENDING->value);
             $table->timestamps();
