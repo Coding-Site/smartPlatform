@@ -18,9 +18,14 @@ class CommentResource extends JsonResource
 
         $response = [
             'id' => $this->id,
-            'user' => $this->user->name,
             'created_at' => $this->created_at->diffForHumans(),
         ];
+
+        if ($this->teacher_id) {
+            $response['teacher_name'] = $this->teacher ? $this->teacher->name : null;
+        } else {
+            $response['user_name'] = $this->user ? $this->user->name : null;
+        }
 
         if ($voiceNoteUrl) {
             $response['voice_note'] = $voiceNoteUrl;
