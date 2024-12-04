@@ -12,7 +12,7 @@ class CardController extends Controller
 {
     public function get(Lesson $lesson)
     {
-        $cards = $lesson->cards;
+        $cards = Card::getCachedCardsForLesson($lesson->id);
 
         return ApiResponse::sendResponse(200,'Cards retrieved successfully', CardResource::collection($cards));
     }
