@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Lesson;
 
+use App\Helpers\ApiResponse;
 use App\Http\Controllers\Controller;
 use App\Models\LessonNote\LessonNote;
 
@@ -10,13 +11,13 @@ class LessonNoteController extends Controller
     public function download(LessonNote $lessonNote)
     {
         if (!$lessonNote) {
-            return response()->json(['error' => 'Lesson note not found'], 404);
+            return ApiResponse::sendResponse(404, 'Lesson note not found');
         }
 
-        $filePath = storage_path('app/public/' . $lessonNote->file);
+        $filePath = storage_path('app/public/lesson_notes/' . $lessonNote->file);
 
         if (!file_exists($filePath)) {
-            return response()->json(['error' => 'File not found'], 404);
+            return ApiResponse::sendResponse(404, 'File not found');
         }
 
         return response()->download($filePath);

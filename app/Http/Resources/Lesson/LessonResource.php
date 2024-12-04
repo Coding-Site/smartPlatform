@@ -19,6 +19,7 @@ class LessonResource extends JsonResource
             'id'      => $this->id,
             'url'     => $this->url,
             'title'   => $this->title,
+            'lesson_note' => $this->lessonNote ? $this->lessonNote->id : null,
             'comments'=> CommentResource::collection($this->comments),
         ];
     }
