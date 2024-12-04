@@ -108,4 +108,48 @@ class CommentController extends Controller
 
         return ApiResponse::sendResponse(200, 'Comment rejected');
     }
+
+
+    public function update(CommentRequest $request, Comment $comment)
+    {
+        if ($comment->user_id !== Auth::id() && $comment->teacher_id !== Auth::guard('teacher')->id()) {
+            return ApiResponse::sendResponse(403, 'Unauthorized to update this comment');
+        }
+
+        $validated = $request->validated();
+
+        if ($comment->media->count() > 0 && $request->has('content') && !$request->hasFile('voice_note')) {
+            $comment->media->each(function ($media) {
+                $media->delete();
+            });
+            $comment->content = $validated['content'];
+        }
+        elseif ($comment->content && !$request->has('content') && $request->hasFile('voice_note')) {
+            $comment->content = null;
+            $voiceNotePath = $request->file('voice_note')->store('voice_notes', 'public');
+            $comment->addMedia(storage_path("app/public/{$voiceNotePath}"))->toMediaCollection('voice_notes');
+        }
+
+        $comment->save();
+
+        return ApiResponse::sendResponse(200, 'Comment updated successfully');
+    }
+
+
+    public function destroy(Comment $comment)
+    {
+        if ($comment->user_id !== Auth::id() && $comment->teacher_id !== Auth::guard('teacher')->id()) {
+            return ApiResponse::sendResponse(403, 'Unauthorized to delete this comment');
+        }
+
+        if ($comment->media->count() > 0) {
+            $comment->media->each(function ($media) {
+                $media->delete();
+            });
+        }
+
+        $comment->delete();
+
+        return ApiResponse::sendResponse(200, 'Comment deleted successfully');
+    }
 }
