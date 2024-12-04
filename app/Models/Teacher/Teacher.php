@@ -3,6 +3,7 @@
 namespace App\Models\Teacher;
 
 use App\Models\Book\Book;
+use App\Models\Comment\Comment;
 use App\Models\Course\Course;
 use App\Models\Stage\Stage;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -37,6 +38,11 @@ class Teacher extends Authenticatable implements MustVerifyEmail
     public function stage() : BelongsTo
     {
         return $this->belongsTo(Stage::class);
+    }
+
+    public function comments() : HasMany
+    {
+        return $this->hasMany(Comment::class);
     }
 
 
