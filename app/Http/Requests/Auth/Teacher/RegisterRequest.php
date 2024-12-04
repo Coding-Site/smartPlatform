@@ -23,6 +23,7 @@ class RegisterRequest extends FormRequest
     {
         return [
             'name'      => 'required|string|max:255',
+            'image'     => 'nullable|image|max:2048',
             'email'     => 'required|email|unique:teachers,email',
             'password'  => 'required|string|min:8|confirmed',
             'course_id' => 'required|exists:courses,id',

@@ -17,6 +17,7 @@ class CourseResource extends JsonResource
         return [
             'id'            => $this->id,
             'name'          => $this->name,
+            'image'         => $this->getFirstMediaUrl('image'),
             'term_price'    => $this->term_price,
             'monthly_price' => $this->monthly_price,
         ];

@@ -23,6 +23,7 @@ class UpdateBookRequest extends FormRequest
     {
         return [
             'name'        => 'sometimes|required|string|max:255',
+            'image'       => 'nullable|image|max:2048',
             'price'       => 'sometimes|required|numeric|min:0',
             'file_sample' => 'nullable |file|mimes:pdf,doc,docx|max:2048',
             'quantity'    => 'sometimes|required|integer|min:0',

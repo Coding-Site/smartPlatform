@@ -23,6 +23,8 @@ class CourseRepository
             $course->translateOrNew($translation['locale'])->name = $translation['name'];
         }
 
+        $course->addMedia($data['image'])->toMediaCollection('image');
+
         $course->save();
 
         return $course;
@@ -31,14 +33,21 @@ class CourseRepository
     public function update($id, array $data)
     {
         $course = Course::findOrFail($id);
+
         $course->update($data);
 
         if (!empty($data['translations'])) {
             foreach ($data['translations'] as $translation) {
                 $course->translateOrNew($translation['locale'])->name = $translation['name'];
             }
-            $course->save();
         }
+
+        if (isset($data['image'])) {
+            $course->clearMediaCollection('image');
+            $course->addMedia($data['image'])->toMediaCollection('image');
+        }
+
+        $course->save();
 
         return $course;
     }

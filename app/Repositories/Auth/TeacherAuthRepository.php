@@ -17,7 +17,18 @@ class TeacherAuthRepository
     public function createTeacher(array $data)
     {
         $data['password'] = Hash::make($data['password']);
-        return Teacher::create($data);
+
+        $image = $data['image'] ?? null;
+        unset($data['image']);
+
+        $teacher = Teacher::create($data);
+
+        if ($image) {
+            $teacher->addMedia($image)
+                ->toMediaCollection('image');
+        }
+
+        return $teacher;
     }
 
     public function generateTeacherActivationToken($teacher)

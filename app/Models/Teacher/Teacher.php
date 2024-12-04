@@ -15,11 +15,13 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\Permission\Traits\HasRoles;
 
-class Teacher extends Authenticatable implements MustVerifyEmail
+class Teacher extends Authenticatable implements MustVerifyEmail , HasMedia
 {
-    use HasFactory, HasApiTokens, Notifiable,HasRoles;
+    use HasFactory, HasApiTokens, Notifiable,HasRoles, InteractsWithMedia;
     protected $guard_name = 'teacher';
     protected $fillable = [
         'name', 'email', 'phone','course_id', 'stage_id','password' , 'bio','video_preview'
