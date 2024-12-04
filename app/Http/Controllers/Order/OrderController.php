@@ -22,12 +22,7 @@ class OrderController extends Controller
     }
 
 
-    public function index()
-    {
-        $orders = auth()->user()->orders()->with('items.course', 'items.book')->get();
-
-        return ApiResponse::sendResponse(200, 'Orders retrieved successfully',  OrderResource::collection($orders));
-    }
+    
     public function checkout(Request $request)
     {
         try {

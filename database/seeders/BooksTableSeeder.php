@@ -17,31 +17,35 @@ class BooksTableSeeder extends Seeder
             [
                 "name" => "book 1",
                 "teacher_id" =>1,
+                "term_id"  => 1,
                 "price" => 100,
                 "quantity" => 20,
-                "class_id" => 1
+                "grade_id" => 1
             ],
             [
                 "name" => "book 2",
                 "teacher_id" =>1,
+                "term_id"  => 1,
                 "price" => 100,
                 "quantity" => 20,
-                "class_id" => 2
+                "grade_id" => 2
 
             ],
             [
                 "name" => "book 3",
                 "teacher_id" =>2,
+                "term_id"  => 2,
                 "price" => 100,
                 "quantity" => 20,
-                "class_id" => 3
+                "grade_id" => 3
             ],
             [
                 "name" => "book 4",
                 "teacher_id" =>2,
+                "term_id"  => 2,
                 "price" => 100,
                 "quantity" => 20,
-                "class_id" => 4
+                "grade_id" => 4
             ],
         ];
         DB::table('books')->insert($books);

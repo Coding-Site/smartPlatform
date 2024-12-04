@@ -15,11 +15,11 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->decimal('price', 8, 2)->default(0);
-            $table->string('file')->nullable();
+            $table->string('file_sample')->nullable();
             $table->integer('quantity')->default(0);
             $table->foreignId('teacher_id')->constrained('teachers')->onDelete('cascade');
+            $table->foreignId('term_id')->constrained('terms')->onDelete('cascade');
             $table->foreignId('grade_id')->constrained('grades')->onDelete('cascade');
-            $table->foreignId('course_id')->constrained('courses')->onDelete('cascade');
             $table->timestamps();
         });
     }

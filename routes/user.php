@@ -2,6 +2,7 @@
 
 
 use App\Http\Controllers\Auth\UserAuthController;
+use App\Http\Controllers\Book\BookController;
 use App\Http\Controllers\Cart\CartController;
 use App\Http\Controllers\Order\OrderController;
 use Illuminate\Support\Facades\Route;
@@ -37,6 +38,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/cart', [CartController::class, 'viewCart']);
 
     Route::post('/checkout', [OrderController::class, 'checkout']);
-    Route::get('/orders', [OrderController::class, 'index']);
+
+
+        Route::apiResource('books', BookController::class)->only('index','show');
 
 });

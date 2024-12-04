@@ -17,6 +17,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Course extends Model
 {
     use HasFactory, Translatable;
+    public $translatedAttributes = ['name'];
     protected $fillable = [
         'term_price',
         'monthly_price',
@@ -26,7 +27,6 @@ class Course extends Model
         'grade_id',
     ];
 
-    public $translatedAttributes = ['name'];
 
 
     // protected static function booted(): void
