@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->text('question');
             $table->text('answer');
+            $table->boolean('status')->default(0);
             $table->foreignId('lesson_id')->constrained()->cascadeOnDelete();
             $table->timestamps();
         });

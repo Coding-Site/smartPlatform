@@ -14,6 +14,7 @@ class Card extends Model
     protected $fillable = [
         'question',
         'answer',
+        'status',
         'lesson_id',
     ];
 
