@@ -16,9 +16,9 @@ class DetailedTeacherResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-//        $totalUsers = $this->courses->sum(function ($course) {
-//            return $course->users->count();
-//        });
+        $totalStudents = $this->courses->sum(function ($course) {
+            return $course->subscribers->count();
+        });
 
         $totalVideos = $this->courses->sum(function ($course) {
             return $course->units->sum(function ($unit) {
@@ -38,7 +38,7 @@ class DetailedTeacherResource extends JsonResource
             'years_of_experience'   => $this->years_of_experience ?? null,
             'average_rating'        => round($this->averageRating(), 1),
             'stage'                 => $this->stage->translations->firstWhere('locale', request()->get('lang', app()->getLocale()))->name ,
-           // 'totalUsers'            => $totalUsers,
+            'totalStudents'            => $totalStudents,
             'totalVideos'           => $totalVideos,
             'courses'               => CourseResource::collection($this->courses),
             'reviews'               => ReviewResource::collection($this->reviews),
