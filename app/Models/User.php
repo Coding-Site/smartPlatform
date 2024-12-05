@@ -6,6 +6,7 @@ use App\Models\Cart\Cart;
 use App\Models\Comment\Comment;
 use App\Models\Grade\Grade;
 use App\Models\Order\Order;
+use App\Models\Review\Review;
 use App\Models\Stage\Stage;
 use App\Models\UserAnswer\UserAnswer;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -17,10 +18,12 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Support\Facades\Hash;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\Permission\Traits\HasRoles;
-class User extends Authenticatable implements MustVerifyEmail
+class User extends Authenticatable implements MustVerifyEmail , HasMedia
 {
-    use HasApiTokens, HasFactory, Notifiable,HasRoles;
+    use HasApiTokens, HasFactory, Notifiable, HasRoles , InteractsWithMedia;
 
     /**
      * The attributes that are mass assignable.
@@ -28,7 +31,7 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var array<int, string>
      */
     protected $fillable = [
-        'name', 'email', 'phone','grade_id', 'stage_id', 'password',
+        'name', 'email', 'phone', 'grade_id', 'stage_id', 'password',
     ];
 
     /**
@@ -57,21 +60,22 @@ class User extends Authenticatable implements MustVerifyEmail
     //     }
     // }
 
-    public function grade() : BelongsTo
+    public function grade(): BelongsTo
     {
         return $this->belongsTo(Grade::class);
     }
 
-    public function stage() : BelongsTo
+    public function stage(): BelongsTo
     {
         return $this->belongsTo(Stage::class);
     }
 
-    public function userAnswers() : HasMany
+    public function userAnswers(): HasMany
     {
         return $this->hasMany(UserAnswer::class);
     }
-    public function cart() : HasOne
+
+    public function cart(): HasOne
     {
         return $this->hasOne(Cart::class);
     }
@@ -81,8 +85,15 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(Order::class);
     }
 
-    public function comments() : HasMany
+    public function comments(): HasMany
     {
         return $this->hasMany(Comment::class);
     }
+
+    public function reviews(): HasMany
+    {
+        return $this->hasMany(Review::class);
+    }
+
 }
+

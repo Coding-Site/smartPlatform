@@ -5,6 +5,7 @@ namespace App\Models\Teacher;
 use App\Models\Book\Book;
 use App\Models\Comment\Comment;
 use App\Models\Course\Course;
+use App\Models\Review\Review;
 use App\Models\Stage\Stage;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -24,8 +25,13 @@ class Teacher extends Authenticatable implements MustVerifyEmail , HasMedia
     use HasFactory, HasApiTokens, Notifiable,HasRoles, InteractsWithMedia;
     protected $guard_name = 'teacher';
     protected $fillable = [
-        'name', 'email', 'phone','course_id', 'stage_id','password' , 'bio','video_preview'
+        'name', 'email', 'phone','password' , 'bio', 'stage_id', 'grade_id'
     ];
+
+    public function averageRating()
+    {
+        return $this->reviews()->avg('rating');
+    }
 
     public function books() : HasMany
     {
@@ -47,5 +53,9 @@ class Teacher extends Authenticatable implements MustVerifyEmail , HasMedia
         return $this->hasMany(Comment::class);
     }
 
+    public function reviews(): HasMany
+    {
+        return $this->hasMany(Review::class);
+    }
 
 }

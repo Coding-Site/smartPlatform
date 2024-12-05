@@ -17,11 +17,18 @@ class UserAuthRepository
     public function create(array $data)
     {
         $data['password'] = Hash::make($data['password']);
-        return User::create($data);
-    }
-    public function createTeacher(array $data)
-    {
-        return Teacher::create($data);
+
+        $image = $data['image'] ?? null;
+        unset($data['image']);
+
+        $user = User::create($data);
+
+        if ($image) {
+            $user->addMedia($image)
+                ->toMediaCollection('image');
+        }
+
+        return $user;
     }
 
     public function generateActivationToken($user)

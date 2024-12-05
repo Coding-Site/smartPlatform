@@ -35,6 +35,7 @@ class RegisterRequest extends FormRequest
                 'min:11',
                 'max:11',
             ],
+            'image'    => 'nullable|image|max:2048',
         ];
     }
 }
