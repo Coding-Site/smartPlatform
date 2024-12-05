@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\UserAuthController;
 use Illuminate\Support\Facades\Route;
+use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,11 +16,13 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-require __DIR__ . '/admin.php';
-require __DIR__ . '/teacher.php';
-require __DIR__ . '/user.php';
-require __DIR__ . '/quiz.php';
-require __DIR__ . '/course.php';
-require __DIR__ . '/comment.php';
 
+Route::group(['prefix' => LaravelLocalization::setLocale()], function(){
+    require __DIR__ . '/admin.php';
+    require __DIR__ . '/teacher.php';
+    require __DIR__ . '/user.php';
+    require __DIR__ . '/quiz.php';
+    require __DIR__ . '/course.php';
+    require __DIR__ . '/comment.php';
 
+});

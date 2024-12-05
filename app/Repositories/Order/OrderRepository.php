@@ -5,8 +5,8 @@ use App\Models\Cart\Cart;
 use App\Models\Course\Course;
 use App\Models\Order\Order;
 use App\Models\Order\OrderItem;
+use App\Models\Subscription\Subscription;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 use Exception;
 use Illuminate\Support\Facades\DB;
 
@@ -26,7 +26,6 @@ class OrderRepository
             throw new Exception('Error fetching the cart: ' . $e->getMessage());
         }
     }
-
 
     public function createOrder(Request $request)
     {
@@ -72,5 +71,24 @@ class OrderRepository
         }
     }
 
+    public function createSubscription($courseId, $userId,$type)
+    {
+        $course = Course::findOrFail($courseId);
+
+        $subscriptionType = $type;
+        $startDate = now();
+        $endDate = $subscriptionType === 'per_month'
+            ? $startDate->copy()->addMonth()
+            : $course->term_end_date;
+
+        Subscription::create([
+            'user_id'           => $userId,
+            'course_id'         => $courseId,
+            'subscription_type' => $subscriptionType,
+            'start_date'        => $startDate,
+            'end_date'          => $endDate,
+            'is_active'         => true,
+        ]);
+    }
 
 }

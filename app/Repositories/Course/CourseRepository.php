@@ -7,7 +7,7 @@ class CourseRepository
 {
     public function getAll()
     {
-        return Course::with('translations')->get();
+        return Course::get();
     }
 
     public function findById($id)

@@ -13,24 +13,11 @@ use Illuminate\Support\Facades\DB;
 
 class OrderController extends Controller
 {
-
     protected $orderRepo;
 
     public function __construct(OrderRepository $orderRepo)
     {
         $this->orderRepo = $orderRepo;
-    }
-
-
-    
-    public function checkout(Request $request)
-    {
-        try {
-            $order = $this->orderRepo->createOrder($request);
-            return ApiResponse::sendResponse(200, 'Order placed successfully', $order);
-        } catch (Exception $e) {
-            return ApiResponse::sendResponse(500, 'Order placement failed'. $e->getMessage());
-        }
     }
 
     public function show(Order $order)
@@ -44,8 +31,30 @@ class OrderController extends Controller
         return ApiResponse::sendResponse(200, 'Order details retrieved successfully', new OrderResource($order));
     }
 
+    public function checkout(Request $request)
+    {
+        DB::beginTransaction();
 
+        try {
+            $order = $this->orderRepo->createOrder($request);
+            $subscriptionType = $request->input('subscription_type');
 
+            // $paymentStatus
 
+            foreach ($order->items as $orderItem) {
+                if ($orderItem->course_id) {
+                    $this->orderRepo->createSubscription($orderItem->course_id, $order->user_id,$subscriptionType);
+                }
+            }
+
+            DB::commit();
+
+            return ApiResponse::sendResponse(200, 'Order placed and subscription created successfully', $order);
+        } catch (Exception $e) {
+            DB::rollBack();
+
+            return ApiResponse::sendResponse(500, 'Order placement failed: ' . $e->getMessage());
+        }
+    }
 
 }

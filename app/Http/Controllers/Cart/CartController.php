@@ -6,6 +6,7 @@ use App\Helpers\ApiResponse;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Cart\CartResource;
 use App\Models\Book\Book;
+use App\Models\Cart\Cart;
 use App\Models\Course\Course;
 use App\Repositories\Cart\CartRepository;
 use Exception;
@@ -109,5 +110,39 @@ class CartController extends Controller
             throw new Exception('Error fetching or creating cart: ' . $e->getMessage());
         }
     }
+
+
+    public function viewCart(Request $request)
+    {
+        if (auth()->check()) {
+            $user = auth()->user();
+            $cart = $user->cart()->with('items.course')->first();
+
+            if (!$cart || $cart->items->isEmpty()) {
+                return ApiResponse::sendResponse(200,'Cart is empty');
+            }
+                return ApiResponse::sendResponse(200,'Cart retrieved successfully',$cart);
+        } else {
+
+            $cartToken = $request->cookie('cart_token');
+
+            if (!$cartToken) {
+                return ApiResponse::sendResponse(200,'Cart is empty');
+            }
+            $cart = Cart::where('cart_token', $cartToken)
+                ->with('items.course')
+                ->first();
+
+            if (!$cart || $cart->items->isEmpty()) {
+                return ApiResponse::sendResponse(200,'Cart is empty');
+            }
+
+            return ApiResponse::sendResponse(200,'Cart retrieved successfully',$cart);
+        }
+    }
+
+
+
+
 }
 

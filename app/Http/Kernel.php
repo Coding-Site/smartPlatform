@@ -66,5 +66,12 @@ class Kernel extends HttpKernel
         'set-language' => \App\Http\Middleware\SetLanguage::class,
         'ensurecarttoken' => \App\Http\Middleware\EnsureCartToken::class,
         'check_roles' => \App\Http\Middleware\CheckRoles::class,
+        'auth.optional' => \App\Http\Middleware\OptionalAuthMiddleware::class,
+        
+        'localize'                => \Mcamara\LaravelLocalization\Middleware\LaravelLocalizationRoutes::class,
+        'localizationRedirect'    => \Mcamara\LaravelLocalization\Middleware\LaravelLocalizationRedirectFilter::class,
+        'localeSessionRedirect'   => \Mcamara\LaravelLocalization\Middleware\LocaleSessionRedirect::class,
+        'localeCookieRedirect'    => \Mcamara\LaravelLocalization\Middleware\LocaleCookieRedirect::class,
+        'localeViewPath'          => \Mcamara\LaravelLocalization\Middleware\LaravelLocalizationViewPath::class
     ];
 }

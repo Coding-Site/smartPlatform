@@ -9,6 +9,7 @@ use App\Http\Resources\Course\DetailedCourseResource;
 use App\Models\Course\Course;
 use Illuminate\Http\Request;
 use Exception;
+use Illuminate\Support\Facades\Auth;
 
 class CourseController extends Controller
 {
@@ -26,14 +27,40 @@ class CourseController extends Controller
         }
     }
 
-    public function show(Course $course)
+    public function showCourseDetails($courseId)
     {
         try {
-            $course->load('units.lessons.comments.replies');
+            $course = Course::with('units.lessons')->findOrFail($courseId);
+            if(!$course) return ApiResponse::sendResponse(404,'Course Not Found');
 
-            return ApiResponse::sendResponse(200, 'Course details retrieved successfully', new DetailedCourseResource($course));
+            $isSubscribed = false;
+            if (auth()->check()) {
+                $user = auth()->user();
+                $isSubscribed = $user->hasActiveSubscription($courseId);
+            }
+
+            $courseDetails = [
+                'course_id'   => $course->id,
+                'course_name' => $course->name,
+                'units'       => $course->units->map(function ($unit) use ($isSubscribed) {
+                    return [
+                        'unit_name' => $unit->title,
+                        'lessons'   => $unit->lessons->map(function ($lesson) use ($isSubscribed) {
+                            return [
+                                'lesson_title' => $lesson->title,
+                                'video_url'    => $isSubscribed ? $lesson->url : null,
+                            ];
+                        }),
+                    ];
+                }),
+            ];
+            return ApiResponse::sendResponse(200,'Course Details',$courseDetails);
+
         } catch (Exception $e) {
-            return ApiResponse::sendResponse(500, 'Unable to fetch course details. ' . $e->getMessage());
+            return ApiResponse::sendResponse(500,'Something Wents Wrong'.$e->getMessage());
         }
     }
+
+
+
 }

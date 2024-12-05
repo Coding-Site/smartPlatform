@@ -5,6 +5,7 @@ namespace App\Models\Course;
 use App\Models\Grade\Grade;
 use App\Models\Scopes\TermScope;
 use App\Models\Stage\Stage;
+use App\Models\Subscription\Subscription;
 use App\Models\Teacher\Teacher;
 use App\Models\Term\Term;
 use App\Models\Unit\Unit;
@@ -21,6 +22,7 @@ class Course extends Model
     protected $fillable = [
         'term_price',
         'monthly_price',
+        'term_end_date',
         'term_id',
         'teacher_id',
         'stage_id',
@@ -68,6 +70,11 @@ class Course extends Model
             $query->where('grade_id', $gradeId);
         }
         return $query;
+    }
+
+    public function subscribers()
+    {
+        return $this->hasMany(Subscription::class);
     }
 
 }

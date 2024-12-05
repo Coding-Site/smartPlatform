@@ -15,6 +15,7 @@ class Unit extends Model
     use HasFactory,Translatable;
 
     protected $fillable = ['course_id'];
+    protected $with = ['translations'];
     public $translatedAttributes = ['title'];
 
     public function course() : BelongsTo

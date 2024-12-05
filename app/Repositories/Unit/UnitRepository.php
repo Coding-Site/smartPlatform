@@ -7,12 +7,12 @@ class UnitRepository
 {
     public function getAll()
     {
-        return Unit::with('translations')->get();
+        return Unit::get();
     }
 
     public function getById($id)
     {
-        return Unit::with('lessons')->with('translations')->findOrFail($id);
+        return Unit::findOrFail($id);
     }
 
     public function create(array $data)

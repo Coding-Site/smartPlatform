@@ -18,7 +18,14 @@ class UnitResource extends JsonResource
         return [
             'id'        => $this->id,
             'title'     => $this->title,
-            'lessons'   => LessonResource::collection($this->lessons),
+            
+            // 'translations'  => $this->translations->map(function ($translation) {
+            //         return [
+            //             'locale' => $translation->locale,
+            //             'name'   => $translation->title,
+            //         ];
+            //     }),
+            // 'lessons'   => LessonResource::collection($this->lessons),
         ];
     }
 }

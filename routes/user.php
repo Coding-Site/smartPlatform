@@ -4,7 +4,9 @@
 use App\Http\Controllers\Auth\UserAuthController;
 use App\Http\Controllers\Book\BookController;
 use App\Http\Controllers\Cart\CartController;
+use App\Http\Controllers\Course\CourseController;
 use App\Http\Controllers\Order\OrderController;
+use App\Http\Controllers\Subscription\SubscriptionController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -39,7 +41,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::post('/checkout', [OrderController::class, 'checkout']);
 
-
-        Route::apiResource('books', BookController::class)->only('index','show');
+    Route::apiResource('books', BookController::class)->only('index','show');
 
 });
+
+Route::get('course/{course}/details', [CourseController::class, 'showCourseDetails'])->middleware('auth.optional');

@@ -16,6 +16,7 @@
         </style>
     </head>
     <body class="antialiased">
+        
         <!-- <iframe src="https://player.vimeo.com/video/1031513196?title=0&amp;byline=0&amp;portrait=0&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" width="480" height="848" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write" title="WhatsApp Video 2024-11-14 at 1.06.25 PM"></iframe> -->
         <div class="relative sm:flex sm:justify-center sm:items-center min-h-screen bg-dots-darker bg-center bg-gray-100 dark:bg-dots-lighter dark:bg-gray-900 selection:bg-red-500 selection:text-white">
             @if (Route::has('login'))

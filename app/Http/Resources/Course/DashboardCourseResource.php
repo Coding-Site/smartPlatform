@@ -25,12 +25,6 @@ class DashboardCourseResource extends JsonResource
                 'grade'         => $this->grade->name ?? null,
                 'name'          => $this->name,
                 'units'         => UnitResource::collection($this->units),
-                // 'translations'  => $this->translations->map(function ($translation) {
-                //     return [
-                //         'locale' => $translation->locale,
-                //         'name'   => $translation->name,
-                //     ];
-                // }),
             ];
         }
 }

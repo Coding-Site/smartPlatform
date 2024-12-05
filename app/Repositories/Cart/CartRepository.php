@@ -1,12 +1,15 @@
 <?php
 namespace App\Repositories\Cart;
 
+use App\Helpers\ApiResponse;
 use App\Models\Book\Book;
 use App\Models\Cart\Cart;
 use App\Models\Course\Course;
+use App\Models\Subscription\Subscription;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Exception;
+use Illuminate\Support\Facades\Auth;
 
 class CartRepository
 {
@@ -34,6 +37,16 @@ class CartRepository
     public function addCourseToCart($cart, $courseId, $price)
     {
         $course = Course::find($courseId);
+
+        if(auth()->check()){
+            $existingSubscription = Subscription::where('user_id', Auth::user()->id)
+                ->where('course_id', $courseId)
+                ->where('is_active', true)
+                ->first();
+
+            if($existingSubscription) throw new Exception('Already Subscribed');
+        }
+
         if (!$course) {
             throw new Exception('Course not found');
         }
@@ -95,11 +108,11 @@ class CartRepository
 
     public function getCoursePrice(Request $request, $course)
     {
-        $priceType = $request->input('price_type', 'term');
-        if ($priceType === 'term' && $course->term_price !== null) {
+        $priceType = $request->input('subscription_type', 'per_term');
+        if ($priceType === 'per_term' && $course->term_price !== null) {
             return $course->term_price;
         }
-        if ($priceType === 'monthly' && $course->monthly_price !== null) {
+        if ($priceType === 'per_month' && $course->monthly_price !== null) {
             return $course->monthly_price;
         }
 

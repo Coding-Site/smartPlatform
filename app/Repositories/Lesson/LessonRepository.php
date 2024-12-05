@@ -8,12 +8,12 @@ class LessonRepository
 {
     public function getAll()
     {
-        return Lesson::with('translations')->get();
+        return Lesson::get();
     }
 
     public function getById($id)
     {
-        return Lesson::with('translations')->findOrFail($id);
+        return Lesson::findOrFail($id);
     }
 
     public function create(array $data)

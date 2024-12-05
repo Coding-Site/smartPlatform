@@ -4,9 +4,11 @@ namespace App\Models;
 
 use App\Models\Cart\Cart;
 use App\Models\Comment\Comment;
+use App\Models\Course\Course;
 use App\Models\Grade\Grade;
 use App\Models\Order\Order;
 use App\Models\Stage\Stage;
+use App\Models\Subscription\Subscription;
 use App\Models\UserAnswer\UserAnswer;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -84,5 +86,19 @@ class User extends Authenticatable implements MustVerifyEmail
     public function comments() : HasMany
     {
         return $this->hasMany(Comment::class);
+    }
+    public function subscriptions()
+    {
+        return $this->hasMany(Subscription::class);
+    }
+
+
+    public function hasActiveSubscription($courseId)
+    {
+        return $this->subscriptions()
+            ->where('course_id', $courseId)
+            ->where('is_active', true)
+            ->whereDate('end_date', '>=', now())
+            ->exists();
     }
 }
