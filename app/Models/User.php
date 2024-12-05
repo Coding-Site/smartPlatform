@@ -8,6 +8,7 @@ use App\Models\Grade\Grade;
 use App\Models\Order\Order;
 use App\Models\Review\Review;
 use App\Models\Stage\Stage;
+use App\Models\Subscription\Subscription;
 use App\Models\UserAnswer\UserAnswer;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -93,6 +94,21 @@ class User extends Authenticatable implements MustVerifyEmail , HasMedia
     public function reviews(): HasMany
     {
         return $this->hasMany(Review::class);
+    }
+
+    public function subscriptions()
+    {
+        return $this->hasMany(Subscription::class);
+    }
+
+
+    public function hasActiveSubscription($courseId)
+    {
+        return $this->subscriptions()
+            ->where('course_id', $courseId)
+            ->where('is_active', true)
+            ->whereDate('end_date', '>=', now())
+            ->exists();
     }
 
 }
