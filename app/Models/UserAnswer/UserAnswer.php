@@ -13,7 +13,7 @@ class UserAnswer extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['user_id', 'question_id', 'choice_id'];
+    protected $fillable = ['user_id', 'question_id', 'choice_id', 'answer', 'cause', 'effect', 'score'];
 
     public function user() : BelongsTo
     {

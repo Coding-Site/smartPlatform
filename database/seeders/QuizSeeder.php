@@ -1,76 +1,67 @@
 <?php
 
+// database/seeders/QuizSeeder.php
 namespace Database\Seeders;
 
+use App\Enums\Question\Type;
 use App\Models\Choice\Choice;
-use App\Models\Lesson\Lesson;
 use App\Models\Question\Question;
 use App\Models\Quiz\Quiz;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class QuizSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
-    public function run(): void
+    public function run()
     {
-
-        $quiz1 = Quiz::create([
-            'title' => 'Mcq Quiz for Course 1',
-            'lesson_id' =>1,
+        $quiz = Quiz::create([
+            'title' => 'Sample Quiz: General Knowledge',
+            'lesson_id' => 1,
         ]);
 
         $question1 = Question::create([
-            'quiz_id' => $quiz1->id,
+            'quiz_id' => $quiz->id,
             'question_text' => 'What is the capital of France?',
+            'type' => Type::MultipleChoice->value,
         ]);
 
-        Choice::create([
-            'question_id' => $question1->id,
-            'choice_text' => 'Paris',
-            'is_correct' => true
-        ]);
-        Choice::create([
-            'question_id' => $question1->id,
-            'choice_text' => 'Berlin',
-            'is_correct' => false
-        ]);
-        Choice::create([
-            'question_id' => $question1->id,
-            'choice_text' => 'Madrid',
-            'is_correct' => false
-        ]);
-        Choice::create([
-            'question_id' => $question1->id,
-            'choice_text' => 'Rome',
-            'is_correct' => false
-        ]);
+        $choices1 = [
+            'Paris',
+            'London',
+            'Berlin',
+            'Rome',
+        ];
+
+        foreach ($choices1 as $choiceText) {
+            Choice::create([
+                'question_id' => $question1->id,
+                'choice_text' => $choiceText,
+                'is_correct' => $choiceText === 'Paris',
+            ]);
+        }
 
         $question2 = Question::create([
-            'quiz_id' => $quiz1->id,
-            'question_text' => 'Which planet is known as the Red Planet?',
+            'quiz_id' => $quiz->id,
+            'question_text' => 'The largest planet in our solar system is ______.',
+            'type' => Type::FillInTheBlank->value,
+            'correct_answer' => 'Jupiter',
         ]);
 
-        Choice::create([
-            'question_id' => $question2->id,
-            'choice_text' => 'Mars',
-            'is_correct' => true
+        $question3 = Question::create([
+            'quiz_id' => $quiz->id,
+            'question_text' => 'Why is the sky blue?',
+            'type' => Type::Why->value,
+            'correct_answer' => 'The sky appears blue because of the scattering of sunlight by air molecules.'
         ]);
-        Choice::create([
-            'question_id' => $question2->id,
-            'choice_text' => 'Venus',
-            'is_correct' => false
+
+        $question4 = Question::create([
+            'quiz_id' => $quiz->id,
+            'question_text' => 'What happens if you drop a stone in water?',
+            'type' => Type::WhatHappens->value,
+            'cause' => 'The stone is dropped in water.',
+            'effect' => 'The stone sinks in the water.',
         ]);
-        Choice::create([
-            'question_id' => $question2->id,
-            'choice_text' => 'Jupiter',
-            'is_correct' => false
-        ]);
-        Choice::create([
-            'question_id' => $question2->id,
-            'choice_text' => 'Saturn',
-            'is_correct' => false
-        ]);
+
+        $this->command->info("Sample quiz and questions seeded successfully!");
     }
 }

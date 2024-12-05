@@ -2,6 +2,7 @@
 
 namespace App\Models\Question;
 
+use App\Enums\Question\Type;
 use App\Models\Choice\Choice;
 use App\Models\Quiz\Quiz;
 use App\Models\UserAnswer\UserAnswer;
@@ -14,9 +15,10 @@ class Question extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'question_text',
-        'quiz_id',
+    protected $fillable = ['quiz_id', 'question_text', 'type', 'correct_answer', 'cause', 'effect'];
+
+    protected $casts = [
+        'type' => Type::class,
     ];
 
     public function quiz() : BelongsTo

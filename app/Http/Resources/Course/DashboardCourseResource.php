@@ -17,6 +17,7 @@ class DashboardCourseResource extends JsonResource
     {
         return [
                 'id'            => $this->id,
+                'image'         => $this->getFirstMediaUrl('image'),
                 'term_price'    => $this->term_price,
                 'monthly_price' => $this->monthly_price,
                 'term'          => $this->term->name ?? null,
