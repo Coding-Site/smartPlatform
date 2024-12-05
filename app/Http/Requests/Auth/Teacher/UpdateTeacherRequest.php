@@ -24,10 +24,19 @@ class UpdateTeacherRequest extends FormRequest
         return [
             'name'      => 'sometimes|string|max:255',
             'image'     => 'nullable|image|max:2048',
-            'email'     => 'sometimes|email|unique:teachers,email,' ,
-            'course_id' => 'sometimes|exists:courses,id',
-            'stage_id'  => 'sometimes|exists:stages,id',
-            'bio'       => 'sometimes|string|max:255'
+            'email'     => 'sometimes|email|unique:teachers,email,',
+            'phone'     => [
+                'nullable',
+                'unique:teachers,phone,',
+                'regex:/(01)[0-9]{9}/',
+                'digits:11',
+                'min:11',
+                'max:11',
+            ],
+            'bio'       => 'sometimes|string|max:255',
+            'description'         => 'sometimes|string',
+            'years_of_experience' => 'sometimes|integer|min:0',
+            'video_preview'       => 'sometimes|url',
         ];
     }
 }

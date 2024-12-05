@@ -28,6 +28,7 @@ class DatabaseSeeder extends Seeder
             // VideosTableSeeder::class,
             RolePermissionsSeeder::class,
             CardSeeder::class,
+            ReviewSeeder::class,
         ]);
     }
 }

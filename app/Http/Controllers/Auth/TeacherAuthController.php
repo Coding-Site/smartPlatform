@@ -10,7 +10,7 @@ use App\Http\Requests\Auth\Teacher\LoginRequest;
 use App\Http\Requests\Auth\Teacher\RegisterRequest;
 use App\Http\Requests\Auth\Teacher\ResetPasswordRequest;
 use App\Http\Requests\Auth\Teacher\VerifyEmailRequest;
-use App\Http\Resources\Teacher\TeacherResource;
+use App\Http\Resources\Teacher\DetailedTeacherResource;
 use App\Models\Teacher\Teacher;
 use App\Repositories\Auth\TeacherAuthRepository;
 use Exception;
@@ -45,7 +45,7 @@ class TeacherAuthController extends Controller
         try {
             $teacher = $this->authRepository->verifyTeacher($request->validated()['token']);
             $teacher->token = $teacher->createToken('TeacherToken')->plainTextToken;
-            return ApiResponse::sendResponse(200, __('messages.Email_verified_successfully'), new TeacherResource($teacher));
+            return ApiResponse::sendResponse(200, __('messages.Email_verified_successfully'), new DetailedTeacherResource($teacher));
         } catch (Exception $e) {
             return ApiResponse::sendResponse(400, $e->getMessage());
         }
@@ -64,7 +64,7 @@ class TeacherAuthController extends Controller
             }
 
             $teacher->token = $teacher->createToken('TeacherToken')->plainTextToken;
-            return ApiResponse::sendResponse(200, __('messages.login_success'), new TeacherResource($teacher));
+            return ApiResponse::sendResponse(200, __('messages.login_success'), new DetailedTeacherResource($teacher));
         } catch (Exception $e) {
             return ApiResponse::sendResponse(500, __('messages.login_fail'), $e->getMessage());
         }
@@ -111,7 +111,7 @@ class TeacherAuthController extends Controller
                 $data['current_password'],
                 $data['new_password']
             );
-            return ApiResponse::sendResponse(200, __('message.Password_changed_successfully'), new TeacherResource($updatedTeacher));
+            return ApiResponse::sendResponse(200, __('message.Password_changed_successfully'), new DetailedTeacherResource($updatedTeacher));
         } catch (Exception $e) {
             return ApiResponse::sendResponse(400, __('message.Failed_to_change_password'), $e->getMessage());
         }

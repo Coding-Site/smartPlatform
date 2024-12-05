@@ -2,7 +2,6 @@
 
 namespace App\Http\Resources\Teacher;
 
-use App\Http\Resources\Course\CourseResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -16,13 +15,11 @@ class TeacherResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'name'      => $this->name,
-            'email'     => $this->email,
-            'phone'     => $this->phone,
-            'image'     => $this->getFirstMediaUrl('image'),
-            'courses'   => CourseResource::collection($this->courses),
-            'stage'     => $this->stage->name,
-            "token"     => $this->when(isset($this->token), $this->token),
+            'id'                    => $this->id,
+            'name'                  => $this->name,
+            'image'                 => $this->getFirstMediaUrl('image'),
+            'bio'                   => $this->bio ?? null,
+            'average_rating'        => round($this->averageRating(), 1),
         ];
     }
 }
