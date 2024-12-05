@@ -4,6 +4,7 @@ namespace App\Models\Comment;
 
 use App\Enums\Comment\Status;
 use App\Models\Lesson\Lesson;
+use App\Models\Teacher\Teacher;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -18,6 +19,7 @@ class Comment extends Model implements HasMedia
 
     protected $fillable = [
         'user_id',
+        'teacher_id',
         'lesson_id',
         'content',
         'parent_id',
@@ -26,6 +28,11 @@ class Comment extends Model implements HasMedia
     public function user() : BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function teacher() : BelongsTo
+    {
+        return $this->belongsTo(Teacher::class);
     }
 
     public function lesson() : BelongsTo

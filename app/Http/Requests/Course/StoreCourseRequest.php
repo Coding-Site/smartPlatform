@@ -22,6 +22,7 @@ class StoreCourseRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'image'                 => 'nullable|image|max:2048',
             'term_price'            => 'required|numeric',
             'monthly_price'         => 'required|numeric',
             'term_id'               => 'required|exists:terms,id',

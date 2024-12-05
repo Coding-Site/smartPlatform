@@ -3,6 +3,7 @@
 namespace App\Models\Teacher;
 
 use App\Models\Book\Book;
+use App\Models\Comment\Comment;
 use App\Models\Course\Course;
 use App\Models\Stage\Stage;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -14,11 +15,13 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\Permission\Traits\HasRoles;
 
-class Teacher extends Authenticatable implements MustVerifyEmail
+class Teacher extends Authenticatable implements MustVerifyEmail , HasMedia
 {
-    use HasFactory, HasApiTokens, Notifiable,HasRoles;
+    use HasFactory, HasApiTokens, Notifiable,HasRoles, InteractsWithMedia;
     protected $guard_name = 'teacher';
     protected $fillable = [
         'name', 'email', 'phone','course_id', 'stage_id','password' , 'bio','video_preview'
@@ -37,6 +40,11 @@ class Teacher extends Authenticatable implements MustVerifyEmail
     public function stage() : BelongsTo
     {
         return $this->belongsTo(Stage::class);
+    }
+
+    public function comments() : HasMany
+    {
+        return $this->hasMany(Comment::class);
     }
 
 

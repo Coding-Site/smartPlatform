@@ -22,7 +22,11 @@ class SubmitAnswerRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'choice_id' => 'required|exists:choices,id',
+            'choice_id' => 'required_if:type,multiple_choice|exists:choices,id',
+            'answer' => 'required_if:type,fill_in_the_blank,why|nullable|string',
+            'cause' => 'required_if:type,what_happens|nullable|string',
+            'effect' => 'required_if:type,what_happens|nullable|string',
+            'score' => 'nullable|numeric',
         ];
     }
 }

@@ -19,6 +19,7 @@ class TeacherResource extends JsonResource
             'name'      => $this->name,
             'email'     => $this->email,
             'phone'     => $this->phone,
+            'image'     => $this->getFirstMediaUrl('image'),
             'courses'   => CourseResource::collection($this->courses),
             'stage'     => $this->stage->name,
             "token"     => $this->when(isset($this->token), $this->token),

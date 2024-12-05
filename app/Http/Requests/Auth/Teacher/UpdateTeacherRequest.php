@@ -23,6 +23,7 @@ class UpdateTeacherRequest extends FormRequest
     {
         return [
             'name'      => 'sometimes|string|max:255',
+            'image'     => 'nullable|image|max:2048',
             'email'     => 'sometimes|email|unique:teachers,email,' ,
             'course_id' => 'sometimes|exists:courses,id',
             'stage_id'  => 'sometimes|exists:stages,id',
