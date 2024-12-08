@@ -26,8 +26,6 @@ class RegisterRequest extends FormRequest
             'image'     => 'nullable|image|max:2048',
             'email'     => 'required|email|unique:teachers,email',
             'password'  => 'required|string|min:8|confirmed',
-            'course_id' => 'required|exists:courses,id',
-            'stage_id'  => 'required|exists:stages,id',
             'phone'     => [
                 'required',
                 'unique:teachers,phone,',
@@ -36,6 +34,13 @@ class RegisterRequest extends FormRequest
                 'min:11',
                 'max:11',
             ],
+            'bio'                 => 'nullable|string|max:500',
+            'description'         => 'nullable|string',
+            'years_of_experience' => 'nullable|integer|min:0',
+            'video_preview'       => 'nullable|url',
+            'stage_id'            => 'required|numeric',
+            'grade_id'            => 'required|numeric'
+
         ];
 
     }

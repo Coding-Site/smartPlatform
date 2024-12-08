@@ -2,7 +2,9 @@
 
 namespace App\Repositories\Book;
 
+use App\Helpers\ApiResponse;
 use App\Models\Book\Book;
+use Illuminate\Http\Response;
 
 class BookRepository implements BookRepositoryInterface
 {
@@ -67,6 +69,24 @@ class BookRepository implements BookRepositoryInterface
         $book->delete();
 
         return true;
+    }
+
+    public function downloadFileSample(Book $book)
+    {
+        if (!$book->hasMedia('file_samples')) {
+            return ApiResponse::sendResponse(Response::HTTP_NOT_FOUND, 'File sample not found.');
+        }
+
+        $fileSample = $book->getFirstMedia('file_samples');
+
+        if ($fileSample) {
+            $filePath = $fileSample->getPath();
+            $fileName = $fileSample->file_name;
+
+            return response()->download($filePath, $fileName);
+        }
+
+        return ApiResponse::sendResponse(Response::HTTP_NOT_FOUND, 'File not found.');
     }
 }
 

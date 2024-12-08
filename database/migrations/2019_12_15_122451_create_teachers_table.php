@@ -16,11 +16,12 @@ return new class extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->string('phone')->unique()->nullable();
-            $table->foreignId('course_id');
-            $table->foreignId('stage_id');
             $table->string('password');
-            $table->text('bio')->nullable();
-            $table->string('video_preview')->nullable();
+            $table->string('bio')->nullable();
+            $table->text('description')->nullable();
+            $table->integer('years_of_experience')->nullable();
+            $table->foreignId('stage_id');
+            $table->foreignId('grade_id');
             $table->timestamp('email_verified_at')->nullable();
             $table->timestamps();
         });

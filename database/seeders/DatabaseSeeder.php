@@ -24,10 +24,11 @@ class DatabaseSeeder extends Seeder
             QuizSeeder::class,
             CommentSeeder::class,
             LessonNoteSeeder::class,
-            // BooksTableSeeder::class,
+            BooksTableSeeder::class,
             // VideosTableSeeder::class,
             RolePermissionsSeeder::class,
             CardSeeder::class,
+            ReviewSeeder::class,
         ]);
     }
 }

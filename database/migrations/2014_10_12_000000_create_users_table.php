@@ -19,6 +19,7 @@ return new class extends Migration
             $table->foreignId('grade_id');
             $table->foreignId('stage_id');
             $table->string('password');
+            $table->string('image')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();
             $table->timestamps();

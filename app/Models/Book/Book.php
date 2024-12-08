@@ -3,7 +3,6 @@
 namespace App\Models\Book;
 
 use App\Models\Grade\Grade;
-use App\Models\Stage\Stage;
 use App\Models\Teacher\Teacher;
 use App\Models\Term\Term;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -11,6 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
+
 class Book extends Model implements HasMedia
 {
     use HasFactory,InteractsWithMedia;

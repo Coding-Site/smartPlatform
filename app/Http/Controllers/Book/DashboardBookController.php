@@ -59,6 +59,7 @@ class DashboardBookController extends Controller
     public function update(UpdateBookRequest $request, Book $book)
     {
         try {
+
                 $validated = $request->validated();
                 $book = $this->bookRepository->updateBook($book, $validated);
                 return ApiResponse::sendResponse(201,' Book Update Successfully',new BookResource($book));

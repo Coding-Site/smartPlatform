@@ -7,6 +7,7 @@ use App\Http\Controllers\Cart\CartController;
 use App\Http\Controllers\Course\CourseController;
 use App\Http\Controllers\Order\OrderController;
 use App\Http\Controllers\Subscription\SubscriptionController;
+use App\Http\Controllers\Teacher\TeacherController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -43,7 +44,13 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/checkout', [OrderController::class, 'checkout']);
 
     Route::apiResource('books', BookController::class)->only('index','show');
+    Route::get('book/{book}/download', [BookController::class, 'download']);
 
+    Route::prefix('teachers')->group(function () {
+        Route::get('/', [TeacherController::class, 'index']);
+        Route::get('{teacher}', [TeacherController::class, 'show']);
+    });
 });
 
 Route::get('course/{course}/details', [CourseController::class, 'showCourseDetails'])->middleware('auth.optional');
+
