@@ -13,7 +13,7 @@ class Subscription extends Model
     use HasFactory;
 
     protected $fillable = [
-        'user_id','course_id','subscription_type','start_date','end_date','is_active'
+        'user_id','course_id','subscription_type','start_date','end_date','is_active','package_id'
     ];
 
     public function user(){

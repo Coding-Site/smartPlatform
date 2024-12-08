@@ -5,6 +5,7 @@ use App\Models\Cart\Cart;
 use App\Models\Course\Course;
 use App\Models\Order\Order;
 use App\Models\Order\OrderItem;
+use App\Models\Package\Package;
 use App\Models\Subscription\Subscription;
 use Illuminate\Http\Request;
 use Exception;
@@ -33,7 +34,6 @@ class OrderRepository
 
         try {
             $cart = $this->getCart($request);
-
             if (!$cart || $cart->items->isEmpty()) {
                 throw new Exception('Cart is empty');
             }
@@ -72,7 +72,7 @@ class OrderRepository
         }
     }
 
-    public function createSubscription($courseId, $userId,$type)
+    public function createSubscriptionCourse($courseId, $userId,$type)
     {
         $course = Course::findOrFail($courseId);
 
@@ -86,6 +86,22 @@ class OrderRepository
             'user_id'           => $userId,
             'course_id'         => $courseId,
             'subscription_type' => $subscriptionType,
+            'start_date'        => $startDate,
+            'end_date'          => $endDate,
+            'is_active'         => true,
+        ]);
+    }
+
+    public function createSubscriptionPackage($packageId, $userId)
+    {
+        $package = Package::findOrFail($packageId);
+        $startDate = now();
+        $endDate = $package->expiry_day;
+
+        Subscription::create([
+            'user_id'           => $userId,
+            'package_id'        => $packageId,
+            'subscription_type' => 'per_semester',
             'start_date'        => $startDate,
             'end_date'          => $endDate,
             'is_active'         => true,

@@ -38,7 +38,6 @@ class CourseController extends Controller
             }
 
             $isSubscribed = auth()->check() ? auth()->user()->hasActiveSubscription($courseId) : false;
-
             $courseDetails = [
                 'course_id' => $course->id,
                 'course_name' => $course->name,

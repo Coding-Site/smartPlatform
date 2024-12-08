@@ -42,8 +42,13 @@ class OrderController extends Controller
             // $paymentStatus
 
             foreach ($order->items as $orderItem) {
+                if ( $orderItem->package_id) {
+                    $this->orderRepo->createSubscriptionPackage($orderItem->package_id, $order->user_id);
+                }
+            }
+            foreach ($order->items as $orderItem) {
                 if ($orderItem->course_id) {
-                    $this->orderRepo->createSubscription($orderItem->course_id, $order->user_id,$subscriptionType);
+                    $this->orderRepo->createSubscriptionCourse($orderItem->course_id, $order->user_id,$subscriptionType);
                 }
             }
 
