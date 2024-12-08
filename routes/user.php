@@ -42,6 +42,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/checkout', [OrderController::class, 'checkout']);
 
     Route::apiResource('books', BookController::class)->only('index','show');
+    Route::get('book/{book}/download', [BookController::class, 'download']);
 
 });
 

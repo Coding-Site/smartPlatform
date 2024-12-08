@@ -87,9 +87,9 @@ return [
      * Here you can specify which path generator should be used for the given class.
      */
     'custom_path_generators' => [
-        // Model::class => PathGenerator::class
+        // Model::class => PathGenerators::class
         // or
-        // 'model_morph_alias' => PathGenerator::class
+        // 'model_morph_alias' => PathGenerators::class
     ],
 
     /*
@@ -100,7 +100,7 @@ return [
 
     /*
      * Moves media on updating to keep path consistent. Enable it only with a custom
-     * PathGenerator that uses, for example, the media UUID.
+     * PathGenerators that uses, for example, the media UUID.
      */
     'moves_media_on_update' => false,
 

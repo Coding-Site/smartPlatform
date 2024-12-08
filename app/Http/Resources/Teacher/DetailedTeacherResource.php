@@ -42,6 +42,8 @@ class DetailedTeacherResource extends JsonResource
             'totalVideos'           => $totalVideos,
             'courses'               => CourseResource::collection($this->courses),
             'reviews'               => ReviewResource::collection($this->reviews),
+            "token"     => $this->when(isset($this->token), $this->token),
+
         ];
 
     }

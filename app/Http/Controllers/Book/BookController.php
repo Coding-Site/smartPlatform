@@ -11,6 +11,8 @@ use App\Repositories\Book\BookRepositoryInterface;
 use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use Symfony\Component\HttpFoundation\Response;
 
 class BookController extends Controller
 {
@@ -41,5 +43,10 @@ class BookController extends Controller
         }catch (Exception $e) {
             return ApiResponse::sendResponse(500,'Failed to fetch book');
         }
+    }
+
+    public function download(Book $book)
+    {
+        return $this->bookRepository->downloadFileSample($book);
     }
 }

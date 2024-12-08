@@ -38,6 +38,9 @@ class RegisterRequest extends FormRequest
             'description'         => 'nullable|string',
             'years_of_experience' => 'nullable|integer|min:0',
             'video_preview'       => 'nullable|url',
+            'stage_id'            => 'required|numeric',
+            'grade_id'            => 'required|numeric'
+
         ];
 
     }
