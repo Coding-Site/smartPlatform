@@ -29,8 +29,5 @@ Route::middleware(['auth:teacher'])->group(function () {
     Route::apiResource('books', DashboardBookController::class);
 });
 
-Route::prefix('teachers')->group(function () {
-    Route::get('/', [TeacherController::class, 'index']);
-    Route::get('{teacher}', [TeacherController::class, 'show']);
-});
+
 
