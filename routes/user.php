@@ -30,6 +30,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::post('cart/add-course/{courseId}', [CartController::class, 'addCourseToCart']);
     Route::post('cart/add-book/{bookId}', [CartController::class, 'addBookToCart']);
+    Route::post('cart/add-package/{packageId}', [CartController::class, 'addPackageToCart']);
 
     Route::post('cart/book/increase/{bookId}', [CartController::class, 'increaseBookQuantity']);
     Route::post('cart/book/decrease/{bookId}', [CartController::class, 'decreaseBookQuantity']);

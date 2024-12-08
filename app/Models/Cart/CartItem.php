@@ -4,6 +4,7 @@ namespace App\Models\Cart;
 
 use App\Models\Book\Book;
 use App\Models\Course\Course;
+use App\Models\Package\Package;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -29,4 +30,10 @@ class CartItem extends Model
     {
         return $this->belongsTo(Book::class);
     }
+
+    public function package()
+    {
+        return $this->belongsTo(Package::class);
+    }
+
 }

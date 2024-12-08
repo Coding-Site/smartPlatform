@@ -5,6 +5,7 @@ use App\Helpers\ApiResponse;
 use App\Models\Book\Book;
 use App\Models\Cart\Cart;
 use App\Models\Course\Course;
+use App\Models\Package\Package;
 use App\Models\Subscription\Subscription;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -72,6 +73,22 @@ class CartRepository
         );
 
         return $cartItem;
+    }
+
+    public function addPackageToCart($cart,$packageId){
+        $package = Package::find($packageId);
+
+        if (!$package) {
+            throw new Exception('Package not found');
+        }
+
+        $cartItem = $cart->items()->updateOrCreate(
+            ['package_id' => $packageId],
+            ['price' => $package->price, 'quantity' => 1]
+        );
+
+        return $cartItem;
+
     }
 
     public function updateBookQuantity($cart, $bookId, $quantity)

@@ -54,6 +54,7 @@ class OrderRepository
                     'order_id'  => $order->id,
                     'course_id' => $item->course_id,
                     'book_id'   => $item->book_id,
+                    'package_id'=> $item->package_id,
                     'quantity'  => $item->quantity,
                     'price'     => $item->price,
                 ];

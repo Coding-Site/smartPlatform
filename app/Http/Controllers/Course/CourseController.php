@@ -27,40 +27,38 @@ class CourseController extends Controller
         }
     }
 
+
     public function showCourseDetails($courseId)
     {
         try {
             $course = Course::with('units.lessons')->findOrFail($courseId);
-            if(!$course) return ApiResponse::sendResponse(404,'Course Not Found');
 
-            $isSubscribed = false;
-            if (auth()->check()) {
-                $user = auth()->user();
-                $isSubscribed = $user->hasActiveSubscription($courseId);
+            if (!$course) {
+                return ApiResponse::sendResponse(404, 'Course Not Found');
             }
 
+            $isSubscribed = auth()->check() ? auth()->user()->hasActiveSubscription($courseId) : false;
+
             $courseDetails = [
-                'course_id'   => $course->id,
+                'course_id' => $course->id,
                 'course_name' => $course->name,
-                'units'       => $course->units->map(function ($unit) use ($isSubscribed) {
+                'units' => $course->units->map(function ($unit) use ($isSubscribed) {
                     return [
                         'unit_name' => $unit->title,
-                        'lessons'   => $unit->lessons->map(function ($lesson) use ($isSubscribed) {
+                        'lessons' => $unit->lessons->map(function ($lesson) use ($isSubscribed) {
                             return [
                                 'lesson_title' => $lesson->title,
-                                'video_url'    => $isSubscribed ? $lesson->url : null,
+                                'video_url' => $isSubscribed ? $lesson->url : null,
                             ];
                         }),
                     ];
                 }),
             ];
-            return ApiResponse::sendResponse(200,'Course Details',$courseDetails);
 
+            return ApiResponse::sendResponse(200, 'Course Details', $courseDetails);
         } catch (Exception $e) {
-            return ApiResponse::sendResponse(500,'Something Wents Wrong'.$e->getMessage());
+            return ApiResponse::sendResponse(500, 'Something went wrong: ' . $e->getMessage());
         }
     }
-
-
 
 }

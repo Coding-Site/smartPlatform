@@ -3,6 +3,7 @@
 namespace App\Models\Subscription;
 
 use App\Models\Course\Course;
+use App\Models\Package\Package;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -21,4 +22,11 @@ class Subscription extends Model
     public function course(){
         return $this->belongsTo(Course::class);
     }
+
+    public function package()
+    {
+        return $this->belongsTo(Package::class);
+    }
+
+
 }

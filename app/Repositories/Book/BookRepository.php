@@ -8,7 +8,7 @@ class BookRepository implements BookRepositoryInterface
 {
     public function getAllBooks()
     {
-        return Book::with(['teacher', 'term', 'grade'])->paginate(10);
+        return Book::paginate(10);
     }
 
     public function createBook(array $data)

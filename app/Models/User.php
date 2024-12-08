@@ -91,14 +91,27 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasMany(Subscription::class);
     }
-
-
     public function hasActiveSubscription($courseId)
     {
-        return $this->subscriptions()
+        $hasCourseSubscription = $this->subscriptions()
             ->where('course_id', $courseId)
             ->where('is_active', true)
+            ->whereDate('start_date', '<=', now())
             ->whereDate('end_date', '>=', now())
             ->exists();
+
+        $hasPackageSubscription = $this->subscriptions()
+            ->whereNotNull('package_id')
+            ->whereHas('package.courses', function ($query) use ($courseId) {
+                $query->where('courses.id', $courseId);
+            })
+            ->where('is_active', true)
+            ->whereDate('start_date', '<=', now())
+            ->whereDate('end_date', '>=', now())
+            ->exists();
+
+        return $hasCourseSubscription || $hasPackageSubscription;
     }
+
+
 }

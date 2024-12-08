@@ -3,6 +3,7 @@
 namespace App\Models\Course;
 
 use App\Models\Grade\Grade;
+use App\Models\Package\Package;
 use App\Models\Scopes\TermScope;
 use App\Models\Stage\Stage;
 use App\Models\Subscription\Subscription;
@@ -77,6 +78,11 @@ class Course extends Model implements HasMedia
     public function subscribers()
     {
         return $this->hasMany(Subscription::class);
+    }
+
+    public function packages()
+    {
+        return $this->belongsToMany(Package::class, 'course_package');
     }
 
 }

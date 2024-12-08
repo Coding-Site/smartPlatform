@@ -48,6 +48,16 @@ class CartController extends Controller
         }
     }
 
+    public function addPackageToCart(Request $request, $packageId){
+        try {
+            $cart = $this->getCartForUserOrGuest($request);
+            $cartItem = $this->cartRepo->addPackageToCart($cart, $packageId);
+            return ApiResponse::sendResponse(200, 'Package added to cart', $cartItem);
+        } catch (Exception $e) {
+            return ApiResponse::sendResponse(500, 'Failed to add Package to cart: ' . $e->getMessage());
+        }
+    }
+
     public function increaseBookQuantity(Request $request, $bookId)
     {
         try {
