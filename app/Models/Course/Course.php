@@ -2,9 +2,10 @@
 
 namespace App\Models\Course;
 
+use App\Models\Exam\Exam;
+use App\Models\Exam\ExamBank;
 use App\Models\Grade\Grade;
 use App\Models\Package\Package;
-use App\Models\Scopes\TermScope;
 use App\Models\Stage\Stage;
 use App\Models\Subscription\Subscription;
 use App\Models\Teacher\Teacher;
@@ -83,6 +84,16 @@ class Course extends Model implements HasMedia
     public function packages()
     {
         return $this->belongsToMany(Package::class, 'course_package');
+    }
+
+    public function exams() : HasMany
+    {
+        return $this->hasMany(Exam::class);
+    }
+
+    public function examBanks() : HasMany
+    {
+        return $this->hasMany(ExamBank::class);
     }
 
 }

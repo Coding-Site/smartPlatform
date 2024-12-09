@@ -5,6 +5,7 @@ namespace App\Models\Grade;
 use App\Models\Book\Book;
 use App\Models\Course\Course;
 use App\Models\Exam\Exam;
+use App\Models\Exam\ExamBank;
 use App\Models\Stage\Stage;
 use App\Models\Term\Term;
 use App\Models\User;
@@ -35,6 +36,11 @@ class Grade extends Model
     public function exams() : HasMany
     {
         return $this->hasMany(Exam::class);
+    }
+
+    public function examBanks() : HasMany
+    {
+        return $this->hasMany(ExamBank::class);
     }
 
     public function term() : BelongsTo
