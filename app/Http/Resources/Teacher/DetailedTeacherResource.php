@@ -30,6 +30,7 @@ class DetailedTeacherResource extends JsonResource
         return [
             'id'                    => $this->id,
             'name'                  => $this->name,
+            'user_type'             => 'teacher',
             'email'                 => $this->email,
             'phone'                 => $this->phone,
             'image'                 => $this->getFirstMediaUrl('image'),
@@ -38,11 +39,11 @@ class DetailedTeacherResource extends JsonResource
             'years_of_experience'   => $this->years_of_experience ?? null,
             'average_rating'        => round($this->averageRating(), 1),
             'stage'                 => $this->stage->translations->firstWhere('locale', request()->get('lang', app()->getLocale()))->name ,
-            'totalStudents'            => $totalStudents,
+            'totalStudents'         => $totalStudents,
             'totalVideos'           => $totalVideos,
             'courses'               => CourseResource::collection($this->courses),
             'reviews'               => ReviewResource::collection($this->reviews),
-            "token"     => $this->when(isset($this->token), $this->token),
+            "token"                 => $this->when(isset($this->token), $this->token),
 
         ];
 

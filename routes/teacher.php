@@ -14,9 +14,9 @@ Route::controller(TeacherAuthController::class)->group(function (){
     Route::middleware(['set-language'])->group(function () {
         Route::post('/register','register');
         Route::post('/verify-email','verifyEmail');
-        Route::post('/login','login')->name('login');
-        Route::post('/forgot-password','forgotPassword');
-        Route::post('/reset-password','resetPassword');
+        // Route::post('/login','login')->name('login');
+        // Route::post('/forgot-password','forgotPassword');
+        // Route::post('/reset-password','resetPassword');
         Route::middleware(['auth:teacher'])->group(function () {
             Route::post('/change-password','changePassword');
             Route::post('/logout','logout');

@@ -28,23 +28,23 @@ class RouteServiceProvider extends ServiceProvider
 
         $this->routes(function () {
             Route::middleware('api')
-                ->prefix('api')
+                // ->prefix('api')
                 ->group(base_path('routes/api.php'));
 
             Route::middleware('web')
                 ->group(base_path('routes/web.php'));
 
-            Route::prefix('api/user')
+            Route::prefix('user')
                 ->middleware('api')
                 ->namespace($this->namespace)
                 ->group(base_path('routes/user.php'));
 
-            Route::prefix('api/admin')
+            Route::prefix('admin')
                 ->middleware('api')
                 ->namespace($this->namespace)
                 ->group(base_path('routes/admin.php'));
 
-            Route::prefix('api/teacher')
+            Route::prefix('teacher')
                 ->middleware('api')
                 ->namespace($this->namespace)
                 ->group(base_path('routes/teacher.php'));

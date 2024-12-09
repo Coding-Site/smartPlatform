@@ -49,61 +49,63 @@ class UserAuthController extends Controller
         }
     }
 
-    public function login(LoginRequest $request)
-    {
-        try {
-            if (!Auth::attempt($request->only('email', 'password'))) {
-                return ApiResponse::sendResponse(401, __('messages.Invalid_credentials'));
-            }
+    // public function login(LoginRequest $request)
+    // {
+    //     try {
+    //         if (!Auth::attempt($request->only('email', 'password'))) {
+    //             return ApiResponse::sendResponse(401, __('messages.Invalid_credentials'));
+    //         }
 
-            $user = Auth::user();
-            if (!$user->email_verified_at) {
-                return ApiResponse::sendResponse(403, __('messages.User_not_verify'));
-            }
+    //         $user = Auth::user();
+    //         if (!$user->email_verified_at) {
+    //             return ApiResponse::sendResponse(403, __('messages.User_not_verify'));
+    //         }
 
-            $user->token = $user->createToken('UserToken')->plainTextToken;
-            return ApiResponse::sendResponse(200, __('messages.login_success'), new UserResource($user));
-        } catch (Exception $e) {
-            return ApiResponse::sendResponse(500, __('messages.login_fail') , $e->getMessage());
-        }
-    }
+    //         $user->token = $user->createToken('UserToken')->plainTextToken;
+    //         return ApiResponse::sendResponse(200, __('messages.login_success'), new UserResource($user));
+    //     } catch (Exception $e) {
+    //         return ApiResponse::sendResponse(500, __('messages.login_fail') , $e->getMessage());
+    //     }
+    // }
 
-    public function forgotPassword(ForgotPasswordRequest $request)
-    {
-        try {
-            $email = $request->validated()['email'];
-            $this->authRepository->findByEmail($email);
-            $token = $this->authRepository->createResetToken($email);
-            $this->authRepository->sendResetEmail($email, $token);
 
-            return ApiResponse::sendResponse(200, __('message.Password_reset_link_sent'));
-        } catch (Exception $e) {
-            return ApiResponse::sendResponse(500, __('message.Failed_to_send_reset_link') , $e->getMessage());
-        }
-    }
+    // public function forgotPassword(ForgotPasswordRequest $request)
+    // {
+    //     try {
+    //         $email = $request->validated()['email'];
+    //         $this->authRepository->findUserByEmail($email);
+    //         $token = $this->authRepository->createResetToken($email);
+    //         $this->authRepository->sendResetEmail($email, $token);
 
-    public function resetPassword(ResetPasswordRequest $request)
-    {
-        try {
-            $data = $request->validated();
-            $this->authRepository->resetPassword(
-                $data['email'],
-                $data['password'],
-                $data['password_confirmation'],
-                $data['token']
-            );
+    //         return ApiResponse::sendResponse(200, __('message.Password_reset_link_sent'));
+    //     } catch (Exception $e) {
+    //         return ApiResponse::sendResponse(500, __('message.Failed_to_send_reset_link') , $e->getMessage());
+    //     }
+    // }
 
-            return ApiResponse::sendResponse(200, __('message.Password_reset_successfully'));
-        } catch (Exception $e) {
-            return ApiResponse::sendResponse(400, __('message.Failed_to_reset_password') , $e->getMessage());
-        }
-    }
+    // public function resetPassword(ResetPasswordRequest $request)
+    // {
+    //     try {
+    //         $data = $request->validated();
+    //         $this->authRepository->resetPassword(
+    //             $data['email'],
+    //             $data['password'],
+    //             $data['password_confirmation'],
+    //             $data['token']
+    //         );
+
+    //         return ApiResponse::sendResponse(200, __('message.Password_reset_successfully'));
+    //     } catch (Exception $e) {
+    //         return ApiResponse::sendResponse(400, __('message.Failed_to_reset_password') , $e->getMessage());
+    //     }
+    // }
+
 
     public function changePassword(ChangePasswordRequest $request)
     {
         try {
             $data = $request->validated();
-            $user = Auth::user();
+            $user = Auth::guard('user')->user();
 
             $updatedUser = $this->authRepository->changePassword(
                 $user,

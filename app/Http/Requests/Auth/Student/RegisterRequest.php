@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Auth\Student;
 
+use App\Rules\UniqueEmailAcrossGuards;
 use Illuminate\Foundation\Http\FormRequest;
 
 class RegisterRequest extends FormRequest
@@ -23,7 +24,7 @@ class RegisterRequest extends FormRequest
     {
         return [
             'name'     => 'required|string|max:255',
-            'email'    => 'required|email|unique:users',
+            'email'    => ['required', 'email', new UniqueEmailAcrossGuards],
             'password' => 'required|string|min:8|confirmed',
             'grade_id'    => 'required|integer|exists:grades,id',
             'stage_id'    => 'required|integer|exists:stages,id',

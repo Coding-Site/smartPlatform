@@ -20,7 +20,7 @@ use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\Permission\Traits\HasRoles;
 
-class Teacher extends Authenticatable implements MustVerifyEmail , HasMedia
+class Teacher extends Authenticatable implements  HasMedia
 {
     use HasFactory, HasApiTokens, Notifiable,HasRoles, InteractsWithMedia;
     protected $guard_name = 'teacher';
