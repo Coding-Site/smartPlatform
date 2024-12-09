@@ -3,6 +3,8 @@
 use App\Http\Controllers\Auth\TeacherAuthController;
 use App\Http\Controllers\Book\DashboardBookController;
 use App\Http\Controllers\Course\DashboardCourseController;
+use App\Http\Controllers\Exam\ExamBankController;
+use App\Http\Controllers\Exam\ExamController;
 use App\Http\Controllers\Lesson\DashboardLessonController;
 use App\Http\Controllers\Teacher\TeacherController;
 use App\Http\Controllers\Unit\UnitController;
@@ -27,6 +29,8 @@ Route::middleware(['auth:teacher'])->group(function () {
     Route::apiResource('units', UnitController::class);
     Route::apiResource('lessons', DashboardLessonController::class);
     Route::apiResource('books', DashboardBookController::class);
+    Route::apiResource('exams', ExamController::class);
+    Route::apiResource('exam-banks', ExamBankController::class);
 });
 
 

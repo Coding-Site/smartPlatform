@@ -11,20 +11,13 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
-class Exam extends Model implements HasMedia
+class ExamBank extends Model implements HasMedia
 {
     use HasFactory , InteractsWithMedia;
 
     protected $fillable = [
-        'name',
-        'grade_id',
-        'term_id',
-        'course_id',
-        'short_first',
-        'short_second',
-        'solved_exams',
-        'unsolved_exams',
-        'final_revision',
+        'name', 'grade_id', 'term_id', 'course_id',
+        'unresolved', 'solved', 'book_solution'
     ];
 
     public function grade() : BelongsTo
