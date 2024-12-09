@@ -8,7 +8,6 @@ use App\Http\Requests\Auth\Teacher\ChangePasswordRequest;
 use App\Http\Requests\Auth\Teacher\ForgotPasswordRequest;
 use App\Http\Requests\Auth\Teacher\LoginRequest;
 use App\Http\Requests\Auth\Teacher\RegisterRequest;
-use App\Http\Requests\Auth\Teacher\VerifyEmailRequest;
 use App\Http\Resources\Teacher\DetailedTeacherResource;
 
 use App\Repositories\Auth\TeacherAuthRepository;
