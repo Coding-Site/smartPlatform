@@ -14,11 +14,11 @@ return new class extends Migration
         Schema::create('order_books', function (Blueprint $table) {
             $table->id();
             $table->string('phone');
-            $table->string('address');
+            $table->text('address');
             $table->foreignId('city_id')->constrained()->onDelete('cascade');
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->foreignId('mandub_id')->nullable();
-            $table->enum('status', ['new', 'current','complate','finish'])->default('new');
+            $table->foreignId('mandub_id')->nullable()->constrained()->onDelete('set null');
+            $table->string('status')->default('new');
             $table->string('total_price')->nullable(); /// books + deliver
             $table->timestamps();
         });
