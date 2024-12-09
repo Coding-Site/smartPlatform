@@ -29,6 +29,8 @@ class DatabaseSeeder extends Seeder
             RolePermissionsSeeder::class,
             CardSeeder::class,
             ReviewSeeder::class,
+            CitySeeder::class,
+            MandubSeeder::class,
         ]);
     }
 }
