@@ -11,12 +11,10 @@ use App\Http\Requests\Auth\Teacher\RegisterRequest;
 use App\Http\Requests\Auth\Teacher\ResetPasswordRequest;
 use App\Http\Requests\Auth\Teacher\VerifyEmailRequest;
 use App\Http\Resources\Teacher\DetailedTeacherResource;
-use App\Models\Admin\Admin;
-use App\Models\Teacher\Teacher;
+
 use App\Repositories\Auth\TeacherAuthRepository;
 use Exception;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 
 class TeacherAuthController extends Controller
 {
