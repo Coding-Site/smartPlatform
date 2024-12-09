@@ -14,12 +14,10 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::middleware(['set-language'])->group(function () {
-    Route::post('/register', [UserAuthController::class, 'register']);
     Route::controller(UserAuthController::class)->group(function (){
         // Route::post('/register','register');
-
         Route::post('/verify-email','verifyEmail');
-
+        Route::post('/user-register','register');
         Route::middleware(['auth:sanctum'])->group(function () {
             Route::post('/change-password','changePassword');
             Route::post('/logout','logout');
