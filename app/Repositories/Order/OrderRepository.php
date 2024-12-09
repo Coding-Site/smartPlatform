@@ -1,6 +1,7 @@
 <?php
 namespace App\Repositories\Order;
 
+use App\Models\Book\Book;
 use App\Models\Cart\Cart;
 use App\Models\Course\Course;
 use App\Models\Order\Order;
@@ -106,6 +107,13 @@ class OrderRepository
             'end_date'          => $endDate,
             'is_active'         => true,
         ]);
+    }
+    public function getBooksFromPackage($packageId)
+    {
+        return DB::table('packages')
+            ->where('package_id', $packageId)
+            ->pluck('book_id')
+            ->toArray();
     }
 
 }

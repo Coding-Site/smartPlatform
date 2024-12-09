@@ -106,6 +106,18 @@ class CartController extends Controller
         }
     }
 
+    public function removePackageFromCart(Request $request, $packageId)
+    {
+        try {
+            $cart = $this->getCartForUserOrGuest($request);
+            $this->cartRepo->removeItemFromCart($cart, 'package', $packageId);
+
+            return ApiResponse::sendResponse(200, 'Package removed from cart');
+        } catch (Exception $e) {
+            return ApiResponse::sendResponse(500, 'Failed to remove Package from cart: ' . $e->getMessage());
+        }
+    }
+
     private function getCartForUserOrGuest(Request $request)
     {
         try {

@@ -38,6 +38,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::post('cart/book/remove/{bookId}', [CartController::class, 'removeBookFromCart']);
     Route::post('cart/course/remove/{courseId}', [CartController::class, 'removeCourseFromCart']);
+    Route::post('cart/package/remove/{packageId}', [CartController::class, 'removePackageFromCart']);
 
     Route::get('/cart', [CartController::class, 'viewCart']);
 
