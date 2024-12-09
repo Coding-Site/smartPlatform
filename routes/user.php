@@ -5,6 +5,8 @@ use App\Http\Controllers\Auth\UserAuthController;
 use App\Http\Controllers\Book\BookController;
 use App\Http\Controllers\Cart\CartController;
 use App\Http\Controllers\Course\CourseController;
+use App\Http\Controllers\Exam\ExamBankController;
+use App\Http\Controllers\Exam\ExamController;
 use App\Http\Controllers\Order\OrderController;
 use App\Http\Controllers\Subscription\SubscriptionController;
 use App\Http\Controllers\Teacher\TeacherController;
@@ -45,6 +47,10 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::apiResource('books', BookController::class)->only('index','show');
     Route::get('book/{book}/download', [BookController::class, 'download']);
+
+    Route::get('exams/{exam}/download/{fileType}', [ExamController::class, 'download']);
+    Route::get('exam-banks/{examBank}/download/{fileType}', [ExamBankController::class, 'download']);
+
 
     Route::prefix('teachers')->group(function () {
         Route::get('/', [TeacherController::class, 'index']);

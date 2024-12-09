@@ -87,6 +87,10 @@ class ExamBankController extends Controller
     public function download(ExamBank $examBank, $fileType)
     {
         try {
+            if (!in_array($fileType, ['unresolved', 'solved', 'book_solution'])) {
+                return ApiResponse::sendResponse(400, 'Invalid file type');
+            }
+
             return $this->examBankRepository->downloadExamBankFile($examBank->id, $fileType);
         } catch (Exception $e) {
             return ApiResponse::sendResponse(500, 'Failed to download file');

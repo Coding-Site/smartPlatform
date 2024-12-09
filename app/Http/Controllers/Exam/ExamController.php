@@ -86,9 +86,14 @@ class ExamController extends Controller
     public function download(Exam $exam, $fileType)
     {
         try {
+            if (!in_array($fileType, ['short_first', 'short_second', 'solved_exams', 'unsolved_exams', 'final_review'])) {
+                return ApiResponse::sendResponse(400, 'Invalid file type');
+            }
+
             return $this->examRepository->downloadExamFile($exam->id, $fileType);
         } catch (Exception $e) {
             return ApiResponse::sendResponse(500, 'Failed to download file');
         }
     }
+
 }
