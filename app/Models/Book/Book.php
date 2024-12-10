@@ -4,6 +4,7 @@ namespace App\Models\Book;
 
 use App\Models\Grade\Grade;
 use App\Models\MandubStore;
+use App\Models\Stage\Stage;
 use App\Models\Teacher\Teacher;
 use App\Models\Term\Term;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -27,6 +28,7 @@ class Book extends Model implements HasMedia
         'quantity',
         'teacher_id',
         'term_id',
+        'stage_id',
         'grade_id',
     ];
 
@@ -44,6 +46,16 @@ class Book extends Model implements HasMedia
     //     static::addGlobalScope(new TermScope(2));
     // }
 
+    public function scopeFilter($query, $stageId = null, $gradeId = null)
+    {
+        if ($stageId) {
+            $query->where('stage_id', $stageId);
+        }
+        if ($gradeId) {
+            $query->where('grade_id', $gradeId);
+        }
+        return $query;
+    }
 
     public function teacher() : BelongsTo
     {
@@ -58,6 +70,11 @@ class Book extends Model implements HasMedia
     public function term() : BelongsTo
     {
         return $this->belongsTo(Term::class);
+    }
+
+    public function stage() : BelongsTo
+    {
+        return $this->belongsTo(Stage::class);
     }
 
     public function orderBookDetails() : HasMany

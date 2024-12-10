@@ -2,6 +2,7 @@
 
 namespace App\Models\Stage;
 
+use App\Models\Book\Book;
 use App\Models\Course\Course;
 use App\Models\Grade\Grade;
 use App\Models\Teacher\Teacher;
@@ -38,6 +39,11 @@ class Stage extends Model
     public function courses()
     {
         return $this->hasManyThrough(Course::class, Grade::class,'stage_id','grade_id');
+    }
+
+    public function books()  : HasMany
+    {
+        return $this->hasMany(Book::class);
     }
 
 }

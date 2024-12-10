@@ -8,9 +8,9 @@ use Illuminate\Http\Response;
 
 class BookRepository implements BookRepositoryInterface
 {
-    public function getAllBooks()
+    public function getAllBooks($stageId = null, $gradeId = null)
     {
-        return Book::paginate(10);
+        return Book::filter($stageId, $gradeId)->paginate(10);
     }
 
     public function createBook(array $data)

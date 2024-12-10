@@ -20,6 +20,7 @@ class BooksTableSeeder extends Seeder
                 "term_id"  => 1,
                 "price" => 100,
                 "quantity" => 20,
+                "stage_id"=> 1,
                 "grade_id" => 1
             ],
             [
@@ -28,6 +29,7 @@ class BooksTableSeeder extends Seeder
                 "term_id"  => 1,
                 "price" => 100,
                 "quantity" => 20,
+                "stage_id"=> 2,
                 "grade_id" => 2
 
             ],
@@ -37,6 +39,7 @@ class BooksTableSeeder extends Seeder
                 "term_id"  => 2,
                 "price" => 100,
                 "quantity" => 20,
+                "stage_id"=> 1,
                 "grade_id" => 3
             ],
             [
@@ -45,6 +48,7 @@ class BooksTableSeeder extends Seeder
                 "term_id"  => 2,
                 "price" => 100,
                 "quantity" => 20,
+                "stage_id"=> 3,
                 "grade_id" => 4
             ],
         ];
