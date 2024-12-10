@@ -25,7 +25,7 @@ class UserAuthController extends Controller
         $this->authRepository = $authRepository;
     }
 
-    public function register(RegisterRequest $request)
+    public function signup(RegisterRequest $request)
     {
         try {
             $user = $this->authRepository->create($request->validated());
