@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::create('lesson_notes', function (Blueprint $table) {
             $table->id();
-            $table->string('file')->nullable();
             $table->foreignId('lesson_id')->constrained()->cascadeOnDelete();
             $table->timestamps();
         });

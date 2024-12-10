@@ -15,7 +15,6 @@ class LessonNoteSeeder extends Seeder
         for ($i = 0; $i < 5; $i++) {
             LessonNote::create([
                 'lesson_id' => $faker->numberBetween(1, 10),
-                'file' =>  $faker->word . '.pdf',
             ]);
         }
     }

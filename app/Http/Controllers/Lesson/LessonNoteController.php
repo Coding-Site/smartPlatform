@@ -14,7 +14,7 @@ class LessonNoteController extends Controller
             return ApiResponse::sendResponse(404, 'Lesson note not found');
         }
 
-        $filePath = storage_path('app/public/lesson_notes/' . $lessonNote->file);
+        $filePath = $lessonNote->getFirstMediaPath();
 
         if (!file_exists($filePath)) {
             return ApiResponse::sendResponse(404, 'File not found');
