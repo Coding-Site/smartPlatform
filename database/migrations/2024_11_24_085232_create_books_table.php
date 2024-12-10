@@ -19,6 +19,7 @@ return new class extends Migration
             $table->decimal('covering_price',8,2)->nullable();
             $table->decimal('price', 8, 2)->default(0);
             $table->integer('quantity')->default(0);
+            $table->string('type')->nullable();
             $table->foreignId('teacher_id')->constrained('teachers')->onDelete('cascade');
             $table->foreignId('term_id')->constrained('terms')->onDelete('cascade');
             $table->foreignId('stage_id')->constrained('stages')->onDelete('cascade');

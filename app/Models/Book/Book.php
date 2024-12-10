@@ -2,6 +2,7 @@
 
 namespace App\Models\Book;
 
+use App\Enums\Stage\Type;
 use App\Models\Grade\Grade;
 use App\Models\MandubStore;
 use App\Models\Stage\Stage;
@@ -24,8 +25,8 @@ class Book extends Model implements HasMedia
         'paper_count',
         'covering_price',
         'price',
-        'file_sample',
         'quantity',
+        'type',
         'teacher_id',
         'term_id',
         'stage_id',
@@ -39,6 +40,7 @@ class Book extends Model implements HasMedia
         'price' => 'decimal:2',
         'quantity' => 'integer',
         'paper_count' => 'integer',
+        'type' => Type::class,
     ];
 
     // protected static function booted(): void
@@ -46,16 +48,23 @@ class Book extends Model implements HasMedia
     //     static::addGlobalScope(new TermScope(2));
     // }
 
-    public function scopeFilter($query, $stageId = null, $gradeId = null)
+    public function scopeFilter($query, $stageId = null, $gradeId = null, $type = null)
     {
         if ($stageId) {
             $query->where('stage_id', $stageId);
         }
+
         if ($gradeId) {
             $query->where('grade_id', $gradeId);
         }
+
+        if ($type) {
+            $query->where('type', $type);
+        }
+
         return $query;
     }
+
 
     public function teacher() : BelongsTo
     {

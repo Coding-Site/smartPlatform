@@ -18,8 +18,9 @@ class CourseController extends Controller
         try {
             $stageId = $request->query('stage_id');
             $gradeId = $request->query('grade_id');
+            $type = $request->query('type');
 
-            $courses = Course::filter($stageId, $gradeId)->with('translations')->get();
+            $courses = Course::filter($stageId, $gradeId,$type)->with('translations')->get();
 
             return ApiResponse::sendResponse(200, 'Courses retrieved successfully', CourseResource::collection($courses));
         } catch (Exception $e) {

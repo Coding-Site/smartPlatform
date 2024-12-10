@@ -27,8 +27,9 @@ class BookController extends Controller
         try {
             $stageId = $request->query('stage_id');
             $gradeId = $request->query('grade_id');
+            $type = $request->query('type');
 
-            $books = $this->bookRepository->getAllBooks($stageId, $gradeId);
+            $books = $this->bookRepository->getAllBooks($stageId, $gradeId, $type);
 
             return ApiResponse::sendResponse(200, 'All Books', BookResource::collection($books));
         } catch (Exception $e) {

@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Enums\Stage\Type;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;

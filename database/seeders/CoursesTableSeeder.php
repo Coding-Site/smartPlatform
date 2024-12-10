@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Enums\Stage\Type;
 use App\Models\Course\Course;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -22,6 +23,7 @@ class CoursesTableSeeder extends Seeder
                     'teacher_id' => 1,
                     'term_id' => 1,
                     'stage_id' => 1,
+                    'type' => Type::Scientific->value,
                     'grade_id' => $gradeId,
 
                     'translations' => [
@@ -36,6 +38,7 @@ class CoursesTableSeeder extends Seeder
                     'teacher_id' => 2,
                     'term_id' => 1,
                     'stage_id' => 1,
+                    'type' => Type::Scientific->value,
                     'grade_id' => $gradeId,
                     'translations' => [
                         'en' => ['name' => 'English Language'],
@@ -49,6 +52,7 @@ class CoursesTableSeeder extends Seeder
                     'teacher_id' => 3,
                     'term_id' => 1,
                     'stage_id' => 3,
+                    'type' => Type::Literary->value,
                     'grade_id' => $gradeId,
                     'translations' => [
                         'en' => ['name' => 'Science'],
@@ -91,6 +95,7 @@ class CoursesTableSeeder extends Seeder
                     'teacher_id'    => $courseData['teacher_id'],
                     'term_id'       => $courseData['term_id'],
                     'stage_id'      => $courseData['stage_id'],
+                    'type' => $courseData['type'] ?? Type::Scientific->value,
                     'grade_id'      => $courseData['grade_id'],
                 ]);
 

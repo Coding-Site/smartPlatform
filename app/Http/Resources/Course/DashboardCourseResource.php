@@ -25,6 +25,7 @@ class DashboardCourseResource extends JsonResource
                 'stage'         => $this->stage->name ?? null,
                 'grade'         => $this->grade->name ?? null,
                 'name'          => $this->name,
+                'type'          => $this->type,
                 'units'         => UnitResource::collection($this->units),
             ];
         }

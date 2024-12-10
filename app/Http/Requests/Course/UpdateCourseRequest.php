@@ -29,6 +29,7 @@ class UpdateCourseRequest extends FormRequest
             'teacher_id'            => 'required|exists:teachers,id',
             'stage_id'              => 'required|exists:stages,id',
             'grade_id'              => 'required|exists:grades,id',
+            'type'                  => 'nullable|string|in:Scientific,Literary',
             'translations'          => 'required|array',
             'translations.*.locale' => 'required|string|max:2',
             'translations.*.name'   => 'required|string|max:255',
