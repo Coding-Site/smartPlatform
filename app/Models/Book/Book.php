@@ -86,14 +86,19 @@ class Book extends Model implements HasMedia
         return $this->belongsTo(Stage::class);
     }
 
-    public function orderBookDetails() : HasMany
-    {
-        return $this->hasMany(OrderBookDetail::class);
-    }
+    public function orderDetails()
+{
+    return $this->hasMany(OrderBookDetail::class);
+}
 
     public function mandubStore() : BelongsTo
     {
         return $this->belongsTo(MandubStore::class);
+    }
+
+    public function orders()
+    {
+        return $this->hasManyThrough(OrderBookDetail::class, OrderBook::class, 'id', 'book_id', 'id', 'order_book_id');
     }
 
     // public function stage()

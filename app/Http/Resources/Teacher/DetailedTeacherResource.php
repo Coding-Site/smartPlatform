@@ -17,7 +17,7 @@ class DetailedTeacherResource extends JsonResource
     public function toArray(Request $request): array
     {
         $totalStudents = $this->courses->sum(function ($course) {
-            return $course->subscribers->count();
+            return $course->subscriptions->count();
         });
 
         $totalVideos = $this->courses->sum(function ($course) {

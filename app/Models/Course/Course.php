@@ -89,7 +89,12 @@ class Course extends Model implements HasMedia
         return $query;
     }
 
-    public function subscribers()
+    // public function subscribers()
+    // {
+    //     return $this->hasMany(Subscription::class);
+    // }
+
+    public function subscriptions()
     {
         return $this->hasMany(Subscription::class);
     }
