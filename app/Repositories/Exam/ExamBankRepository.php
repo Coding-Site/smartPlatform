@@ -13,6 +13,17 @@ class ExamBankRepository implements ExamBankRepositoryInterface
         return ExamBank::paginate(10);
     }
 
+    public function getBanksByCourse($courseId)
+    {
+        return ExamBank::where('course_id', $courseId)->get();
+    }
+
+
+    public function getExamBankById($examBankId)
+    {
+        return ExamBank::findOrFail($examBankId);
+    }
+
     public function createExamBank(array $data)
     {
         $unresolvedPdf = $data['unresolved'] ?? null;
@@ -36,11 +47,6 @@ class ExamBankRepository implements ExamBankRepositoryInterface
         }
 
         return $examBank;
-    }
-
-    public function getExamBankById($examBankId)
-    {
-        return ExamBank::findOrFail($examBankId);
     }
 
     public function updateExamBank($examBankId, array $data)

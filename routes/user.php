@@ -74,11 +74,11 @@ Route::get('books', [BookController::class, 'index']);
 Route::get('book/{book}/download', [BookController::class, 'download']);
 
 //exams
-Route::get('exams', [ExamController::class, 'index']);
+Route::get('/course/{courseId}/exams', [ExamController::class, 'getExamsForCourse']);
 Route::get('exams/{exam}/download/{fileType}', [ExamController::class, 'download']);
 
 //examBanks
-Route::get('exam-banks', [ExamBankController::class, 'index']);
+Route::get('/course/{courseId}/exam-banks', [ExamBankController::class, 'getBanksByCourse']);
 Route::get('exam-banks/{examBank}/download/{fileType}', [ExamBankController::class, 'download']);
 
 //teachers

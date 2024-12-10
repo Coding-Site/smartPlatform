@@ -14,6 +14,16 @@ class ExamRepository implements ExamRepositoryInterface
         return Exam::paginate(10);
     }
 
+    public function getExamsByCourse($courseId)
+    {
+        return Exam::where('course_id', $courseId)->get();
+    }
+
+    public function getExamById($examId)
+    {
+        return Exam::findOrFail($examId);
+    }
+
     public function createExam(array $data)
     {
         $shortFirstPdf = $data['short_first'] ?? null;
@@ -47,11 +57,6 @@ class ExamRepository implements ExamRepositoryInterface
         }
 
         return $exam;
-    }
-
-    public function getExamById($examId)
-    {
-        return Exam::findOrFail($examId);
     }
 
     public function updateExam($examId, array $data)
