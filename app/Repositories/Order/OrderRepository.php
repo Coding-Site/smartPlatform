@@ -118,4 +118,57 @@ class OrderRepository
             ->toArray();
     }
 
+    public function createOrderBooks(array $data, array $booksWithQuantities, float $totalPrice)
+    {
+        $orderBook = DB::table('order_books')->insertGetId([
+            'phone'       => $data['phone'],
+            'address'     => $data['address'],
+            'city_id'     => $data['city_id'],
+            'user_id'     => $data['user_id'],
+            'status'      => 'new',
+            'total_price' => $totalPrice,
+        ]);
+
+        $orderBookDetails = collect($booksWithQuantities)->map(function ($quantity, $bookId) use ($orderBook) {
+            return [
+                'order_book_id' => $orderBook,
+                'book_id'       => $bookId,
+                'quantity'      => $quantity,
+            ];
+        })->toArray();
+
+        DB::table('order_book_details')->insert($orderBookDetails);
+    }
+
+    public function getCityDeliveryPrice(int $cityId): float
+    {
+        return DB::table('cities')
+            ->where('id', $cityId)
+            ->value('deliver_price') ?? 0;
+    }
+
+    public function processPackageBooks(array $data, array $packageBooks, float $totalPrice)
+    {
+        $orderBook = DB::table('order_books')->insertGetId([
+            'phone'       => $data['phone'],
+            'address'     => $data['address'],
+            'city_id'     => $data['city_id'],
+            'user_id'     => $data['user_id'],
+            'status'      => 'new',
+            'total_price' => $totalPrice,
+        ]);
+
+        $orderBookDetails = collect($packageBooks)->map(function ($quantity, $bookId) use ($orderBook) {
+            return [
+                'order_book_id' => $orderBook,
+                'book_id'       => $bookId,
+                'quantity'      => $quantity,
+            ];
+        })->toArray();
+
+        DB::table('order_book_details')->insert($orderBookDetails);
+    }
+
+
+
 }

@@ -22,10 +22,19 @@ class CheckoutRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'phone'    => 'required',
-            'address'  => 'required|string',
-            'city_id'  => 'required',
-            'status'   => 'new',
+            'phone'             => 'required',
+            'address'           => 'required|string',
+            'city_id'           => 'required',
+            'status'            => 'new',
+            'user_id'           => 'required',
+            'subscription_type' =>'sometimes'
         ];
+    }
+
+    public function prepareForValidation()
+    {
+        $this->merge(input: [
+            'user_id' => auth()->user()->id
+        ]);
     }
 }
