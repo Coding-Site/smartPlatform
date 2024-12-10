@@ -31,8 +31,9 @@ class UserAuthController extends Controller
             $user = $this->authRepository->create($request->validated());
             $token = $this->authRepository->generateActivationToken($user);
             $this->authRepository->sendActivationEmail($user, $token);
+            $user->token = $user->createToken('UserToken')->plainTextToken;
 
-            return ApiResponse::sendResponse(201, __('messages.user_register'));
+            return ApiResponse::sendResponse(201, __('messages.user_register'),new UserResource($user));
         } catch (Exception $e) {
             return ApiResponse::sendResponse(500, __('messages.Registration_failed') , $e->getMessage());
         }

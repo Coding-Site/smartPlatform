@@ -29,8 +29,9 @@ class TeacherAuthController extends Controller
             $teacher = $this->authRepository->createTeacher($request->validated());
             $token = $this->authRepository->generateTeacherActivationToken($teacher);
             $this->authRepository->sendTeacherActivationEmail($teacher, $token);
+            $teacher->token = $teacher->createToken('Api Token')->plainTextToken;
 
-            return ApiResponse::sendResponse(201, __('messages.user_register'));
+            return ApiResponse::sendResponse(201, __('messages.user_register'),new DetailedTeacherResource($teacher));
         } catch (Exception $e) {
             return ApiResponse::sendResponse(500, __('messages.Registration_failed'), $e->getMessage());
         }

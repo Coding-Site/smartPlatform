@@ -24,13 +24,10 @@ class Mandub extends  Authenticatable  implements HasMedia
 
 
     protected $fillable = [
-        'name', 'email', 'phone','password','image'
+        'name', 'email', 'phone','password','image','city_id'
     ];
 
-    public function city() : BelongsTo
-    {
-        return $this->belongsTo(City::class);
-    }
+
 
     public function cities() : BelongsToMany
     {

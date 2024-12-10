@@ -46,9 +46,11 @@ class OrderController extends Controller
                 if ($orderItem->course_id) {
                     $this->orderRepo->createSubscriptionCourse($orderItem->course_id, $order->user_id,$subscriptionType);
                 }
+
                 if ($orderItem->package_id) {
                     $this->orderRepo->createSubscriptionPackage($orderItem->package_id, $order->user_id);
-                    // $packageBooks= $this->orderRepo->getBooksFromPackage($orderItem->package_id);
+                    $packageBooks= $this->orderRepo->getBooksFromPackage($orderItem->package_id);
+                    dd($packageBooks);
                     // add to order book table --> mandub
                 }
             }

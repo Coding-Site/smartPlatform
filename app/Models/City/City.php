@@ -18,12 +18,8 @@ class City extends Model
         'name', 'deliver_price'
     ];
 
-    public function mandubs() : HasMany
-    {
-        return $this->hasMany(Mandub::class);
-    }
 
-    public function mandubsManyToMany() : BelongsToMany
+    public function mandubs() : BelongsToMany
     {
         return $this->belongsToMany(Mandub::class, 'mandub_cities');
     }
