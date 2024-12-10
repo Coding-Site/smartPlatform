@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Order;
 
 use App\Helpers\ApiResponse;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Checkout\CheckoutRequest;
 use App\Http\Resources\Order\OrderResource;
 use App\Models\Order\Order;
 use App\Repositories\Order\OrderRepository;
@@ -31,8 +32,9 @@ class OrderController extends Controller
         return ApiResponse::sendResponse(200, 'Order details retrieved successfully', new OrderResource($order));
     }
 
-    public function checkout(Request $request)
+    public function checkout(CheckoutRequest $request)
     {
+        $data = $request->validated();
         DB::beginTransaction();
 
         try {
@@ -50,8 +52,27 @@ class OrderController extends Controller
                 if ($orderItem->package_id) {
                     $this->orderRepo->createSubscriptionPackage($orderItem->package_id, $order->user_id);
                     $packageBooks= $this->orderRepo->getBooksFromPackage($orderItem->package_id);
-                    dd($packageBooks);
-                    // add to order book table --> mandub
+
+                    if(!empty($packageBooks)){
+
+                        $orderBook = DB::table('order_books')->insertGetId([
+                            'phone'       => $data['phone'],
+                            'address'     => $data['address'],
+                            'city_id'     => $data['city_id'],
+                            'user_id'     => $data['city_id'],
+                            'status'      => 'new',
+                            'total_price' => $this->calculateTotalPrice($packageBooks),
+                        ]);
+                        foreach ($packageBooks as $bookId => $quantity) {
+
+                            DB::table('order_book_details')->insert([
+                                'order_book_id' => $orderBook,
+                                'book_id'       => $bookId,
+                                'quantity'      => $quantity,
+                            ]);
+                        }
+                    }
+
                 }
             }
 
@@ -66,6 +87,20 @@ class OrderController extends Controller
     }
 
 
+    public function calculateTotalPrice(array $packageBooks)
+    {
+        $totalPrice = 0;
+
+        foreach ($packageBooks as $bookId) {
+            $bookPrice = DB::table('books')->where('id', $bookId)->value('price');
+            $totalPrice += $bookPrice;
+        }
+        // delivary logig
+        $deliveryPrice = 10.00;
+        $totalPrice += $deliveryPrice;
+
+        return $totalPrice;
+    }
 
 
 

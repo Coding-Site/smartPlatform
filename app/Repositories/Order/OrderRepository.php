@@ -109,9 +109,12 @@ class OrderRepository
     }
     public function getBooksFromPackage($packageId)
     {
-        return DB::table('packages')
+        return DB::table('book_package')
             ->where('package_id', $packageId)
-            ->pluck('book_id')
+            ->get(['book_id', 'quantity'])
+            ->mapWithKeys(function ($item) {
+                return [$item->book_id => $item->quantity];
+            })
             ->toArray();
     }
 
