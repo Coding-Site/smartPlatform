@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Role\StoreRoleRequest;
 use App\Http\Requests\Role\UpdateRoleRequest;
 use App\Http\Resources\Role\RoleResource;
+use App\Models\Teacher\Teacher;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -62,7 +63,7 @@ class RoleController extends Controller
         return ApiResponse::sendResponse(200, 'Role deleted successfully');
     }
 
-    public function assignRoleToUser(Request $request, User $user)
+    public function assignRoleToTeacher(Request $request, Teacher $teacher)
     {
         $validator = Validator::make($request->all(), [
             'role' => 'required|exists:roles,name',
@@ -72,15 +73,16 @@ class RoleController extends Controller
             return response()->json(['errors' => $validator->errors()], 422);
         }
 
-        if ($user->hasRole($request->role)) {
-            return ApiResponse::sendResponse(200, 'User already has the assigned role');
+        if ($teacher->hasRole($request->role)) {
+            return ApiResponse::sendResponse(200, 'Teacher already has the assigned role');
         }
 
-        $user->assignRole($request->role);
+        $teacher->assignRole($request->role);
 
         return ApiResponse::sendResponse(200, 'Role assigned successfully', [
-            'user' => $user->load('roles'),
+            'teacher' => $teacher->load('roles'),
         ]);
     }
+
 }
 

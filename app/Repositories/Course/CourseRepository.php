@@ -23,8 +23,9 @@ class CourseRepository
             $course->translateOrNew($translation['locale'])->name = $translation['name'];
         }
 
-        $course->addMedia($data['image'])->toMediaCollection('image');
-
+        if (isset($data['image'])) {
+            $course->addMedia($data['image'])->toMediaCollection('image');
+        }
         $course->save();
 
         return $course;
