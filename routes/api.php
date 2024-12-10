@@ -15,7 +15,10 @@ use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
-
+Route::controller(UserAuthController::class)->group(function (){
+        Route::post('/register','register');
+        
+    });
 Route::middleware(['set-language'])->group(function () {
     Route::controller(AuthController::class)->group(function (){
         Route::post('/login','login');
