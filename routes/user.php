@@ -15,9 +15,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware(['set-language'])->group(function () {
     Route::controller(UserAuthController::class)->group(function (){
-        // Route::post('/register','register');
+        Route::post('/register','register');
         Route::post('/verify-email','verifyEmail');
-        Route::post('/user-register','signup');
         Route::middleware(['auth:sanctum'])->group(function () {
             Route::post('/change-password','changePassword');
             Route::post('/logout','logout');
@@ -43,7 +42,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::post('/checkout', [OrderController::class, 'checkout']);
 
-    Route::apiResource('books', BookController::class)->only('index','show');
+    // Route::apiResource('books', BookController::class)->only('index','show');
     Route::get('book/{book}/download', [BookController::class, 'download']);
 
     Route::get('exams/{exam}/download/{fileType}', [ExamController::class, 'download']);
