@@ -24,33 +24,55 @@ return new class extends Migration
             throw new \Exception('Error: team_foreign_key on config/permission.php not loaded. Run [php artisan config:clear] and try again.');
         }
 
+        // Create permissions table
         Schema::create($tableNames['permissions'], function (Blueprint $table) {
-            //$table->engine('InnoDB');
             $table->bigIncrements('id'); // permission id
-            $table->string('name');       // For MyISAM use string('name', 225); // (or 166 for InnoDB with Redundant/Compact row format)
             $table->string('guard_name'); // For MyISAM use string('guard_name', 25);
             $table->timestamps();
 
-            $table->unique(['name', 'guard_name']);
+            $table->unique(['guard_name']);
         });
 
+        // Create roles table
         Schema::create($tableNames['roles'], function (Blueprint $table) use ($teams, $columnNames) {
-            //$table->engine('InnoDB');
             $table->bigIncrements('id'); // role id
             if ($teams || config('permission.testing')) { // permission.testing is a fix for sqlite testing
                 $table->unsignedBigInteger($columnNames['team_foreign_key'])->nullable();
                 $table->index($columnNames['team_foreign_key'], 'roles_team_foreign_key_index');
             }
-            $table->string('name');       // For MyISAM use string('name', 225); // (or 166 for InnoDB with Redundant/Compact row format)
             $table->string('guard_name'); // For MyISAM use string('guard_name', 25);
             $table->timestamps();
+
             if ($teams || config('permission.testing')) {
-                $table->unique([$columnNames['team_foreign_key'], 'name', 'guard_name']);
+                $table->unique([$columnNames['team_foreign_key'], 'guard_name']);
             } else {
-                $table->unique(['name', 'guard_name']);
+                $table->unique(['guard_name']);
             }
         });
 
+        // Create the role_translations table
+        Schema::create('role_translations', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('role_id')->constrained()->onDelete('cascade'); // Foreign key to roles
+            $table->string('locale');  // Language of the translation
+            $table->string('name');    // Translatable field
+            $table->timestamps();
+
+            $table->unique(['role_id', 'locale']);  // Ensure unique combination of role and locale
+        });
+
+        // Create the permission_translations table
+        Schema::create('permission_translations', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('permission_id')->constrained()->onDelete('cascade');  // Foreign key to permissions
+            $table->string('locale');  // Language of the translation
+            $table->string('name');    // Translatable field
+            $table->timestamps();
+
+            $table->unique(['permission_id', 'locale']);  // Ensure unique combination of permission and locale
+        });
+
+        // Create model_has_permissions table
         Schema::create($tableNames['model_has_permissions'], function (Blueprint $table) use ($tableNames, $columnNames, $pivotPermission, $teams) {
             $table->unsignedBigInteger($pivotPermission);
 
@@ -62,6 +84,7 @@ return new class extends Migration
                 ->references('id') // permission id
                 ->on($tableNames['permissions'])
                 ->onDelete('cascade');
+
             if ($teams) {
                 $table->unsignedBigInteger($columnNames['team_foreign_key']);
                 $table->index($columnNames['team_foreign_key'], 'model_has_permissions_team_foreign_key_index');
@@ -72,9 +95,9 @@ return new class extends Migration
                 $table->primary([$pivotPermission, $columnNames['model_morph_key'], 'model_type'],
                     'model_has_permissions_permission_model_type_primary');
             }
-
         });
 
+        // Create model_has_roles table
         Schema::create($tableNames['model_has_roles'], function (Blueprint $table) use ($tableNames, $columnNames, $pivotRole, $teams) {
             $table->unsignedBigInteger($pivotRole);
 
@@ -86,6 +109,7 @@ return new class extends Migration
                 ->references('id') // role id
                 ->on($tableNames['roles'])
                 ->onDelete('cascade');
+
             if ($teams) {
                 $table->unsignedBigInteger($columnNames['team_foreign_key']);
                 $table->index($columnNames['team_foreign_key'], 'model_has_roles_team_foreign_key_index');
@@ -98,6 +122,7 @@ return new class extends Migration
             }
         });
 
+        // Create role_has_permissions table
         Schema::create($tableNames['role_has_permissions'], function (Blueprint $table) use ($tableNames, $pivotRole, $pivotPermission) {
             $table->unsignedBigInteger($pivotPermission);
             $table->unsignedBigInteger($pivotRole);
@@ -131,6 +156,8 @@ return new class extends Migration
             throw new \Exception('Error: config/permission.php not found and defaults could not be merged. Please publish the package configuration before proceeding, or drop the tables manually.');
         }
 
+        Schema::drop('role_translations');
+        Schema::drop('permission_translations');
         Schema::drop($tableNames['role_has_permissions']);
         Schema::drop($tableNames['model_has_roles']);
         Schema::drop($tableNames['model_has_permissions']);
