@@ -28,15 +28,8 @@ class RegisterRequest extends FormRequest
             'password'    => 'required|string|min:8|confirmed',
             'grade_id'    => 'required|integer|exists:grades,id',
             'stage_id'    => 'required|integer|exists:stages,id',
-            'phone' => [
-                'required',
-                'unique:users,phone,',
-                'regex:/(01)[0-9]{9}/',
-                'digits:11',
-                'min:11',
-                'max:11',
-            ],
-            'image'    => 'nullable|image|max:2048',
+            'phone'       => ['required','unique:users,phone,','digits:8'],
+            'image'       => 'nullable|image|max:2048',
         ];
     }
 }
