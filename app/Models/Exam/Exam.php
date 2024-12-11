@@ -16,7 +16,6 @@ class Exam extends Model implements HasMedia
     use HasFactory , InteractsWithMedia;
 
     protected $fillable = [
-        'name',
         'grade_id',
         'term_id',
         'course_id',

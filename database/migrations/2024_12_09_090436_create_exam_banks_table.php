@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::create('exam_banks', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
             $table->foreignId('grade_id')->constrained()->onDelete('cascade');
             $table->foreignId('term_id')->constrained()->onDelete('cascade');
             $table->foreignId('course_id')->constrained()->onDelete('cascade');

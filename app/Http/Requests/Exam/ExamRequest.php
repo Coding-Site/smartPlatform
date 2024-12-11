@@ -22,7 +22,6 @@ class ExamRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string',
             'course_id' => 'required|exists:courses,id',
             'term_id' => 'required|exists:terms,id',
             'grade_id' => 'required|exists:grades,id',
