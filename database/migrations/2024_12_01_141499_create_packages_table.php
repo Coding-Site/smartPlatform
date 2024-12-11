@@ -13,14 +13,21 @@ return new class extends Migration
     {
         Schema::create('packages', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->text('description');
             $table->decimal('price', 8, 2)->default(0);
             $table->decimal('offer_price', 8, 2)->nullable();
             $table->date('expiry_day')->nullable();
             $table->boolean('is_active')->default(1);
             $table->foreignId('grade_id')->constrained('grades')->onDelete('cascade');
             $table->timestamps();
+        });
+
+        Schema::create('package_translations', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('package_id')->constrained('packages')->onDelete('cascade');
+            $table->string('locale');
+            $table->string('name');
+            $table->string('description');
+            $table->unique(['package_id', 'locale']);
         });
     }
 

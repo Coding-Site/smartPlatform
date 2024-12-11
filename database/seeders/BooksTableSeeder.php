@@ -2,8 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Enums\Stage\Type;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Book\Book;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -14,45 +13,59 @@ class BooksTableSeeder extends Seeder
      */
     public function run(): void
     {
+        $teacherIds = DB::table('teachers')->pluck('id');
+        $termIds = DB::table('terms')->pluck('id');
+        $stageIds = DB::table('stages')->pluck('id');
+        $gradeIds = DB::table('grades')->pluck('id');
+
         $books = [
             [
-                "name" => "book 1",
-                "teacher_id" =>1,
-                "term_id"  => 1,
-                "price" => 100,
-                "quantity" => 20,
-                "stage_id"=> 1,
-                "grade_id" => 1
+                'translations' => [
+                    'en' => ['name' => 'Book 1', 'type' => 'Scientific'],
+                    'ar' => ['name' => 'كتاب 1', 'type' => 'علمى'],
+                ],
             ],
             [
-                "name" => "book 2",
-                "teacher_id" =>1,
-                "term_id"  => 1,
-                "price" => 100,
-                "quantity" => 20,
-                "stage_id"=> 2,
-                "grade_id" => 2
-
+                'translations' => [
+                    'en' => ['name' => 'Book 2', 'type' => 'Scientific'],
+                    'ar' => ['name' => 'كتاب 2', 'type' => 'علمى'],
+                ],
             ],
             [
-                "name" => "book 3",
-                "teacher_id" =>2,
-                "term_id"  => 2,
-                "price" => 100,
-                "quantity" => 20,
-                "stage_id"=> 1,
-                "grade_id" => 3
+                'translations' => [
+                    'en' => ['name' => 'Book 3', 'type' => 'Literary'],
+                    'ar' => ['name' => 'كتاب 3', 'type' => 'أدبى'],
+                ],
             ],
             [
-                "name" => "book 4",
-                "teacher_id" =>2,
-                "term_id"  => 2,
-                "price" => 100,
-                "quantity" => 20,
-                "stage_id"=> 3,
-                "grade_id" => 4
+                'translations' => [
+                    'en' => ['name' => 'Book 4', 'type' => 'Literary'],
+                    'ar' => ['name' => 'كتاب 4', 'type' => 'أدبى'],
+                ],
             ],
         ];
-        DB::table('books')->insert($books);
+
+        foreach ($books as $bookData) {
+            $book = Book::create([
+                'paper_price' => 50.00,
+                'paper_count' => 100,
+                'covering_price' => 30.00,
+                'price' => 100.00,
+                'quantity' => 20,
+                'teacher_id' => $teacherIds->random(),
+                'term_id' => $termIds->random(),
+                'stage_id' => $stageIds->random(),
+                'grade_id' => $gradeIds->random(),
+            ]);
+
+            foreach ($bookData['translations'] as $locale => $translation) {
+                DB::table('book_translations')->insert([
+                    'book_id' => $book->id,
+                    'locale' => $locale,
+                    'name' => $translation['name'],
+                    'type' => $translation['type'],
+                ]);
+            }
+        }
     }
 }

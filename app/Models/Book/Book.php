@@ -9,6 +9,7 @@ use App\Models\Package\Package;
 use App\Models\Stage\Stage;
 use App\Models\Teacher\Teacher;
 use App\Models\Term\Term;
+use Astrotomic\Translatable\Translatable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -18,7 +19,7 @@ use Spatie\MediaLibrary\InteractsWithMedia;
 
 class Book extends Model implements HasMedia
 {
-    use HasFactory,InteractsWithMedia;
+    use HasFactory,InteractsWithMedia, Translatable;
 
     protected $fillable = [
         'name',
@@ -33,6 +34,9 @@ class Book extends Model implements HasMedia
         'stage_id',
         'grade_id',
     ];
+
+    protected $with = ['translations'];
+    public $translatedAttributes = ['name','type'];
 
 
     protected $casts = [

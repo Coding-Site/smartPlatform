@@ -14,10 +14,24 @@ class QuizSeeder extends Seeder
 {
     public function run()
     {
-        $quiz = Quiz::create([
-            'title' => 'Sample Quiz: General Knowledge',
-            'lesson_id' => 1,
-        ]);
+        $quiz = Quiz::create(
+            [
+                'lesson_id' => 1,
+            ]
+        );
+
+        $translations = [
+            'en' => 'Sample Quiz: General Knowledge',
+            'ar' => 'اختبار عينة: المعرفة العامة',
+        ];
+
+        foreach ($translations as $locale => $title) {
+            DB::table('quiz_translations')->insert([
+                'quiz_id' => $quiz->id,
+                'locale' => $locale,
+                'title' => $title,
+            ]);
+        }
 
         $question1 = Question::create([
             'quiz_id' => $quiz->id,

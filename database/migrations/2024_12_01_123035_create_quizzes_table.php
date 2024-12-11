@@ -13,9 +13,16 @@ return new class extends Migration
     {
         Schema::create('quizzes', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
             $table->foreignId('lesson_id');
             $table->timestamps();
+        });
+
+        Schema::create('quiz_translations', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('quiz_id')->constrained('quizzes')->onDelete('cascade');
+            $table->string('locale');
+            $table->string('title');
+            $table->unique(['quiz_id', 'locale']);
         });
     }
 

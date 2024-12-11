@@ -13,8 +13,15 @@ return new class extends Migration
     {
         Schema::create('cities', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
             $table->bigInteger('deliver_price')->nullable();
+            $table->timestamps();
+        });
+
+        Schema::create('cities_translations', function (Blueprint $table) {
+            $table->id();
+            $table->bigInteger('city_id');
+            $table->string('locale')->index();
+            $table->string('name');
             $table->timestamps();
         });
     }
@@ -24,6 +31,7 @@ return new class extends Migration
      */
     public function down(): void
     {
+        Schema::dropIfExists('cities_translations');
         Schema::dropIfExists('cities');
     }
 };

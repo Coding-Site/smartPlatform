@@ -13,18 +13,25 @@ return new class extends Migration
     {
         Schema::create('books', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
             $table->decimal('paper_price',8,2)->nullable();
             $table->integer('paper_count')->nullable();
             $table->decimal('covering_price',8,2)->nullable();
             $table->decimal('price', 8, 2)->default(0);
             $table->integer('quantity')->default(0);
-            $table->string('type')->nullable();
             $table->foreignId('teacher_id')->constrained('teachers')->onDelete('cascade');
             $table->foreignId('term_id')->constrained('terms')->onDelete('cascade');
             $table->foreignId('stage_id')->constrained('stages')->onDelete('cascade');
             $table->foreignId('grade_id')->constrained('grades')->onDelete('cascade');
             $table->timestamps();
+        });
+
+        Schema::create('book_translations', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('book_id')->constrained('books')->onDelete('cascade');
+            $table->string('locale');
+            $table->string('name');
+            $table->string('type')->nullable();
+            $table->unique(['book_id', 'locale']);
         });
     }
 
@@ -33,6 +40,7 @@ return new class extends Migration
      */
     public function down(): void
     {
+        Schema::dropIfExists('book_translations');
         Schema::dropIfExists('books');
     }
 };
