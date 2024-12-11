@@ -16,8 +16,8 @@ class PackageSeeder extends Seeder
     {
         DB::table('packages')->insert([
             [
-                'name' => 'Basic Package',
-                'description' => 'A basic package for beginner courses.',
+                'name' => 'Course Package',
+                'description' => 'A premium package for courses',
                 'price' => 50.00,
                 'expiry_day' => Carbon::now()->addYear(),
                 'is_active' => 1,
@@ -26,8 +26,8 @@ class PackageSeeder extends Seeder
                 'updated_at' => Carbon::now(),
             ],
             [
-                'name' => 'Premium Package',
-                'description' => 'A premium package for advanced learners.',
+                'name' => 'Book Package',
+                'description' => 'A premium package for Books',
                 'price' => 150.00,
                 'expiry_day' => Carbon::now()->addMonths(6),
                 'is_active' => 1,
@@ -35,6 +35,16 @@ class PackageSeeder extends Seeder
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ],
+            [
+                'name' => 'Diamond Package',
+                'description' => 'A premium package for courses and books',
+                'price' => 200.00,
+                'expiry_day' => Carbon::now()->addMonths(3),
+                'is_active' => 1,
+                'grade_id' => 3,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ]
         ]);
     }
 }

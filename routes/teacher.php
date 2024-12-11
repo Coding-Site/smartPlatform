@@ -6,6 +6,7 @@ use App\Http\Controllers\Course\DashboardCourseController;
 use App\Http\Controllers\Exam\ExamBankController;
 use App\Http\Controllers\Exam\ExamController;
 use App\Http\Controllers\Lesson\DashboardLessonController;
+use App\Http\Controllers\Package\PackageController;
 use App\Http\Controllers\Teacher\DashboardTeacherController;
 use App\Http\Controllers\Teacher\TeacherController;
 use App\Http\Controllers\Unit\UnitController;
@@ -32,12 +33,14 @@ Route::middleware(['auth:teacher'])->group(function () {
     // Route::apiResource('books', DashboardBookController::class);
     Route::apiResource('exams', ExamController::class);
     Route::apiResource('exam-banks', ExamBankController::class);
-    
+
     Route::controller(DashboardTeacherController::class)->group(function (){
         Route::get('subscription/course','getCourseSubscription');
         Route::get('subscription/book','getOrderedBooks');
         Route::get('count/subscription/course','getSubscriptionsCountForTeacher');
     });
+
+    Route::apiResource('packages', PackageController::class);
 
 });
 

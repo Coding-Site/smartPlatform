@@ -6,6 +6,7 @@ use App\Models\Book\Book;
 use App\Models\Course\Course;
 use App\Models\Exam\Exam;
 use App\Models\Exam\ExamBank;
+use App\Models\Package\Package;
 use App\Models\Stage\Stage;
 use App\Models\Term\Term;
 use App\Models\User;
@@ -63,6 +64,11 @@ class Grade extends Model
     public function users() : HasMany
     {
         return $this->hasMany(User::class);
+    }
+
+    public function packages() : HasMany
+    {
+        return $this->hasMany(Package::class);
     }
 
 }

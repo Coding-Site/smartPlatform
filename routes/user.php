@@ -11,6 +11,7 @@ use App\Http\Controllers\Exam\ExamBankController;
 use App\Http\Controllers\Exam\ExamController;
 use App\Http\Controllers\Lesson\LessonNoteController;
 use App\Http\Controllers\Order\OrderController;
+use App\Http\Controllers\Package\PackageController;
 use App\Http\Controllers\Quiz\QuizController;
 use App\Http\Controllers\Subscription\SubscriptionController;
 use App\Http\Controllers\Teacher\TeacherController;
@@ -72,6 +73,9 @@ Route::get('/lesson/{lesson}/score', [CardController::class, 'calculateScore']);
 //books
 Route::get('books', [BookController::class, 'index']);
 Route::get('book/{book}/download', [BookController::class, 'download']);
+
+//packages
+Route::get('packages', [PackageController::class, 'index']);
 
 //exams
 Route::get('/course/{courseId}/exams', [ExamController::class, 'getExamsForCourse']);
