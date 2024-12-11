@@ -25,8 +25,9 @@ class RolePermissionsSeeder extends Seeder
         $superTeacherRole->givePermissionTo($manageCoursesPermission);
 
         $superTeacherUser = Teacher::create([
-            'name' => 'Super Teacher',
-            'email' => 'superteacher@teacher.com',
+            'name'     => 'Super Teacher',
+            'email'    => 'superteacher@teacher.com',
+            'phone'    => '01068754372',
             'stage_id' => 1,
             'grade_id' => 1,
             'password' => bcrypt('password'),

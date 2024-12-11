@@ -29,19 +29,19 @@ class AuthController extends Controller
     public function login(LoginRequest $request)
     {
         try {
-            $teacher = Teacher::where('email', $request->email)->first();
+            $teacher = Teacher::where('phone', $request->phone)->first();
             if ($teacher && Hash::check($request->password, $teacher->password)) {
                 $teacher->token = $teacher->createToken('TeacherToken')->plainTextToken;
                 return ApiResponse::sendResponse(200, __('messages.login_success'), new DetailedTeacherResource($teacher));
             }
 
-            $admin = Admin::where('email',$request->email)->first();
+            $admin = Admin::where('phone',$request->phone)->first();
             if ($admin && Hash::check($request->password, $admin->password)) {
                 $admin->token = $admin->createToken('adminToken')->plainTextToken;
                 return ApiResponse::sendResponse(200, __('messages.login_success'),$admin);
             }
 
-            if (Auth::attempt($request->only('email', 'password'))) {
+            if (Auth::attempt($request->only('phone', 'password'))) {
                 $user = Auth::user();
                 $user->token = $user->createToken('UserToken')->plainTextToken;
                 return ApiResponse::sendResponse(200, __('messages.login_success'), new UserResource($user));

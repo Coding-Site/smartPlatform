@@ -15,6 +15,7 @@ return new class extends Migration
         Schema::create('admins', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('phone')->unique();
             $table->string('email')->unique();
             $table->string('password');
             $table->timestamps();
@@ -23,11 +24,12 @@ return new class extends Migration
         $admin = Admin::create([
             "name"     => "admin",
             "email"    => "admin@admin.com",
-            "password" => "123456"
+            "password" => "123456",
+            "phone"    => "01281949875"
         ]);
 
         dump('Use this data for admin login:', [
-            'email'    => $admin->email,
+            'phone'    => $admin->phone,
             'password' => $admin->password
         ]);
 
