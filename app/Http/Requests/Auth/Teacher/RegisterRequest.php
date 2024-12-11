@@ -27,7 +27,7 @@ class RegisterRequest extends FormRequest
             'image'     => 'nullable|image|max:2048',
             'email'     => ['required', 'email', new UniqueEmailAcrossGuards],
             'password'  => 'required|string|min:8|confirmed',
-            'phone'     => ['required','unique:users,phone,','digits:8'],
+            'phone'     => ['required','unique:teachers,phone','digits:8','min:8','max:8'],
             'bio'                 => 'nullable|string|max:500',
             'description'         => 'nullable|string',
             'years_of_experience' => 'nullable|integer|min:0',
