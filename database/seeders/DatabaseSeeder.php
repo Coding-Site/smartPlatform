@@ -26,7 +26,7 @@ class DatabaseSeeder extends Seeder
             LessonNoteSeeder::class,
             BooksTableSeeder::class,
             // VideosTableSeeder::class,
-            RolePermissionsSeeder::class,
+            // RolePermissionsSeeder::class,
             PackageSeeder::class,
             BookPackageSeeder::class,
             CoursePackageSeeder::class,
