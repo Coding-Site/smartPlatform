@@ -5,6 +5,7 @@ namespace App\Models\Book;
 use App\Enums\Stage\Type;
 use App\Models\Grade\Grade;
 use App\Models\MandubStore;
+use App\Models\Package\Package;
 use App\Models\Stage\Stage;
 use App\Models\Teacher\Teacher;
 use App\Models\Term\Term;
@@ -99,6 +100,11 @@ class Book extends Model implements HasMedia
     public function orders()
     {
         return $this->hasManyThrough(OrderBookDetail::class, OrderBook::class, 'id', 'book_id', 'id', 'order_book_id');
+    }
+
+    public function packages()
+    {
+        return $this->belongsToMany(Package::class, 'book_package');
     }
 
     // public function stage()
