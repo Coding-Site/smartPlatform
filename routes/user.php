@@ -6,6 +6,7 @@ use App\Http\Controllers\Book\BookController;
 use App\Http\Controllers\Card\CardController;
 use App\Http\Controllers\Cart\CartController;
 use App\Http\Controllers\Comment\CommentController;
+use App\Http\Controllers\ContactUs\ContactUsController;
 use App\Http\Controllers\Course\CourseController;
 use App\Http\Controllers\Exam\ExamBankController;
 use App\Http\Controllers\Exam\ExamController;
@@ -90,6 +91,10 @@ Route::prefix('teachers')->group(function () {
     Route::get('/', [TeacherController::class, 'index']);
     Route::get('{teacher}', [TeacherController::class, 'show']);
 });
+
+//contact us
+Route::post('contact-us', [ContactUsController::class, 'create']);
+
 
 
 
