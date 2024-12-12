@@ -26,8 +26,8 @@ class RegisterRequest extends FormRequest
             'name'        => 'required|string|max:255',
             'email'       => ['required', 'email', new UniqueEmailAcrossGuards],
             'password'    => 'required|string|min:8|confirmed',
-            'grade_id'    => 'required|integer|exists:grades,id',
-            'stage_id'    => 'required|integer|exists:stages,id',
+            'grade_id'    => 'required|string|exists:grades,id',
+            'stage_id'    => 'required|string|exists:stages,id',
             'phone'       => ['required','unique:users,phone','digits:8','min:8','max:8'],
             'image'       => 'nullable|image|max:2048',
         ];
