@@ -16,7 +16,7 @@ class City extends Model
     use HasFactory , Translatable;
 
     protected $fillable = [
-        'name', 'deliver_price'
+        'deliver_price'
     ];
 
     protected $with = ['translations'];

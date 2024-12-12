@@ -25,7 +25,7 @@ class PackageController extends Controller
     {
         try {
             $packages = $this->packageRepository->all();
-            return ApiResponse::sendResponse(200, 'All Packages', $packages);
+            return ApiResponse::sendResponse(200, 'All Packages', PackageResource::collection($packages));
         } catch (\Exception $e) {
             return ApiResponse::sendResponse(500,'Failed to fetch packages');
         }
@@ -48,7 +48,7 @@ class PackageController extends Controller
     {
         try {
             $package = $this->packageRepository->create($request->validated());
-            return ApiResponse::sendResponse(200, 'Package created successfully', $package);
+            return ApiResponse::sendResponse(200, 'Package created successfully', new PackageResource($package));
         } catch (\Exception $e) {
             return ApiResponse::sendResponse(500,'Failed to create package');
         }
@@ -64,7 +64,7 @@ class PackageController extends Controller
                 return ApiResponse::sendResponse(404,'Package not found');
             }
 
-            return ApiResponse::sendResponse(200, 'Package updated successfully',$updated);
+            return ApiResponse::sendResponse(200, 'Package updated successfully',new PackageResource($updated));
         } catch (\Exception $e) {
             return ApiResponse::sendResponse(500,'Failed to update package');
         }

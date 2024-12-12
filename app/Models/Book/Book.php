@@ -22,13 +22,11 @@ class Book extends Model implements HasMedia
     use HasFactory,InteractsWithMedia, Translatable;
 
     protected $fillable = [
-        'name',
         'paper_price',
         'paper_count',
         'covering_price',
         'price',
         'quantity',
-        'type',
         'teacher_id',
         'term_id',
         'stage_id',

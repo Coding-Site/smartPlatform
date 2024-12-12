@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Role;
 
 use Astrotomic\Translatable\Translatable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;

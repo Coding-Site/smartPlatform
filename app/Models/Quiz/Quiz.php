@@ -15,7 +15,6 @@ class Quiz extends Model
     use HasFactory , Translatable;
 
     protected $fillable = [
-        'title',
         'lesson_id',
     ];
 

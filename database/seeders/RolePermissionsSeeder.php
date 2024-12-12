@@ -4,10 +4,9 @@ namespace Database\Seeders;
 
 use App\Models\Teacher\Teacher;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
-use Illuminate\Support\Facades\DB;
-use Carbon\Carbon;
 
 class RolePermissionsSeeder extends Seeder
 {
@@ -16,25 +15,54 @@ class RolePermissionsSeeder extends Seeder
      */
     public function run(): void
     {
-        $superTeacherRole = Role::Create(
-            ['guard_name' => 'teacher']
-        );
+        $roles = [
+            [
+                'guard_name' => 'teacher',
+                'translations' => [
+                    'en' => ['name' => 'Super Teacher'],
+                    'ar' => ['name' => 'المعلم المتميز'],
+                ],
+                'permissions' => [
+                    [
+                        'guard_name' => 'teacher',
+                        'translations' => [
+                            'en' => ['name' => 'Manage Courses'],
+                            'ar' => ['name' => 'إدارة الدورات'],
+                        ],
+                    ],
+                ],
+            ],
+        ];
 
-        $manageCoursesPermission = Permission::Create(
-            ['guard_name' => 'teacher']
-        );
+        foreach ($roles as $roleData) {
+            $role = Role::create([
+                'guard_name' => $roleData['guard_name'],
+            ]);
 
-        $superTeacherRole->givePermissionTo($manageCoursesPermission);
+            foreach ($roleData['translations'] as $locale => $translation) {
+                DB::table('role_translations')->insert([
+                    'role_id' => $role->id,
+                    'locale' => $locale,
+                    'name' => $translation['name'],
+                ]);
+            }
 
-        DB::table('role_translations')->insert([
-            ['role_id' => $superTeacherRole->id, 'locale' => 'en', 'name' => 'Super Teacher'],
-            ['role_id' => $superTeacherRole->id, 'locale' => 'ar', 'name' => 'المعلم المتميز']
-        ]);
+            foreach ($roleData['permissions'] as $permissionData) {
+                $permission = Permission::create([
+                    'guard_name' => $permissionData['guard_name'],
+                ]);
 
-        DB::table('permission_translations')->insert([
-            ['permission_id' => $manageCoursesPermission->id, 'locale' => 'en', 'name' => 'Manage Courses'],
-            ['permission_id' => $manageCoursesPermission->id, 'locale' => 'ar', 'name' => 'إدارة الدورات']
-        ]);
+                $role->givePermissionTo($permission);
+
+                foreach ($permissionData['translations'] as $locale => $translation) {
+                    DB::table('permission_translations')->insert([
+                        'permission_id' => $permission->id,
+                        'locale' => $locale,
+                        'name' => $translation['name'],
+                    ]);
+                }
+            }
+        }
 
         $superTeacherUser = Teacher::create([
             'name'     => 'Super Teacher',
