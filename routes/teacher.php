@@ -26,8 +26,8 @@ Route::controller(TeacherAuthController::class)->group(function (){
     });
 });
 
+Route::apiResource('courses', DashboardCourseController::class);
 Route::middleware(['auth:teacher'])->group(function () {
-    Route::apiResource('courses', DashboardCourseController::class);
     Route::apiResource('units', UnitController::class);
     Route::apiResource('lessons', DashboardLessonController::class);
     // Route::apiResource('books', DashboardBookController::class);
