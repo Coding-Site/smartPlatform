@@ -5,12 +5,19 @@ namespace App\Repositories\Book;
 use App\Helpers\ApiResponse;
 use App\Models\Book\Book;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
 
 class BookRepository implements BookRepositoryInterface
 {
     public function getAllBooks($stageId = null, $gradeId = null)
     {
         return Book::filter($stageId, $gradeId)->paginate(10);
+    }
+
+    public function getBooksByAuthUser()
+    {
+        $teacherId = Auth::id();
+        return Book::where('teacher_id', $teacherId)->get();
     }
 
     public function createBook(array $data): Book
@@ -49,6 +56,14 @@ class BookRepository implements BookRepositoryInterface
 
         $book->update($data);
 
+        if (!empty($data['name_en'])) {
+            $book->translateOrNew('en')->name = $data['name_en'];
+        }
+
+        if (!empty($data['name_ar'])) {
+            $book->translateOrNew('ar')->name = $data['name_ar'];
+        }
+
         if ($fileSample) {
             $book->clearMediaCollection('file_samples');
             $book->addMedia($fileSample)
@@ -61,9 +76,10 @@ class BookRepository implements BookRepositoryInterface
                 ->toMediaCollection('image');
         }
 
+        $book->save();
+
         return $book;
     }
-
     public function deleteBook(Book $book)
     {
         $book->clearMediaCollection('file_samples');

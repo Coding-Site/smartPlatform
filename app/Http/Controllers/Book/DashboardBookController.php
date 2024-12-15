@@ -26,7 +26,7 @@ class DashboardBookController extends Controller
     public function index()
     {
         try {
-            $books = $this->bookRepository->getAllBooks();
+            $books = $this->bookRepository->getBooksByAuthUser();
             return ApiResponse::sendResponse(200,'All Books',BookResource::collection($books));
         } catch (Exception $e) {
             return ApiResponse::sendResponse(500,'Failed to fetch books');
@@ -60,7 +60,6 @@ class DashboardBookController extends Controller
     public function update(UpdateBookRequest $request, Book $book)
     {
         try {
-
                 $validated = $request->validated();
                 $book = $this->bookRepository->updateBook($book, $validated);
                 return ApiResponse::sendResponse(201,' Book Update Successfully',new BookResource($book));
