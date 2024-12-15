@@ -13,23 +13,25 @@ class BookRepository implements BookRepositoryInterface
         return Book::filter($stageId, $gradeId)->paginate(10);
     }
 
-    public function createBook(array $data)
+    public function createBook(array $data): Book
     {
-        $fileSample = $data['file_sample'] ?? null;
-        $image = $data['image'] ?? null;
-        unset($data['file_sample'], $data['image']);
-
         $book = Book::create($data);
 
-        if ($fileSample) {
-            $book->addMedia($fileSample)
+        foreach ($data['translations'] as $translation) {
+            $book->translateOrNew($translation['locale'])->name = $translation['name'];
+        }
+
+        if (isset($data['file_sample'])) {
+            $book->addMedia($data['file_sample'])
                 ->toMediaCollection('file_samples');
         }
 
-        if ($image) {
-            $book->addMedia($image)
+        if (isset($data['image'])) {
+            $book->addMedia($data['image'])
                 ->toMediaCollection('image');
         }
+
+        $book->save();
 
         return $book;
     }

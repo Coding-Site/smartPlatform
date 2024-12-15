@@ -16,7 +16,7 @@ class Package extends Model
 {
     use HasFactory , Translatable;
 
-    protected $fillable = ['price','offer_price','expiry_day','is_active','grade_id'.'stage_id'];
+    protected $fillable = ['price','offer_price','expiry_day','is_active','grade_id','stage_id'];
 
     protected $with = ['translations'];
     public $translatedAttributes = ['name','description','type'];

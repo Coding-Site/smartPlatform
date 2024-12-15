@@ -37,6 +37,7 @@ class DashboardBookController extends Controller
     {
         try {
             $validated = $request->validated();
+
             $book = $this->bookRepository->createBook($validated);
             return ApiResponse::sendResponse(201,' Book Created Successfully',new BookResource($book));
         } catch (Exception $e) {
