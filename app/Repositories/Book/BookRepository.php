@@ -17,9 +17,9 @@ class BookRepository implements BookRepositoryInterface
     {
         $book = Book::create($data);
 
-        foreach ($data['translations'] as $translation) {
-            $book->translateOrNew($translation['locale'])->name = $translation['name'];
-        }
+        $book->translateOrNew('en')->name = $data['name_en'];
+        $book->translateOrNew('ar')->name = $data['name_ar'];
+
 
         if (isset($data['file_sample'])) {
             $book->addMedia($data['file_sample'])

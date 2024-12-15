@@ -22,6 +22,8 @@ class StoreBookRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'name_en'     => 'required|string|max:255',
+            'name_ar'     => 'required|string|max:255',
             'image'       => 'nullable|image|max:2048',
             'price'       => 'required|numeric|min:0',
             'file_sample' => 'nullable|file|mimes:pdf,doc,docx|max:2048',
@@ -30,9 +32,6 @@ class StoreBookRequest extends FormRequest
             'term_id'     => 'required|exists:terms,id',
             'grade_id'    => 'required|exists:grades,id',
             'stage_id'    => 'required|exists:stages,id',
-            'translations'          => 'required|array',
-            'translations.*.locale' => 'required|string|max:2',
-            'translations.*.name'   => 'required|string|max:255',
         ];
     }
 
