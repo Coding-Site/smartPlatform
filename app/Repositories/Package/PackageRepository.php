@@ -5,6 +5,7 @@ namespace App\Repositories\Package;
 use App\Models\Package\Package;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Exception;
+use Illuminate\Http\Request;
 
 class PackageRepository
 {
@@ -53,6 +54,19 @@ class PackageRepository
             return $package->delete();
         } catch (Exception $e) {
             throw new Exception('Error deleting package: ' . $e->getMessage());
+        }
+    }
+
+    public function getFilteredPackages(Request $request)
+    {
+        try {
+            $stageId = $request->query('stage_id');
+            $gradeId = $request->query('grade_id');
+            return Package::filter($stageId, $gradeId)
+                ->limit(3)
+                ->get();
+        } catch (Exception $e) {
+            throw new Exception('Error fetching filtered packages: ' . $e->getMessage());
         }
     }
 }

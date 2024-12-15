@@ -76,7 +76,7 @@ Route::get('books', [BookController::class, 'index']);
 Route::get('book/{book}/download', [BookController::class, 'download']);
 
 //packages
-Route::get('packages', [PackageController::class, 'index']);
+Route::get('/packages', [PackageController::class, 'filteredPackages']);
 
 //exams
 Route::get('/course/{courseId}/exams', [ExamController::class, 'getExamsForCourse']);

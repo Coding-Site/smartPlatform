@@ -29,6 +29,18 @@ class Package extends Model
         'type' => Type::class
      ];
 
+    public function scopeFilter($query, $stageId = null, $gradeId = null)
+    {
+        if ($stageId) {
+            $query->where('stage_id', $stageId);
+        }
+
+        if ($gradeId) {
+            $query->where('grade_id', $gradeId);
+        }
+        return $query;
+    }
+
     public function courses()
     {
         return $this->belongsToMany(Course::class, 'course_package');
