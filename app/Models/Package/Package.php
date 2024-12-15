@@ -2,9 +2,11 @@
 
 namespace App\Models\Package;
 
+use App\Enums\Package\Type;
 use App\Models\Book\Book;
 use App\Models\Course\Course;
 use App\Models\Grade\Grade;
+use App\Models\Stage\Stage;
 use Astrotomic\Translatable\Translatable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -14,10 +16,18 @@ class Package extends Model
 {
     use HasFactory , Translatable;
 
-    protected $fillable = ['price','offer_price','expiry_day','is_active','grade_id'];
+    protected $fillable = ['price','offer_price','expiry_day','is_active','grade_id'.'stage_id'];
 
     protected $with = ['translations'];
-    public $translatedAttributes = ['name','description'];
+    public $translatedAttributes = ['name','description','type'];
+
+    protected $casts = [
+        'price' => 'decimal:2',
+        'offer_price' => 'decimal:2',
+        'expiry_day' => 'date',
+        'is_active' => 'boolean',
+        'type' => Type::class
+     ];
 
     public function courses()
     {
@@ -32,5 +42,10 @@ class Package extends Model
     public function grade() : BelongsTo
     {
         return $this->belongsTo(Grade::class);
+    }
+
+    public function stage() : BelongsTo
+    {
+        return $this->belongsTo(Stage::class);
     }
 }

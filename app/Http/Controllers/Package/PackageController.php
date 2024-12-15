@@ -23,12 +23,12 @@ class PackageController extends Controller
 
     public function index()
     {
-        try {
+       // try {
             $packages = $this->packageRepository->all();
             return ApiResponse::sendResponse(200, 'All Packages', PackageResource::collection($packages));
-        } catch (\Exception $e) {
-            return ApiResponse::sendResponse(500,'Failed to fetch packages');
-        }
+      //  } catch (\Exception $e) {
+        //    return ApiResponse::sendResponse(500,'Failed to fetch packages');
+        //}
     }
 
 
