@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\TeacherAuthController;
 use App\Http\Controllers\Book\DashboardBookController;
+use App\Http\Controllers\Comment\CommentController;
 use App\Http\Controllers\Course\DashboardCourseController;
 use App\Http\Controllers\Exam\ExamBankController;
 use App\Http\Controllers\Exam\ExamController;
@@ -42,7 +43,14 @@ Route::middleware(['auth:teacher'])->group(function () {
 
     Route::apiResource('packages', PackageController::class);
 
+    Route::get('/lessons/{lesson}/comments', [CommentController::class, 'showComments']);
+    Route::post('/lessons/{lesson}/comments', [CommentController::class, 'store']);
+    Route::post('/comments/{comment}', [CommentController::class, 'update']);
+    Route::delete('/comments/{comment}', [CommentController::class, 'destroy']);
+    Route::post('/comments/{comment}/approve', [CommentController::class, 'approve']);
+    Route::post('/comments/{comment}/reject', [CommentController::class, 'reject']);
 });
+
 
 
 
