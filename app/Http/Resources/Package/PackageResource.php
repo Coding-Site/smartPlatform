@@ -21,10 +21,11 @@ class PackageResource extends JsonResource
             'price' => $this->price,
             'offer_price' => $this->offer_price,
             'expiry_day' => $this->expiry_day,
-            'grade' => $this->grade->name,
+            'grade'       => $this->grade->name,
             'is_active' => $this->is_active,
-            'courses' => $this->courses->pluck('name'),
-            'books' => $this->books->pluck('name')
+            'courses'   => $this->courses->pluck('name'),
+            'books'     => $this->books->pluck('name'),
+
         ];
     }
 }

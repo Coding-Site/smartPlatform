@@ -32,11 +32,12 @@ class ExamRepository implements ExamRepositoryInterface
         $unsolvedExamsPdf = $data['unsolved_exams'] ?? null;
         $finalRevisionPdf = $data['final_revision'] ?? null;
 
-        unset($data['short_first_pdf'], $data['short_second'], $data['solved_exams'], $data['unsolved_exams'], $data['final_revision']);
-
+        unset($data['short_first'], $data['short_second'], $data['solved_exams'], $data['unsolved_exams'], $data['final_revision']);
+        // dd($shortFirstPdf);
         $exam = Exam::create($data);
 
         if ($shortFirstPdf) {
+            // dd('medhat');
             $exam->addMedia($shortFirstPdf)->toMediaCollection('short_first');
         }
 
