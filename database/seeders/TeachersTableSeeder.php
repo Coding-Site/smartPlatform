@@ -16,7 +16,7 @@ class TeachersTableSeeder extends Seeder
     {
         $teachers = [
             [
-                "name"       => "teacher",
+                "name"       => "John Doe",
                 "email"      => "teacher@teacher.com",
                 "phone"      => "69734921",
                 "stage_id"   => 1,
@@ -26,7 +26,7 @@ class TeachersTableSeeder extends Seeder
                 'password'   => Hash::make('Mm.1@23456'),
             ],
             [
-                "name"       => "teacher 1",
+                "name"       => "Jane Smith",
                 "email"      => "teacher1@teacher.com",
                 "phone"      => "62734921",
                 "stage_id"   => 2,
@@ -36,7 +36,7 @@ class TeachersTableSeeder extends Seeder
                 'password'   => Hash::make('Mm.1@23456'),
             ],
             [
-                "name"       => "teacher 2",
+                "name"       => "Michael Johnson",
                 "email"      => "teacher2@teacher.com",
                 "phone"      => "69714921",
                 "stage_id"   => 1,
@@ -46,7 +46,7 @@ class TeachersTableSeeder extends Seeder
                 'password'   => Hash::make('Mm.1@23456'),
             ],
             [
-                "name"       => "teacher 3",
+                "name"       => "Emily Davis",
                 "email"      => "teacher3@teacher.com",
                 "phone"      => "69724921",
                 "stage_id"   => 2,
@@ -55,7 +55,7 @@ class TeachersTableSeeder extends Seeder
                 'password'   => Hash::make('Mm.1@23456'),
             ],
             [
-                "name"       => "teacher 4",
+                "name"       => "David Brown",
                 "email"      => "teacher4@teacher.com",
                 "phone"      => "69734922",
                 "stage_id"   => 3,
@@ -64,7 +64,7 @@ class TeachersTableSeeder extends Seeder
                 'password'   => Hash::make('Mm.1@23456'),
             ],
             [
-                "name"       => "teacher 5",
+                "name"       => "Sarah Wilson",
                 "email"      => "teacher5@teacher.com",
                 "phone"      => "69734923",
                 "stage_id"   => 3,

@@ -47,6 +47,15 @@ class Teacher extends Authenticatable implements  HasMedia
         return $query;
     }
 
+    public function scopeSearch($query, $searchTerm = null)
+    {
+        if ($searchTerm) {
+            $query->where('name', 'LIKE', "%{$searchTerm}%");
+        }
+
+        return $query;
+    }
+
     public function averageRating()
     {
         return $this->reviews()->avg('rating');

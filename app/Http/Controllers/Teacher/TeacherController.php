@@ -16,10 +16,18 @@ class TeacherController extends Controller
     public function index(Request $request)
     {
         try {
+
+            $request->validate([
+                'type' => 'nullable|in:online_course,recorded_course,private_teacher',
+                'search' => 'nullable|string|max:255',
+            ]);
+
             $type = $request->query('type');
+            $search = $request->query('search');
 
             $teachers = Teacher::query()
                 ->filter($type)
+                ->search($search)
                 ->paginate(10);
 
             return ApiResponse::sendResponse(200, 'All Teachers', TeacherResource::collection($teachers)
