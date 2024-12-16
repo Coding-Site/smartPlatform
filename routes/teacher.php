@@ -30,7 +30,7 @@ Route::middleware(['auth:teacher'])->group(function () {
     Route::apiResource('courses', DashboardCourseController::class);
     Route::apiResource('units', UnitController::class);
     Route::apiResource('lessons', DashboardLessonController::class);
-    // Route::apiResource('books', DashboardBookController::class);
+    Route::apiResource('books', DashboardBookController::class);
     Route::apiResource('exams', ExamController::class);
     Route::apiResource('exam-banks', ExamBankController::class);
 

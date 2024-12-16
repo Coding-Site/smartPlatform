@@ -2,12 +2,14 @@
 namespace App\Repositories\Course;
 
 use App\Models\Course\Course;
+use Illuminate\Support\Facades\Auth;
 
 class CourseRepository
 {
     public function getAll()
     {
-        return Course::get();
+        $teacherId = Auth::id();
+        return Course::where('teacher_id', $teacherId)->get();
     }
 
     public function findById($id)

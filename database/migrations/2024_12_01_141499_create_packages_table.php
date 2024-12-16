@@ -18,6 +18,7 @@ return new class extends Migration
             $table->date('expiry_day')->nullable();
             $table->boolean('is_active')->default(1);
             $table->foreignId('grade_id')->constrained('grades')->onDelete('cascade');
+            $table->foreignId('stage_id')->constrained('stages')->onDelete('cascade');
             $table->timestamps();
         });
 
@@ -26,6 +27,7 @@ return new class extends Migration
             $table->foreignId('package_id')->constrained('packages')->onDelete('cascade');
             $table->string('locale');
             $table->string('name');
+            $table->string('type');
             $table->string('description');
             $table->unique(['package_id', 'locale']);
         });

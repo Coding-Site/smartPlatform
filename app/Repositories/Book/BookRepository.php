@@ -5,6 +5,7 @@ namespace App\Repositories\Book;
 use App\Helpers\ApiResponse;
 use App\Models\Book\Book;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
 
 class BookRepository implements BookRepositoryInterface
 {
@@ -13,23 +14,31 @@ class BookRepository implements BookRepositoryInterface
         return Book::filter($stageId, $gradeId)->paginate(10);
     }
 
-    public function createBook(array $data)
+    public function getBooksByAuthUser()
     {
-        $fileSample = $data['file_sample'] ?? null;
-        $image = $data['image'] ?? null;
-        unset($data['file_sample'], $data['image']);
+        $teacherId = Auth::id();
+        return Book::where('teacher_id', $teacherId)->get();
+    }
 
+    public function createBook(array $data): Book
+    {
         $book = Book::create($data);
 
-        if ($fileSample) {
-            $book->addMedia($fileSample)
+        $book->translateOrNew('en')->name = $data['name_en'];
+        $book->translateOrNew('ar')->name = $data['name_ar'];
+
+
+        if (isset($data['file_sample'])) {
+            $book->addMedia($data['file_sample'])
                 ->toMediaCollection('file_samples');
         }
 
-        if ($image) {
-            $book->addMedia($image)
+        if (isset($data['image'])) {
+            $book->addMedia($data['image'])
                 ->toMediaCollection('image');
         }
+
+        $book->save();
 
         return $book;
     }
@@ -47,6 +56,14 @@ class BookRepository implements BookRepositoryInterface
 
         $book->update($data);
 
+        if (!empty($data['name_en'])) {
+            $book->translateOrNew('en')->name = $data['name_en'];
+        }
+
+        if (!empty($data['name_ar'])) {
+            $book->translateOrNew('ar')->name = $data['name_ar'];
+        }
+
         if ($fileSample) {
             $book->clearMediaCollection('file_samples');
             $book->addMedia($fileSample)
@@ -59,9 +76,10 @@ class BookRepository implements BookRepositoryInterface
                 ->toMediaCollection('image');
         }
 
+        $book->save();
+
         return $book;
     }
-
     public function deleteBook(Book $book)
     {
         $book->clearMediaCollection('file_samples');

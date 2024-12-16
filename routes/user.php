@@ -6,6 +6,7 @@ use App\Http\Controllers\Book\BookController;
 use App\Http\Controllers\Card\CardController;
 use App\Http\Controllers\Cart\CartController;
 use App\Http\Controllers\Comment\CommentController;
+use App\Http\Controllers\ContactUs\ContactUsController;
 use App\Http\Controllers\Course\CourseController;
 use App\Http\Controllers\Exam\ExamBankController;
 use App\Http\Controllers\Exam\ExamController;
@@ -61,6 +62,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 });
 //courses
 Route::get('courses', [CourseController::class, 'index']);
+Route::get('/courses/names', [CourseController::class, 'getFilteredCourseNames']);
 Route::get('course/{course}/details', [CourseController::class, 'showCourseDetails'])->middleware('auth.optional');
 
 //lessons
@@ -75,7 +77,7 @@ Route::get('books', [BookController::class, 'index']);
 Route::get('book/{book}/download', [BookController::class, 'download']);
 
 //packages
-Route::get('packages', [PackageController::class, 'index']);
+Route::get('/packages', [PackageController::class, 'filteredPackages']);
 
 //exams
 Route::get('/course/{courseId}/exams', [ExamController::class, 'getExamsForCourse']);
@@ -90,6 +92,10 @@ Route::prefix('teachers')->group(function () {
     Route::get('/', [TeacherController::class, 'index']);
     Route::get('{teacher}', [TeacherController::class, 'show']);
 });
+
+//contact us
+Route::post('contact-us', [ContactUsController::class, 'create']);
+
 
 
 

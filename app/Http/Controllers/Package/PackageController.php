@@ -10,6 +10,7 @@ use App\Models\Package\Package;
 use App\Repositories\Package\PackageRepository;
 use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\Request;
 
 class PackageController extends Controller
 {
@@ -85,5 +86,19 @@ class PackageController extends Controller
             return ApiResponse::sendResponse(500,'Failed to delete package');
         }
     }
+
+    public function filteredPackages(Request $request)
+    {
+        try {
+            $packages = $this->packageRepository->getFilteredPackages($request);
+
+            $packagesObject = PackageResource::collection($packages)->keyBy('type');
+
+            return ApiResponse::sendResponse(200, 'Packages', $packagesObject);
+        } catch (Exception $e) {
+            return ApiResponse::sendResponse(500, 'Failed to fetch packages');
+        }
+    }
+
 
 }

@@ -23,11 +23,13 @@ class PackageRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:255',
+            'type' => 'required|string',
             'description' => 'required|string',
             'price' => 'required|numeric',
             'offer_price' => 'nullable|numeric',
             'expiry_day' => 'nullable|date',
             'grade_id' => 'required|exists:grades,id',
+            'stage_id' => 'required|exists:stages,id',
             'is_active' => 'required|boolean',
         ];
     }

@@ -5,6 +5,7 @@ namespace App\Models\Stage;
 use App\Models\Book\Book;
 use App\Models\Course\Course;
 use App\Models\Grade\Grade;
+use App\Models\Package\Package;
 use App\Models\Teacher\Teacher;
 use App\Models\User;
 use Astrotomic\Translatable\Translatable;
@@ -44,6 +45,11 @@ class Stage extends Model
     public function books()  : HasMany
     {
         return $this->hasMany(Book::class);
+    }
+
+    public function packages() : HasMany
+    {
+        return $this->hasMany(Package::class);
     }
 
 }

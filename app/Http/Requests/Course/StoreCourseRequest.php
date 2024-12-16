@@ -37,10 +37,10 @@ class StoreCourseRequest extends FormRequest
     }
 
 
-    public function prepareForValidation()
+    protected function prepareForValidation()
     {
-        $this->merge(input: [
-            'teacher_id' => auth()->user()->id
+        $this->merge([
+            'teacher_id' => auth()->guard('teacher')->user()->id,
         ]);
     }
 }

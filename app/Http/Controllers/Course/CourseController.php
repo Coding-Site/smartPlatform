@@ -20,13 +20,37 @@ class CourseController extends Controller
             $gradeId = $request->query('grade_id');
             $type = $request->query('type');
 
-            $courses = Course::filter($stageId, $gradeId,$type)->with('translations')->get();
+            $courses = Course::filter($stageId, $gradeId,$type)->get();
 
             return ApiResponse::sendResponse(200, 'Courses retrieved successfully', CourseResource::collection($courses));
         } catch (Exception $e) {
             return ApiResponse::sendResponse(500, 'Unable to fetch courses. ' . $e->getMessage());
         }
     }
+
+    public function getFilteredCourseNames(Request $request)
+    {
+        try {
+            $stageId = $request->query('stage_id');
+            $gradeId = $request->query('grade_id');
+            $type = $request->query('type');
+
+            $courses = Course::filter($stageId, $gradeId, $type)->get();
+
+            $courseNames = $courses->map(function ($course) {
+                return [
+                    'id' => $course->id,
+                    'name' => $course->name,
+                ];
+            });
+
+            return ApiResponse::sendResponse(200, 'Filtered course names retrieved successfully', $courseNames);
+        } catch (Exception $e) {
+            return ApiResponse::sendResponse(500, 'Unable to fetch course names. ' . $e->getMessage());
+        }
+    }
+
+
 
 
     public function showCourseDetails($courseId)

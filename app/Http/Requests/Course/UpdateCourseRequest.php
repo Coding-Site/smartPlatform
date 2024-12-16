@@ -36,4 +36,11 @@ class UpdateCourseRequest extends FormRequest
         ];
     }
 
+    protected function prepareForValidation()
+    {
+        $this->merge([
+            'teacher_id' => auth()->guard('teacher')->user()->id,
+        ]);
+    }
+
 }
