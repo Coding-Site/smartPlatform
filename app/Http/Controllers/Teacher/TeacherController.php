@@ -30,7 +30,18 @@ class TeacherController extends Controller
                 ->search($search)
                 ->paginate(10);
 
-            return ApiResponse::sendResponse(200, 'All Teachers', TeacherResource::collection($teachers)
+            return ApiResponse::sendResponse(
+                200,
+                'All Teachers',
+                [
+                    'teachers' => TeacherResource::collection($teachers),
+                    'pagination' => [
+                        'current_page' => $teachers->currentPage(),
+                        'last_page' => $teachers->lastPage(),
+                        'per_page' => $teachers->perPage(),
+                        'total' => $teachers->total(),
+                    ],
+                ]
             );
         } catch (Exception $e) {
             return ApiResponse::sendResponse(500, 'Unable to fetch teachers', $e->getMessage());
