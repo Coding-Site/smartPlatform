@@ -30,9 +30,9 @@ class ExamRepository implements ExamRepositoryInterface
         $shortSecondPdf = $data['short_second'] ?? null;
         $solvedExamsPdf = $data['solved_exams'] ?? null;
         $unsolvedExamsPdf = $data['unsolved_exams'] ?? null;
-        $finalRevisionPdf = $data['final_revision'] ?? null;
+        $finalReviewPdf = $data['final_review'] ?? null;
 
-        unset($data['short_first'], $data['short_second'], $data['solved_exams'], $data['unsolved_exams'], $data['final_revision']);
+        unset($data['short_first'], $data['short_second'], $data['solved_exams'], $data['unsolved_exams'], $data['final_review']);
         // dd($shortFirstPdf);
         $exam = Exam::create($data);
 
@@ -53,8 +53,8 @@ class ExamRepository implements ExamRepositoryInterface
             $exam->addMedia($unsolvedExamsPdf)->toMediaCollection('unsolved_exams');
         }
 
-        if ($finalRevisionPdf) {
-            $exam->addMedia($finalRevisionPdf)->toMediaCollection('final_revision');
+        if ($finalReviewPdf) {
+            $exam->addMedia($finalReviewPdf)->toMediaCollection('final_review');
         }
 
         return $exam;
