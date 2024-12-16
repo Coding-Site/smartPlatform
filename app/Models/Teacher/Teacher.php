@@ -28,11 +28,11 @@ class Teacher extends Authenticatable implements  HasMedia
     protected $guard_name = 'teacher';
 
     protected $fillable = [
-        'email', 'phone','password' , 'years_of_experience', 'stage_id', 'grade_id'
+        'email', 'phone','password' , 'years_of_experience', 'type', 'stage_id', 'grade_id'
     ];
 
     protected $with = ['translations'];
-    public $translatedAttributes = ['name','type','bio','description'];
+    public $translatedAttributes = ['name','bio','description'];
 
     protected $casts = [
         'type' => Type::class,
@@ -55,7 +55,9 @@ class Teacher extends Authenticatable implements  HasMedia
     public function scopeSearch($query, $searchTerm = null)
     {
         if ($searchTerm) {
-            $query->where('name', 'LIKE', "%{$searchTerm}%");
+            $query->whereHas('translations', function ($query) use ($searchTerm) {
+                $query->where('name', 'LIKE', "%{$searchTerm}%");
+            });
         }
 
         return $query;

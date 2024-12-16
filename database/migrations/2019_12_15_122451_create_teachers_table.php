@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('phone')->unique();
             $table->string('password');
             $table->integer('years_of_experience')->nullable();
+            $table->string('type')->nullable();
             $table->foreignId('stage_id');
             $table->foreignId('grade_id');
             $table->timestamps();
@@ -27,7 +28,6 @@ return new class extends Migration
             $table->foreignId('teacher_id')->constrained('teachers')->onDelete('cascade');
             $table->string('locale');
             $table->string('name');
-            $table->string('type')->nullable();
             $table->string('bio')->nullable();
             $table->text('description')->nullable();
             $table->unique(['teacher_id', 'locale']);

@@ -21,6 +21,7 @@ class TeachersTableSeeder extends Seeder
                 "phone" => "69734921",
                 "password" => Hash::make('Mm.1@23456'),
                 "years_of_experience" => 5,
+                "type" => Type::ONLINE_COURSE->value,
                 "stage_id" => 1,
                 "grade_id" => 1,
             ],
@@ -29,6 +30,7 @@ class TeachersTableSeeder extends Seeder
                 "phone" => "62734921",
                 "password" => Hash::make('Mm.1@23456'),
                 "years_of_experience" => 3,
+                "type" => Type::RECORDED_COURSE->value,
                 "stage_id" => 2,
                 "grade_id" => 1,
             ],
@@ -37,6 +39,7 @@ class TeachersTableSeeder extends Seeder
                 "phone" => "69714921",
                 "password" => Hash::make('Mm.1@23456'),
                 "years_of_experience" => 7,
+                "type" => Type::PRIVATE_TEACHER->value,
                 "stage_id" => 1,
                 "grade_id" => 2,
             ],
@@ -45,6 +48,7 @@ class TeachersTableSeeder extends Seeder
                 "phone" => "69724921",
                 "password" => Hash::make('Mm.1@23456'),
                 "years_of_experience" => 2,
+                "type" => Type::ONLINE_COURSE->value,
                 "stage_id" => 2,
                 "grade_id" => 2,
             ],
@@ -53,6 +57,7 @@ class TeachersTableSeeder extends Seeder
                 "phone" => "69734922",
                 "password" => Hash::make('Mm.1@23456'),
                 "years_of_experience" => 4,
+                "type" => Type::RECORDED_COURSE->value,
                 "stage_id" => 3,
                 "grade_id" => 1,
             ],
@@ -61,6 +66,7 @@ class TeachersTableSeeder extends Seeder
                 "phone" => "69734923",
                 "password" => Hash::make('Mm.1@23456'),
                 "years_of_experience" => 6,
+                "type" => Type::PRIVATE_TEACHER->value,
                 "stage_id" => 3,
                 "grade_id" => 2,
             ]
@@ -72,7 +78,6 @@ class TeachersTableSeeder extends Seeder
                 "teacher_id" => 1,
                 "locale" => "en",
                 "name" => "John Doe",
-                "type" => Type::ONLINE_COURSE->value,
                 "bio" => "Experienced online course teacher",
                 "description" => "John Doe has been teaching online courses for over 5 years."
             ],
@@ -80,7 +85,6 @@ class TeachersTableSeeder extends Seeder
                 "teacher_id" => 1,
                 "locale" => "ar",
                 "name" => "جون دو",
-                "type" => Type::ONLINE_COURSE->localizedLabel('ar'),
                 "bio" => "معلم ذو خبرة في الدورات عبر الإنترنت",
                 "description" => "جون دو يقوم بتدريس الدورات عبر الإنترنت لأكثر من 5 سنوات."
             ],
@@ -88,7 +92,6 @@ class TeachersTableSeeder extends Seeder
                 "teacher_id" => 2,
                 "locale" => "en",
                 "name" => "Jane Smith",
-                "type" => Type::RECORDED_COURSE->value,
                 "bio" => "Expert in recorded courses",
                 "description" => "Jane Smith specializes in creating recorded courses."
             ],
@@ -96,7 +99,6 @@ class TeachersTableSeeder extends Seeder
                 "teacher_id" => 2,
                 "locale" => "ar",
                 "name" => "جين سميث",
-                "type" => Type::RECORDED_COURSE->localizedLabel('ar'),
                 "bio" => "خبير في الدورات المسجلة",
                 "description" => "جين سميث متخصص في إنشاء الدورات المسجلة."
             ],
@@ -104,7 +106,6 @@ class TeachersTableSeeder extends Seeder
                 "teacher_id" => 3,
                 "locale" => "en",
                 "name" => "Michael Johnson",
-                "type" => Type::PRIVATE_TEACHER->value,
                 "bio" => "Private teacher with 7 years of experience",
                 "description" => "Michael Johnson offers private teaching sessions."
             ],
@@ -112,7 +113,6 @@ class TeachersTableSeeder extends Seeder
                 "teacher_id" => 3,
                 "locale" => "ar",
                 "name" => "مايكل جونسون",
-                "type" => Type::PRIVATE_TEACHER->localizedLabel('ar'),
                 "bio" => "معلم خاص مع 7 سنوات من الخبرة",
                 "description" => "مايكل جونسون يقدم جلسات تعليمية خاصة."
             ],
@@ -120,7 +120,6 @@ class TeachersTableSeeder extends Seeder
                 "teacher_id" => 4,
                 "locale" => "en",
                 "name" => "Emily Davis",
-                "type" => Type::ONLINE_COURSE->value,
                 "bio" => "New online course teacher",
                 "description" => "Emily Davis is a new teacher specializing in online courses."
             ],
@@ -128,7 +127,6 @@ class TeachersTableSeeder extends Seeder
                 "teacher_id" => 4,
                 "locale" => "ar",
                 "name" => "إميلي ديفيس",
-                "type" => Type::ONLINE_COURSE->localizedLabel('ar'),
                 "bio" => "معلم جديد في الدورات عبر الإنترنت",
                 "description" => "إميلي ديفيس معلمة جديدة متخصصة في الدورات عبر الإنترنت."
             ],
@@ -136,7 +134,6 @@ class TeachersTableSeeder extends Seeder
                 "teacher_id" => 5,
                 "locale" => "en",
                 "name" => "David Brown",
-                "type" => Type::RECORDED_COURSE->value,
                 "bio" => "Recorded course expert",
                 "description" => "David Brown has been creating recorded courses for 4 years."
             ],
@@ -144,7 +141,6 @@ class TeachersTableSeeder extends Seeder
                 "teacher_id" => 5,
                 "locale" => "ar",
                 "name" => "ديفيد براون",
-                "type" => Type::RECORDED_COURSE->localizedLabel('ar'),
                 "bio" => "خبير في الدورات المسجلة",
                 "description" => "ديفيد براون يقوم بإنشاء الدورات المسجلة منذ 4 سنوات."
             ],
@@ -152,7 +148,6 @@ class TeachersTableSeeder extends Seeder
                 "teacher_id" => 6,
                 "locale" => "en",
                 "name" => "Sarah Wilson",
-                "type" => Type::PRIVATE_TEACHER->value,
                 "bio" => "Experienced private teacher",
                 "description" => "Sarah Wilson has 6 years of experience as a private teacher."
             ],
@@ -160,7 +155,6 @@ class TeachersTableSeeder extends Seeder
                 "teacher_id" => 6,
                 "locale" => "ar",
                 "name" => "سارة ويلسون",
-                "type" => Type::PRIVATE_TEACHER->localizedLabel('ar'),
                 "bio" => "معلمة خاصة ذات خبرة",
                 "description" => "سارة ويلسون لديها 6 سنوات من الخبرة كمعلمة خاصة."
             ]
