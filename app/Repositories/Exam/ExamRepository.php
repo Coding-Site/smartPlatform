@@ -6,12 +6,17 @@ namespace App\Repositories\Exam;
 use App\Models\Exam\Exam;
 use Illuminate\Http\Response;
 use App\Helpers\ApiResponse;
+use Illuminate\Support\Facades\Auth;
 
 class ExamRepository implements ExamRepositoryInterface
 {
     public function getAllExams()
     {
-        return Exam::paginate(10);
+        $teacherId = Auth::id();
+
+        return Exam::whereHas('course', function ($query) use ($teacherId) {
+            $query->where('teacher_id', $teacherId);
+        })->paginate(10);
     }
 
     public function getExamsByCourse($courseId)
