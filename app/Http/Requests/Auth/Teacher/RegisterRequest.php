@@ -33,8 +33,8 @@ class RegisterRequest extends FormRequest
             'years_of_experience' => 'nullable|integer|min:0',
             'video_preview'       => 'nullable|url',
             'stage_id'            => 'required|string',
-            'grade_id'            => 'required|string'
-
+            'grade_id'            => 'required|string',
+            'type'                => 'nullable|string|in:online_course,recorded_course,private_teacher',
         ];
 
     }

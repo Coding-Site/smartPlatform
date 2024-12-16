@@ -9,41 +9,25 @@ use App\Http\Resources\Teacher\TeacherResource;
 use App\Models\Teacher\Teacher;
 use App\Repositories\Teacher\TeacherRepository;
 use Exception;
+use Illuminate\Http\Request;
 
 class TeacherController extends Controller
 {
-    private $repository;
-
-    public function __construct(TeacherRepository $repository)
-    {
-        $this->repository = $repository;
-    }
-
-
-    public function index()
+    public function index(Request $request)
     {
         try {
-            $teachers = $this->repository->all();
+            $type = $request->query('type');
 
-            return ApiResponse::sendResponse(
-                200,
-                'All Teachers',
-                [
-                    'teachers' => TeacherResource::collection($teachers),
-                    'pagination' => [
-                        'current_page' => $teachers->currentPage(),
-                        'last_page' => $teachers->lastPage(),
-                        'per_page' => $teachers->perPage(),
-                        'total' => $teachers->total(),
-                    ],
-                ]
+            $teachers = Teacher::query()
+                ->filter($type)
+                ->paginate(10);
+
+            return ApiResponse::sendResponse(200, 'All Teachers', TeacherResource::collection($teachers)
             );
         } catch (Exception $e) {
             return ApiResponse::sendResponse(500, 'Unable to fetch teachers', $e->getMessage());
         }
     }
-
-
 
     public function show(Teacher $teacher)
     {

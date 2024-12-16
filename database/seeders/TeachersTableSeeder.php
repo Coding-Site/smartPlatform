@@ -18,30 +18,60 @@ class TeachersTableSeeder extends Seeder
             [
                 "name"       => "teacher",
                 "email"      => "teacher@teacher.com",
-                "phone"      => "01069734921",
+                "phone"      => "69734921",
                 "stage_id"   => 1,
                 "grade_id"   => 1,
+                "type"       => "online_course",
 
                 'password'   => Hash::make('Mm.1@23456'),
             ],
             [
                 "name"       => "teacher 1",
                 "email"      => "teacher1@teacher.com",
-                "phone"      => "01062734921",
+                "phone"      => "62734921",
                 "stage_id"   => 2,
                 "grade_id"   => 1,
+                "type"       => "recorded_course",
 
                 'password'   => Hash::make('Mm.1@23456'),
             ],
             [
                 "name"       => "teacher 2",
                 "email"      => "teacher2@teacher.com",
-                "phone"      => "01069714921",
+                "phone"      => "69714921",
                 "stage_id"   => 1,
                 "grade_id"   => 2,
+                "type"       => "private_teacher",
 
                 'password'   => Hash::make('Mm.1@23456'),
             ],
+            [
+                "name"       => "teacher 3",
+                "email"      => "teacher3@teacher.com",
+                "phone"      => "69724921",
+                "stage_id"   => 2,
+                "grade_id"   => 2,
+                "type"       => "online_course",
+                'password'   => Hash::make('Mm.1@23456'),
+            ],
+            [
+                "name"       => "teacher 4",
+                "email"      => "teacher4@teacher.com",
+                "phone"      => "69734922",
+                "stage_id"   => 3,
+                "grade_id"   => 1,
+                "type"       => "recorded_course",
+                'password'   => Hash::make('Mm.1@23456'),
+            ],
+            [
+                "name"       => "teacher 5",
+                "email"      => "teacher5@teacher.com",
+                "phone"      => "69734923",
+                "stage_id"   => 3,
+                "grade_id"   => 2,
+                "type"       => "private_teacher",
+                'password'   => Hash::make('Mm.1@23456')
+            ]
         ];
         DB::table('teachers')->insert($teachers);
     }

@@ -2,6 +2,7 @@
 
 namespace App\Models\Teacher;
 
+use App\Enums\Teacher\Type;
 use App\Models\Book\Book;
 use App\Models\Comment\Comment;
 use App\Models\Course\Course;
@@ -27,6 +28,24 @@ class Teacher extends Authenticatable implements  HasMedia
     protected $fillable = [
         'name', 'email', 'phone','password' , 'bio', 'stage_id', 'grade_id'
     ];
+
+    protected $casts = [
+        'type' => Type::class,
+    ];
+
+
+    public function scopeFilter($query, $type = null)
+    {
+        if ($type instanceof Type) {
+            return $query->where('type', $type->value);
+        }
+
+        if (is_string($type)) {
+            return $query->where('type', $type);
+        }
+
+        return $query;
+    }
 
     public function averageRating()
     {

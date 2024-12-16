@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('bio')->nullable();
             $table->text('description')->nullable();
             $table->integer('years_of_experience')->nullable();
+            $table->string('type')->nullable();
             $table->foreignId('stage_id');
             $table->foreignId('grade_id');
             $table->timestamp('email_verified_at')->nullable();

@@ -30,6 +30,7 @@ class DetailedTeacherResource extends JsonResource
         return [
             'id'                    => $this->id,
             'name'                  => $this->name,
+            'type'                  => $this->type,
             'user_type'             => 'teacher',
             'email'                 => $this->email,
             'phone'                 => $this->phone,
