@@ -13,20 +13,27 @@ return new class extends Migration
     {
         Schema::create('teachers', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
             $table->string('email')->unique();
             $table->string('phone')->unique();
             $table->string('password');
-            $table->string('bio')->nullable();
-            $table->text('description')->nullable();
             $table->integer('years_of_experience')->nullable();
-            $table->string('type')->nullable();
             $table->foreignId('stage_id');
             $table->foreignId('grade_id');
-            $table->timestamp('email_verified_at')->nullable();
             $table->timestamps();
         });
+
+        Schema::create('teacher_translations', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('teacher_id')->constrained('teachers')->onDelete('cascade');
+            $table->string('locale');
+            $table->string('name');
+            $table->string('type')->nullable();
+            $table->string('bio')->nullable();
+            $table->text('description')->nullable();
+            $table->unique(['teacher_id', 'locale']);
+        });
     }
+
 
     /**
      * Reverse the migrations.

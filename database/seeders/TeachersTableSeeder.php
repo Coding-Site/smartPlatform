@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Enums\Teacher\Type;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -16,63 +17,153 @@ class TeachersTableSeeder extends Seeder
     {
         $teachers = [
             [
-                "name"       => "John Doe",
-                "email"      => "teacher@teacher.com",
-                "phone"      => "69734921",
-                "stage_id"   => 1,
-                "grade_id"   => 1,
-                "type"       => "online_course",
-
-                'password'   => Hash::make('Mm.1@23456'),
+                "email" => "teacher@teacher.com",
+                "phone" => "69734921",
+                "password" => Hash::make('Mm.1@23456'),
+                "years_of_experience" => 5,
+                "stage_id" => 1,
+                "grade_id" => 1,
             ],
             [
-                "name"       => "Jane Smith",
-                "email"      => "teacher1@teacher.com",
-                "phone"      => "62734921",
-                "stage_id"   => 2,
-                "grade_id"   => 1,
-                "type"       => "recorded_course",
-
-                'password'   => Hash::make('Mm.1@23456'),
+                "email" => "teacher1@teacher.com",
+                "phone" => "62734921",
+                "password" => Hash::make('Mm.1@23456'),
+                "years_of_experience" => 3,
+                "stage_id" => 2,
+                "grade_id" => 1,
             ],
             [
-                "name"       => "Michael Johnson",
-                "email"      => "teacher2@teacher.com",
-                "phone"      => "69714921",
-                "stage_id"   => 1,
-                "grade_id"   => 2,
-                "type"       => "private_teacher",
-
-                'password'   => Hash::make('Mm.1@23456'),
+                "email" => "teacher2@teacher.com",
+                "phone" => "69714921",
+                "password" => Hash::make('Mm.1@23456'),
+                "years_of_experience" => 7,
+                "stage_id" => 1,
+                "grade_id" => 2,
             ],
             [
-                "name"       => "Emily Davis",
-                "email"      => "teacher3@teacher.com",
-                "phone"      => "69724921",
-                "stage_id"   => 2,
-                "grade_id"   => 2,
-                "type"       => "online_course",
-                'password'   => Hash::make('Mm.1@23456'),
+                "email" => "teacher3@teacher.com",
+                "phone" => "69724921",
+                "password" => Hash::make('Mm.1@23456'),
+                "years_of_experience" => 2,
+                "stage_id" => 2,
+                "grade_id" => 2,
             ],
             [
-                "name"       => "David Brown",
-                "email"      => "teacher4@teacher.com",
-                "phone"      => "69734922",
-                "stage_id"   => 3,
-                "grade_id"   => 1,
-                "type"       => "recorded_course",
-                'password'   => Hash::make('Mm.1@23456'),
+                "email" => "teacher4@teacher.com",
+                "phone" => "69734922",
+                "password" => Hash::make('Mm.1@23456'),
+                "years_of_experience" => 4,
+                "stage_id" => 3,
+                "grade_id" => 1,
             ],
             [
-                "name"       => "Sarah Wilson",
-                "email"      => "teacher5@teacher.com",
-                "phone"      => "69734923",
-                "stage_id"   => 3,
-                "grade_id"   => 2,
-                "type"       => "private_teacher",
-                'password'   => Hash::make('Mm.1@23456')
+                "email" => "teacher5@teacher.com",
+                "phone" => "69734923",
+                "password" => Hash::make('Mm.1@23456'),
+                "years_of_experience" => 6,
+                "stage_id" => 3,
+                "grade_id" => 2,
             ]
         ];
         DB::table('teachers')->insert($teachers);
+
+        DB::table('teacher_translations')->insert([
+            [
+                "teacher_id" => 1,
+                "locale" => "en",
+                "name" => "John Doe",
+                "type" => Type::ONLINE_COURSE->value,
+                "bio" => "Experienced online course teacher",
+                "description" => "John Doe has been teaching online courses for over 5 years."
+            ],
+            [
+                "teacher_id" => 1,
+                "locale" => "ar",
+                "name" => "جون دو",
+                "type" => Type::ONLINE_COURSE->localizedLabel('ar'),
+                "bio" => "معلم ذو خبرة في الدورات عبر الإنترنت",
+                "description" => "جون دو يقوم بتدريس الدورات عبر الإنترنت لأكثر من 5 سنوات."
+            ],
+            [
+                "teacher_id" => 2,
+                "locale" => "en",
+                "name" => "Jane Smith",
+                "type" => Type::RECORDED_COURSE->value,
+                "bio" => "Expert in recorded courses",
+                "description" => "Jane Smith specializes in creating recorded courses."
+            ],
+            [
+                "teacher_id" => 2,
+                "locale" => "ar",
+                "name" => "جين سميث",
+                "type" => Type::RECORDED_COURSE->localizedLabel('ar'),
+                "bio" => "خبير في الدورات المسجلة",
+                "description" => "جين سميث متخصص في إنشاء الدورات المسجلة."
+            ],
+            [
+                "teacher_id" => 3,
+                "locale" => "en",
+                "name" => "Michael Johnson",
+                "type" => Type::PRIVATE_TEACHER->value,
+                "bio" => "Private teacher with 7 years of experience",
+                "description" => "Michael Johnson offers private teaching sessions."
+            ],
+            [
+                "teacher_id" => 3,
+                "locale" => "ar",
+                "name" => "مايكل جونسون",
+                "type" => Type::PRIVATE_TEACHER->localizedLabel('ar'),
+                "bio" => "معلم خاص مع 7 سنوات من الخبرة",
+                "description" => "مايكل جونسون يقدم جلسات تعليمية خاصة."
+            ],
+            [
+                "teacher_id" => 4,
+                "locale" => "en",
+                "name" => "Emily Davis",
+                "type" => Type::ONLINE_COURSE->value,
+                "bio" => "New online course teacher",
+                "description" => "Emily Davis is a new teacher specializing in online courses."
+            ],
+            [
+                "teacher_id" => 4,
+                "locale" => "ar",
+                "name" => "إميلي ديفيس",
+                "type" => Type::ONLINE_COURSE->localizedLabel('ar'),
+                "bio" => "معلم جديد في الدورات عبر الإنترنت",
+                "description" => "إميلي ديفيس معلمة جديدة متخصصة في الدورات عبر الإنترنت."
+            ],
+            [
+                "teacher_id" => 5,
+                "locale" => "en",
+                "name" => "David Brown",
+                "type" => Type::RECORDED_COURSE->value,
+                "bio" => "Recorded course expert",
+                "description" => "David Brown has been creating recorded courses for 4 years."
+            ],
+            [
+                "teacher_id" => 5,
+                "locale" => "ar",
+                "name" => "ديفيد براون",
+                "type" => Type::RECORDED_COURSE->localizedLabel('ar'),
+                "bio" => "خبير في الدورات المسجلة",
+                "description" => "ديفيد براون يقوم بإنشاء الدورات المسجلة منذ 4 سنوات."
+            ],
+            [
+                "teacher_id" => 6,
+                "locale" => "en",
+                "name" => "Sarah Wilson",
+                "type" => Type::PRIVATE_TEACHER->value,
+                "bio" => "Experienced private teacher",
+                "description" => "Sarah Wilson has 6 years of experience as a private teacher."
+            ],
+            [
+                "teacher_id" => 6,
+                "locale" => "ar",
+                "name" => "سارة ويلسون",
+                "type" => Type::PRIVATE_TEACHER->localizedLabel('ar'),
+                "bio" => "معلمة خاصة ذات خبرة",
+                "description" => "سارة ويلسون لديها 6 سنوات من الخبرة كمعلمة خاصة."
+            ]
+        ]);
     }
 }

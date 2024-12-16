@@ -8,6 +8,7 @@ use App\Models\Comment\Comment;
 use App\Models\Course\Course;
 use App\Models\Review\Review;
 use App\Models\Stage\Stage;
+use Astrotomic\Translatable\Translatable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -23,11 +24,15 @@ use Spatie\Permission\Traits\HasRoles;
 
 class Teacher extends Authenticatable implements  HasMedia
 {
-    use HasFactory, HasApiTokens, Notifiable,HasRoles, InteractsWithMedia;
+    use HasFactory, HasApiTokens, Notifiable,HasRoles, InteractsWithMedia , Translatable;
     protected $guard_name = 'teacher';
+
     protected $fillable = [
-        'name', 'email', 'phone','password' , 'bio', 'stage_id', 'grade_id'
+        'email', 'phone','password' , 'years_of_experience', 'stage_id', 'grade_id'
     ];
+
+    protected $with = ['translations'];
+    public $translatedAttributes = ['name','type','bio','description'];
 
     protected $casts = [
         'type' => Type::class,
