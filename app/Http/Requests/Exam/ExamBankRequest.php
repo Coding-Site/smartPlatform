@@ -23,8 +23,6 @@ class ExamBankRequest extends FormRequest
     {
         return [
             'course_id' => 'required|exists:courses,id',
-            'term_id' => 'required|exists:terms,id',
-            'grade_id' => 'required|exists:grades,id',
             'unresolved' => 'nullable|file|mimes:pdf,doc,docx|max:10240',
             'solved' => 'nullable|file|mimes:pdf,doc,docx|max:10240',
             'book_solution' => 'nullable|file|mimes:pdf,doc,docx|max:10240',

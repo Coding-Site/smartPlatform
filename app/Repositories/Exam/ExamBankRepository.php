@@ -32,6 +32,15 @@ class ExamBankRepository implements ExamBankRepositoryInterface
 
         unset($data['unresolved'], $data['solved'], $data['book_solution']);
 
+        $existingExamBank = ExamBank::where('course_id', $data['course_id'])->first();
+
+        if ($existingExamBank) {
+            foreach (['unresolved', 'solved', 'book_solution'] as $collection) {
+                $existingExamBank->clearMediaCollection($collection);
+            }
+            $existingExamBank->delete();
+        }
+
         $examBank = ExamBank::create($data);
 
         if ($unresolvedPdf) {

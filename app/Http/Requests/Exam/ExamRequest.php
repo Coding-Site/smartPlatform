@@ -23,8 +23,6 @@ class ExamRequest extends FormRequest
     {
         return [
             'course_id' => 'required|exists:courses,id',
-            'term_id' => 'required|exists:terms,id',
-            'grade_id' => 'required|exists:grades,id',
             'short_first' => 'nullable|file|mimes:pdf,doc,docx|max:10240',
             'short_second' => 'nullable|file|mimes:pdf,doc,docx|max:10240',
             'solved_exams' => 'nullable|file|mimes:pdf,doc,docx|max:10240',
