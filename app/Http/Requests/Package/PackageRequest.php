@@ -33,6 +33,10 @@ class PackageRequest extends FormRequest
             'grade_id' => 'required|exists:grades,id',
             'stage_id' => 'required|exists:stages,id',
             'is_active' => 'required|boolean',
+            'course_ids' => 'nullable|array',
+            'course_ids.*' => 'exists:courses,id',
+            'book_ids' => 'nullable|array',
+            'book_ids.*' => 'exists:books,id',
         ];
     }
 }
