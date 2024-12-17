@@ -22,6 +22,7 @@ class Book extends Model implements HasMedia
     use HasFactory,InteractsWithMedia, Translatable;
 
     protected $fillable = [
+        'type',
         'paper_price',
         'paper_count',
         'covering_price',
@@ -34,7 +35,7 @@ class Book extends Model implements HasMedia
     ];
 
     protected $with = ['translations'];
-    public $translatedAttributes = ['name','type'];
+    public $translatedAttributes = ['name'];
 
 
     protected $casts = [

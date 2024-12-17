@@ -10,5 +10,5 @@ class BookTranslation extends Model
     use HasFactory;
 
     public $timestamps = false;
-    protected $fillable = ['name','type'];
+    protected $fillable = ['name'];
 }
