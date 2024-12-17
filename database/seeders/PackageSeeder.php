@@ -54,6 +54,7 @@ class PackageSeeder extends Seeder
             foreach (range(1, 5) as $gradeId) {
                 foreach ($basePackages as $packageData) {
                     $packageId = DB::table('packages')->insertGetId([
+                        'type' => $packageData['type'],
                         'price' => $packageData['price'],
                         'expiry_day' => $packageData['expiry_day'],
                         'is_active' => 1,
@@ -66,7 +67,6 @@ class PackageSeeder extends Seeder
                             'package_id' => $packageId,
                             'locale' => $locale,
                             'name' => $translation['name'],
-                            'type' => $packageData['type'],
                             'description' => $translation['description'],
                         ]);
                     }

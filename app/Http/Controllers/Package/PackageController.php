@@ -59,23 +59,22 @@ class PackageController extends Controller
     public function update(PackageRequest $request, Package $package)
     {
         try {
-            $updated = $this->packageRepository->update($package->id, $request->validated());
+            $updated = $this->packageRepository->update($package, $request->validated());
 
             if (!$updated) {
-                return ApiResponse::sendResponse(404,'Package not found');
+                return ApiResponse::sendResponse(404, 'Package not found');
             }
 
-            return ApiResponse::sendResponse(200, 'Package updated successfully',new PackageResource($updated));
+            return ApiResponse::sendResponse(200, 'Package updated successfully', new PackageResource($package));
         } catch (\Exception $e) {
-            return ApiResponse::sendResponse(500,'Failed to update package');
+            return ApiResponse::sendResponse(500, 'Failed to update package');
         }
     }
-
 
     public function destroy(Package $package)
     {
         try {
-            $deleted = $this->packageRepository->delete($package->id);
+            $deleted = $this->packageRepository->delete($package);
 
             if (!$deleted) {
                 return ApiResponse::sendResponse(404,'Package not found');
