@@ -18,7 +18,7 @@ class ReviewResource extends JsonResource
             'user'        => [
                 'name' => $this->user->name,
                 'image'  => $this->user->getFirstMediaUrl('image'),
-                'stage'  => $this->user->stage->translations->firstWhere('locale', request()->get('lang', app()->getLocale()))->name ,
+                'grade'  => $this->user->grade->name ,
             ],
             'review'      => $this->review,
         ];
