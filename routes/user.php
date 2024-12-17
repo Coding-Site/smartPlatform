@@ -53,12 +53,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('quiz/{quiz}/question/{question}/self-assessment', [QuizController::class, 'submitSelfAssessmentScore']);
     Route::get('quiz/{quiz}/question/{currentQuestion}/next', [QuizController::class, 'getNextQuestion']);
     Route::get('quiz/{quiz}/score', [QuizController::class, 'getScore']);
-//comments
-    Route::get('/lessons/{lesson}/comments', [CommentController::class, 'showComments']);
-    Route::post('/lessons/{lesson}/comments', [CommentController::class, 'store']);
-    Route::post('/comments/{comment}', [CommentController::class, 'update']);
-    Route::delete('/comments/{comment}', [CommentController::class, 'destroy']);
-
 });
 //courses
 Route::get('courses', [CourseController::class, 'index']);
@@ -71,6 +65,12 @@ Route::get('/cards/lesson/{lesson}', [CardController::class, 'get']);
 Route::post('/cards/{card}/save', [CardController::class, 'save']);
 Route::post('/cards/{card}/forget', [CardController::class, 'forget']);
 Route::get('/lesson/{lesson}/score', [CardController::class, 'calculateScore']);
+
+//comments
+Route::get('/lessons/{lesson}/comments', [CommentController::class, 'showComments']);
+Route::post('/lessons/{lesson}/comments', [CommentController::class, 'store']);
+Route::post('/comments/{comment}', [CommentController::class, 'update']);
+Route::delete('/comments/{comment}', [CommentController::class, 'destroy']);
 
 //books
 Route::get('books', [BookController::class, 'index']);

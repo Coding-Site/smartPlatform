@@ -8,6 +8,7 @@ use App\Http\Controllers\Exam\ExamBankController;
 use App\Http\Controllers\Exam\ExamController;
 use App\Http\Controllers\Lesson\DashboardLessonController;
 use App\Http\Controllers\Package\PackageController;
+use App\Http\Controllers\Quiz\DashboardQuizController;
 use App\Http\Controllers\Teacher\DashboardTeacherController;
 use App\Http\Controllers\Teacher\TeacherController;
 use App\Http\Controllers\Unit\UnitController;
@@ -42,6 +43,8 @@ Route::middleware(['auth:teacher'])->group(function () {
     });
 
     Route::apiResource('packages', PackageController::class);
+
+    Route::apiResource('quizzes', DashboardQuizController::class);
 
     Route::get('/lessons/{lesson}/comments', [CommentController::class, 'showComments']);
     Route::post('/lessons/{lesson}/comments', [CommentController::class, 'store']);
