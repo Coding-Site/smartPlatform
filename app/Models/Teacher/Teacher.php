@@ -28,7 +28,7 @@ class Teacher extends Authenticatable implements  HasMedia
     protected $guard_name = 'teacher';
 
     protected $fillable = [
-        'email', 'phone','password' , 'years_of_experience', 'type', 'stage_id', 'grade_id'
+        'email', 'phone','password' , 'years_of_experience','video_preview', 'type', 'stage_id', 'grade_id'
     ];
 
     protected $with = ['translations'];

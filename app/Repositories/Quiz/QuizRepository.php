@@ -35,6 +35,7 @@ class QuizRepository
 
         $quiz->translateOrNew('en')->title = $data['title_en'];
         $quiz->translateOrNew('ar')->title = $data['title_ar'];
+        $quiz->save();
 
         if (isset($data['questions'])) {
             foreach ($data['questions'] as $questionData) {

@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('phone')->unique();
             $table->string('password');
             $table->integer('years_of_experience')->nullable();
+            $table->string('video_preview')->nullable();
             $table->string('type')->nullable();
             $table->foreignId('stage_id');
             $table->foreignId('grade_id');
