@@ -25,6 +25,7 @@ class ReviewSeeder extends Seeder
                         'teacher_id' => $teacher->id,
                         'review' => $faker->sentence(),
                         'rating' => $faker->numberBetween(1, 5),
+                        'created_at' => now(),
                     ]);
                 }
             }

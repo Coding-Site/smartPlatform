@@ -21,6 +21,8 @@ class ReviewResource extends JsonResource
                 'grade'  => $this->user->grade->name ,
             ],
             'review'      => $this->review,
+            'rating'      => $this->rating,
+            'created_at'  => $this->created_at->diffForHumans(),
         ];
     }
 }

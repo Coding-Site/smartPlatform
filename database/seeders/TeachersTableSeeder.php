@@ -19,7 +19,7 @@ class TeachersTableSeeder extends Seeder
             [
                 "email" => "teacher@teacher.com",
                 "phone" => "69734921",
-                "teacher_profit_rate"     => 50,
+               // "teacher_profit_rate"     => 50,
 
                 "password" => Hash::make('Mm.1@23456'),
                 "years_of_experience" => 5,
@@ -30,7 +30,7 @@ class TeachersTableSeeder extends Seeder
             [
                 "email" => "teacher1@teacher.com",
                 "phone" => "62734921",
-                "teacher_profit_rate"     => 50,
+                //"teacher_profit_rate"     => 50,
 
                 "password" => Hash::make('Mm.1@23456'),
                 "years_of_experience" => 3,
@@ -41,7 +41,7 @@ class TeachersTableSeeder extends Seeder
             [
                 "email" => "teacher2@teacher.com",
                 "phone" => "69714921",
-                "teacher_profit_rate"     => 50,
+                //"teacher_profit_rate"     => 50,
 
                 "password" => Hash::make('Mm.1@23456'),
                 "years_of_experience" => 7,
