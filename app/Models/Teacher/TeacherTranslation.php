@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Models\Book;
+namespace App\Models\Teacher;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class BookTranslation extends Model
+class TeacherTranslation extends Model
 {
     use HasFactory;
 
     public $timestamps = false;
-    protected $fillable = ['name'];
+    protected $fillable = ['name','bio','description'];
 }

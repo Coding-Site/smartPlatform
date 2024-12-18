@@ -32,7 +32,25 @@ class PackageRepository
     public function create(array $data): Package
     {
         try {
-            return Package::create($data);
+            $package = Package::create($data);
+
+            $package->translateOrNew('ar')->name = $data['name_ar'];
+            $package->translateOrNew('en')->name = $data['name_en'];
+            $package->translateOrNew('ar')->description = $data['description_ar'];
+            $package->translateOrNew('en')->description = $data['description_en'];
+
+            $package->save();
+
+            if (!empty($data['course_ids'])) {
+                $package->courses()->sync($data['course_ids']);
+            }
+
+            if (!empty($data['book_ids'])) {
+                $package->books()->sync($data['book_ids']);
+            }
+
+            return $package;
+
         } catch (Exception $e) {
             throw new Exception('Error creating package: ' . $e->getMessage());
         }
@@ -42,7 +60,32 @@ class PackageRepository
     public function update(Package $package, array $data): bool
     {
         try {
-            return $package->update($data);
+            $package->update($data);
+
+            if (!empty($data['name_ar'])) {
+                $package->translateOrNew('ar')->name = $data['name_ar'];
+            }
+
+            if (!empty($data['name_en'])) {
+                $package->translateOrNew('en')->name = $data['name_en'];
+            }
+            if (!empty($data['description_ar'])) {
+                $package->translateOrNew('ar')->description = $data['description_ar'];
+            }
+
+            if (!empty($data['description_en'])) {
+                $package->translateOrNew('en')->description = $data['description_en'];
+            }
+
+            if (!empty($data['course_ids'])) {
+                $package->courses()->sync($data['course_ids']);
+            }
+            if (!empty($data['book_ids'])) {
+                $package->books()->sync($data['book_ids']);
+            }
+
+
+            return $package->save();
         } catch (Exception $e) {
             throw new Exception('Error updating package: ' . $e->getMessage());
         }
@@ -51,6 +94,15 @@ class PackageRepository
     public function delete(Package $package): bool
     {
         try {
+            if ($package->translations()->exists()) {
+                $package->translations()->delete();
+
+            }
+
+            if ($package->books()->exists()) {
+                $package->books()->detach();
+            }
+
             return $package->delete();
         } catch (Exception $e) {
             throw new Exception('Error deleting package: ' . $e->getMessage());

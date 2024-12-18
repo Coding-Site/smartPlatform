@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('packages', function (Blueprint $table) {
             $table->id();
+            $table->string('type');
             $table->decimal('price', 8, 2)->default(0);
             $table->decimal('offer_price', 8, 2)->nullable();
             $table->date('expiry_day')->nullable();
@@ -27,7 +28,6 @@ return new class extends Migration
             $table->foreignId('package_id')->constrained('packages')->onDelete('cascade');
             $table->string('locale');
             $table->string('name');
-            $table->string('type');
             $table->string('description');
             $table->unique(['package_id', 'locale']);
         });

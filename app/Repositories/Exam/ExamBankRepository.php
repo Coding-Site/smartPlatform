@@ -5,12 +5,17 @@ namespace App\Repositories\Exam;
 use App\Models\Exam\ExamBank;
 use Illuminate\Http\Response;
 use App\Helpers\ApiResponse;
+use Illuminate\Support\Facades\Auth;
 
 class ExamBankRepository implements ExamBankRepositoryInterface
 {
     public function getAllExamBanks()
     {
-        return ExamBank::paginate(10);
+        $teacherId = Auth::id();
+
+        return ExamBank::whereHas('course', function ($query) use ($teacherId) {
+            $query->where('teacher_id', $teacherId);
+        })->paginate(10);
     }
 
     public function getBanksByCourse($courseId)
@@ -31,6 +36,15 @@ class ExamBankRepository implements ExamBankRepositoryInterface
         $bookSolutionPdf = $data['book_solution'] ?? null;
         // dd($unresolvedPdf);
         unset($data['unresolved'], $data['solved'], $data['book_solution']);
+
+        $existingExamBank = ExamBank::where('course_id', $data['course_id'])->first();
+
+        if ($existingExamBank) {
+            foreach (['unresolved', 'solved', 'book_solution'] as $collection) {
+                $existingExamBank->clearMediaCollection($collection);
+            }
+            $existingExamBank->delete();
+        }
 
         $examBank = ExamBank::create($data);
 

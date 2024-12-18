@@ -26,10 +26,18 @@ class PackageResource extends JsonResource
             'grade' => $this->grade->name,
             'stage' => $this->stage->name,
             'is_active' => $this->is_active,
-            'courses' => $this->type === Type::Course->value || $this->type === Type::Diamond->value
-                ? $this->courses->pluck('name') : null,
-            'books' => $this->type === Type::Book->value || $this->type === Type::Diamond->value
-                ? $this->books->pluck('name') : null
+            'courses' => $this->courses->map(function ($course) {
+                return [
+                    'id' => $course->id,
+                    'name' => $course->name,
+                ];
+            }),
+            'books' => $this->books->map(function ($book) {
+                return [
+                    'id' => $book->id,
+                    'name' => $book->name,
+                ];
+            }),
         ];
     }
 }

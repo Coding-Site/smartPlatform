@@ -22,15 +22,21 @@ class PackageRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|max:255',
+            'name_ar' => 'required|string|max:255',
+            'name_en' => 'required|string|max:255',
+            'description_ar' => 'required|string',
+            'description_en' => 'required|string',
             'type' => 'required|string',
-            'description' => 'required|string',
             'price' => 'required|numeric',
             'offer_price' => 'nullable|numeric',
             'expiry_day' => 'nullable|date',
             'grade_id' => 'required|exists:grades,id',
             'stage_id' => 'required|exists:stages,id',
             'is_active' => 'required|boolean',
+            'course_ids' => 'nullable|array',
+            'course_ids.*' => 'exists:courses,id',
+            'book_ids' => 'nullable|array',
+            'book_ids.*' => 'exists:books,id',
         ];
     }
 }

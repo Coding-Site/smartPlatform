@@ -21,33 +21,46 @@ class BooksTableSeeder extends Seeder
         $books = [
             [
                 'translations' => [
-                    'en' => ['name' => 'Book 1', 'type' => 'Scientific'],
-                    'ar' => ['name' => 'كتاب 1', 'type' => 'علمى'],
+                    'en' => ['name' => 'Book 1'],
+                    'ar' => ['name' => 'كتاب 1'],
                 ],
             ],
             [
                 'translations' => [
-                    'en' => ['name' => 'Book 2', 'type' => 'Scientific'],
-                    'ar' => ['name' => 'كتاب 2', 'type' => 'علمى'],
+                    'en' => ['name' => 'Book 2'],
+                    'ar' => ['name' => 'كتاب 2'],
                 ],
             ],
             [
                 'translations' => [
-                    'en' => ['name' => 'Book 3', 'type' => 'Literary'],
-                    'ar' => ['name' => 'كتاب 3', 'type' => 'أدبى'],
+                    'en' => ['name' => 'Book 3'],
+                    'ar' => ['name' => 'كتاب 3'],
                 ],
             ],
             [
                 'translations' => [
-                    'en' => ['name' => 'Book 4', 'type' => 'Literary'],
-                    'ar' => ['name' => 'كتاب 4', 'type' => 'أدبى'],
+                    'en' => ['name' => 'Book 4'],
+                    'ar' => ['name' => 'كتاب 4'],
+                ],
+            ],
+            [
+                'translations' => [
+                    'en' => ['name' => 'Book 5'],
+                    'ar' => ['name' => 'كتاب 5'],
+                ],
+            ],
+            [
+                'translations' => [
+                    'en' => ['name' => 'Book 6'],
+                    'ar' => ['name' => 'كتاب 6'],
                 ],
             ],
         ];
 
         foreach ($books as $bookData) {
             $book = Book::create([
-                'paper_price' => 5.00,
+                'type' => ['Scientific', 'Literary'][array_rand(['Scientific', 'Literary'])],
+                'paper_price' => 50.00,
                 'paper_count' => 100,
                 'covering_price' => 50.00,
                 'price' => 1000.00,
@@ -63,7 +76,6 @@ class BooksTableSeeder extends Seeder
                     'book_id' => $book->id,
                     'locale' => $locale,
                     'name' => $translation['name'],
-                    'type' => $translation['type'],
                 ]);
             }
         }

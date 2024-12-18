@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('books', function (Blueprint $table) {
             $table->id();
+            $table->string('type')->nullable();
             $table->decimal('paper_price',8,2)->nullable();
             $table->integer('paper_count')->nullable();
             $table->decimal('covering_price',8,2)->nullable();
@@ -30,7 +31,6 @@ return new class extends Migration
             $table->foreignId('book_id')->constrained('books')->onDelete('cascade');
             $table->string('locale');
             $table->string('name');
-            $table->string('type')->nullable();
             $table->unique(['book_id', 'locale']);
         });
     }

@@ -9,21 +9,26 @@ use App\Http\Resources\Teacher\TeacherResource;
 use App\Models\Teacher\Teacher;
 use App\Repositories\Teacher\TeacherRepository;
 use Exception;
+use Illuminate\Http\Request;
 
 class TeacherController extends Controller
 {
-    private $repository;
-
-    public function __construct(TeacherRepository $repository)
-    {
-        $this->repository = $repository;
-    }
-
-
-    public function index()
+    public function index(Request $request)
     {
         try {
-            $teachers = $this->repository->all();
+
+            $request->validate([
+                'type' => 'nullable|in:online_course,recorded_course,private_teacher',
+                'search' => 'nullable|string|max:255',
+            ]);
+
+            $type = $request->query('type');
+            $search = $request->query('search');
+
+            $teachers = Teacher::query()
+                ->filter($type)
+                ->search($search)
+                ->paginate(10);
 
             return ApiResponse::sendResponse(
                 200,
@@ -42,8 +47,6 @@ class TeacherController extends Controller
             return ApiResponse::sendResponse(500, 'Unable to fetch teachers', $e->getMessage());
         }
     }
-
-
 
     public function show(Teacher $teacher)
     {

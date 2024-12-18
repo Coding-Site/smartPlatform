@@ -24,6 +24,7 @@ class StoreBookRequest extends FormRequest
         return [
             'name_en'     => 'required|string|max:255',
             'name_ar'     => 'required|string|max:255',
+            'type'        => 'nullable|string',
             'image'       => 'nullable|image|max:2048',
             'price'       => 'required|numeric|min:0',
             'file_sample' => 'nullable|file|mimes:pdf,doc,docx|max:2048',
@@ -38,7 +39,7 @@ class StoreBookRequest extends FormRequest
     public function prepareForValidation()
     {
         $this->merge(input: [
-            'teacher_id' => auth()->user()->id
+            'teacher_id' => auth()->guard('teacher')->user()->id,
         ]);
     }
 }

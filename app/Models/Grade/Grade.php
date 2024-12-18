@@ -33,17 +33,6 @@ class Grade extends Model
         return $this->belongsTo(Stage::class);
     }
 
-
-    public function exams() : HasMany
-    {
-        return $this->hasMany(Exam::class);
-    }
-
-    public function examBanks() : HasMany
-    {
-        return $this->hasMany(ExamBank::class);
-    }
-
     public function term() : BelongsTo
     {
         return $this->belongsTo(Term::class);

@@ -21,9 +21,8 @@ class CourseRepository
     {
         $course = Course::create($data);
 
-        foreach ($data['translations'] as $translation) {
-            $course->translateOrNew($translation['locale'])->name = $translation['name'];
-        }
+        $course->translateOrNew('ar')->name = $data['name_ar'];
+        $course->translateOrNew('en')->name = $data['name_en'];
 
         if (isset($data['image'])) {
             $course->addMedia($data['image'])->toMediaCollection('image');
@@ -39,10 +38,12 @@ class CourseRepository
 
         $course->update($data);
 
-        if (!empty($data['translations'])) {
-            foreach ($data['translations'] as $translation) {
-                $course->translateOrNew($translation['locale'])->name = $translation['name'];
-            }
+        if (!empty($data['name_ar'])) {
+            $course->translateOrNew('ar')->name = $data['name_ar'];
+        }
+
+        if (!empty($data['name_en'])) {
+            $course->translateOrNew('en')->name = $data['name_en'];
         }
 
         if (isset($data['image'])) {

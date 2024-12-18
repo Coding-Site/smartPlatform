@@ -17,7 +17,6 @@ class ExamBankResource extends JsonResource
         return [
             'id' => $this->id,
             'course' => $this->course->name,
-            'grade' => $this->grade->name,
             'unresolved' => $this->getFirstMediaUrl('unresolved') ?? null,
             'solved' => $this->getFirstMediaUrl('solved') ?? null,
             'book_solution' => $this->getFirstMediaUrl('book_solution') ?? null,
