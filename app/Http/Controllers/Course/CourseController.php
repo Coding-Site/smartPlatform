@@ -28,6 +28,26 @@ class CourseController extends Controller
         }
     }
 
+    public function getCoursesByGradeIds(Request $request)
+    {
+        try {
+            $gradeIds = $request->query('grade_ids', []);
+
+            $courses = Course::whereIn('grade_id', $gradeIds)->get();
+
+            $courseData = $courses->map(function ($course) {
+                return [
+                    'value' => $course->id,
+                    'label' => $course->name . ' - ' . $course->grade->name,
+                ];
+            });
+
+            return ApiResponse::sendResponse(200, 'Courses retrieved successfully', $courseData);
+        } catch (Exception $e) {
+            return ApiResponse::sendResponse(500, 'Unable to fetch courses. ' . $e->getMessage());
+        }
+    }
+
     public function getFilteredCourseNames(Request $request)
     {
         try {
@@ -85,6 +105,6 @@ class CourseController extends Controller
         }
     }
 
-    
+
 
 }
