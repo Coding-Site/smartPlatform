@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->string('phone')->unique();
             $table->string('password');
+            $table->decimal('teacher_profit_rate', 5, 2)->nullable(); 
             $table->string('bio')->nullable();
             $table->text('description')->nullable();
             $table->integer('years_of_experience')->nullable();

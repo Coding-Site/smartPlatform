@@ -29,7 +29,7 @@ class ExamBankRepository implements ExamBankRepositoryInterface
         $unresolvedPdf = $data['unresolved'] ?? null;
         $solvedPdf = $data['solved'] ?? null;
         $bookSolutionPdf = $data['book_solution'] ?? null;
-
+        // dd($unresolvedPdf);
         unset($data['unresolved'], $data['solved'], $data['book_solution']);
 
         $examBank = ExamBank::create($data);

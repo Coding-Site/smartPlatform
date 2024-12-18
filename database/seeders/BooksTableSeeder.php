@@ -47,10 +47,10 @@ class BooksTableSeeder extends Seeder
 
         foreach ($books as $bookData) {
             $book = Book::create([
-                'paper_price' => 50.00,
+                'paper_price' => 5.00,
                 'paper_count' => 100,
-                'covering_price' => 30.00,
-                'price' => 100.00,
+                'covering_price' => 50.00,
+                'price' => 1000.00,
                 'quantity' => 20,
                 'teacher_id' => $teacherIds->random(),
                 'term_id' => $termIds->random(),
