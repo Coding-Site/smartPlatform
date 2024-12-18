@@ -71,6 +71,32 @@ class CourseController extends Controller
     }
 
 
+    public function getCourse(Course $course)
+    {
+        try {
+            $course->load('teacher', 'grade', 'grade.courses');
+
+            $courseDetails = [
+                'id' => $course->id,
+                'name' => $course->name,
+                'image' => $course->getFirstMediaUrl('images'),
+                'term_price' => $course->term_price,
+                'monthly_price' => $course->monthly_price,
+                'teacher_name' => $course->teacher->name,
+                'teacher_image' => $course->teacher->getFirstMediaUrl('image'),
+                'other_courses_in_same_grade' => $course->grade->courses->where('id', '!=', $course->id)->map(function ($otherCourse) {
+                    return [
+                        'id' => $otherCourse->id,
+                        'name' => $otherCourse->name,
+                    ];
+                }),
+            ];
+
+            return ApiResponse::sendResponse(200, 'The Course', $courseDetails);
+        } catch (Exception $e) {
+            return ApiResponse::sendResponse(500, 'Something went wrong: ' . $e->getMessage());
+        }
+    }
 
 
     public function showCourseDetails($courseId)

@@ -56,8 +56,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
 });
 //courses
 Route::get('courses', [CourseController::class, 'index']);
-Route::get('courses', [CourseController::class, 'getCoursesByGradeIds']);
-Route::get('/courses/names', [CourseController::class, 'getFilteredCourseNames']);
+Route::get('courses/by-grade-ids', [CourseController::class, 'getCoursesByGradeIds']);
+Route::get('courses/names', [CourseController::class, 'getFilteredCourseNames']);
+Route::get('courses/{course}', [CourseController::class, 'getCourse']);
 Route::get('course/{course}/details', [CourseController::class, 'showCourseDetails'])->middleware('auth.optional');
 
 //lessons
