@@ -18,8 +18,7 @@ class CoursesTableSeeder extends Seeder
             $courses = $this->getCoursesData($gradeId);
 
             foreach ($courses as $courseData) {
-                $data = Arr::except($courseData, ['translations', 'image']);
-
+                $data = Arr::except($courseData, ['translations', 'image', 'icon']);
                 $course = Course::create($data);
 
                 foreach ($courseData['translations'] as $locale => $translation) {
@@ -34,13 +33,18 @@ class CoursesTableSeeder extends Seeder
                         ->preservingOriginal()
                         ->toMediaCollection('images');
                 }
+
+                if (isset($courseData['icon'])) {
+                    $course
+                        ->addMedia(__DIR__ . '/course_icons' . $courseData['icon'])
+                        ->preservingOriginal()
+                        ->toMediaCollection('icons');
+                }
             }
         }
     }
 
-    /**
-     * Get courses data with translations and image paths.
-     */
+
     private function getCoursesData(int $gradeId): array
     {
         return [
@@ -58,7 +62,8 @@ class CoursesTableSeeder extends Seeder
                     'ar' => ['name' => 'الرياضيات'],
                 ],
                 'image'         => '/math.png',
-            ],
+                'icon'          => '/Math-icon.png',
+                ],
             [
                 'term_price'    => 150,
                 'monthly_price' => 80,
@@ -73,7 +78,8 @@ class CoursesTableSeeder extends Seeder
                     'ar' => ['name' => 'اللغة الإنجليزية'],
                 ],
                 'image'         => '/english.png',
-            ],
+                'icon'          => '/Eng-icon.png',
+                ],
             [
                 'term_price'    => 180,
                 'monthly_price' => 90,
@@ -88,6 +94,7 @@ class CoursesTableSeeder extends Seeder
                     'ar' => ['name' => 'العلوم'],
                 ],
                 'image'         => '/science.png',
+                'icon'          => '/Science-icon.png',
             ],
             [
                 'term_price'    => 220,
@@ -103,6 +110,7 @@ class CoursesTableSeeder extends Seeder
                     'ar' => ['name' => 'اللغة العربية'],
                 ],
                 'image'         => '/arabic.png',
+                'icon'          => '/arabic-icon.png',
             ],
             [
                 'term_price'    => 210,
@@ -118,6 +126,7 @@ class CoursesTableSeeder extends Seeder
                     'ar' => ['name' => 'الجغرافيا'],
                 ],
                 'image'         => '/geography.png',
+                'icon'          => '/Geo-icon.png',
             ],
         ];
     }

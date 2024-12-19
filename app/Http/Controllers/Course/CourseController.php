@@ -90,6 +90,7 @@ class CourseController extends Controller
                         return [
                             'id' => $otherCourse->id,
                             'name' => $otherCourse->name,
+                            'icon' => $otherCourse->getFirstMediaUrl('icons'),
                         ];
                     })
                     ->values()

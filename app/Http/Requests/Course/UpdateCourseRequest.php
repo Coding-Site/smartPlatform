@@ -25,6 +25,7 @@ class UpdateCourseRequest extends FormRequest
             'name_ar'               => 'required|string|max:255',
             'name_en'               => 'required|string|max:255',
             'image'                 => 'nullable|image|max:2048',
+            'icon'                  => 'nullable|image|max:2048',
             'term_price'            => 'required|numeric',
             'monthly_price'         => 'required|numeric',
             'term_id'               => 'required|exists:terms,id',

@@ -25,8 +25,13 @@ class CourseRepository
         $course->translateOrNew('en')->name = $data['name_en'];
 
         if (isset($data['image'])) {
-            $course->addMedia($data['image'])->toMediaCollection('image');
+            $course->addMedia($data['image'])->toMediaCollection('images');
         }
+
+        if (isset($data['icon'])) {
+            $course->addMedia($data['icon'])->toMediaCollection('icons');
+        }
+
         $course->save();
 
         return $course;
@@ -48,7 +53,12 @@ class CourseRepository
 
         if (isset($data['image'])) {
             $course->clearMediaCollection('image');
-            $course->addMedia($data['image'])->toMediaCollection('image');
+            $course->addMedia($data['image'])->toMediaCollection('images');
+        }
+
+        if (isset($data['icon'])) {
+            $course->clearMediaCollection('icon');
+            $course->addMedia($data['icon'])->toMediaCollection('icons');
         }
 
         $course->save();
