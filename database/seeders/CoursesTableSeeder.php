@@ -14,7 +14,7 @@ class CoursesTableSeeder extends Seeder
      */
     public function run(): void
     {
-        for ($gradeId = 1; $gradeId <= 12; $gradeId++) {
+        for ($gradeId = 6; $gradeId <= 12; $gradeId++) {
             $courses = $this->getCoursesData($gradeId);
 
             foreach ($courses as $courseData) {
@@ -44,18 +44,16 @@ class CoursesTableSeeder extends Seeder
         }
     }
 
-
     private function getCoursesData(int $gradeId): array
     {
-        return [
+        $commonCourses = [
             [
                 'term_price'    => 200,
                 'monthly_price' => 100,
                 'term_end_date' => '2025-12-05',
                 'teacher_id'    => 1,
                 'term_id'       => 1,
-                'stage_id'      => 1,
-                'type'          => Type::Scientific->value,
+                'stage_id'      => 2,
                 'grade_id'      => $gradeId,
                 'translations'  => [
                     'en' => ['name' => 'Mathematics'],
@@ -63,15 +61,14 @@ class CoursesTableSeeder extends Seeder
                 ],
                 'image'         => '/math.png',
                 'icon'          => '/Math-icon.png',
-                ],
+            ],
             [
                 'term_price'    => 150,
                 'monthly_price' => 80,
                 'term_end_date' => '2025-12-05',
                 'teacher_id'    => 2,
                 'term_id'       => 1,
-                'stage_id'      => 1,
-                'type'          => Type::Scientific->value,
+                'stage_id'      => 2,
                 'grade_id'      => $gradeId,
                 'translations'  => [
                     'en' => ['name' => 'English Language'],
@@ -79,15 +76,14 @@ class CoursesTableSeeder extends Seeder
                 ],
                 'image'         => '/english.png',
                 'icon'          => '/Eng-icon.png',
-                ],
+            ],
             [
                 'term_price'    => 180,
                 'monthly_price' => 90,
                 'term_end_date' => '2025-12-05',
                 'teacher_id'    => 3,
                 'term_id'       => 1,
-                'stage_id'      => 3,
-                'type'          => Type::Literary->value,
+                'stage_id'      => 2,
                 'grade_id'      => $gradeId,
                 'translations'  => [
                     'en' => ['name' => 'Science'],
@@ -102,8 +98,7 @@ class CoursesTableSeeder extends Seeder
                 'term_end_date' => '2025-12-05',
                 'teacher_id'    => 1,
                 'term_id'       => 1,
-                'stage_id'      => 3,
-                'type'          => Type::Scientific->value,
+                'stage_id'      => 2,
                 'grade_id'      => $gradeId,
                 'translations'  => [
                     'en' => ['name' => 'Arabic Language'],
@@ -119,15 +114,87 @@ class CoursesTableSeeder extends Seeder
                 'teacher_id'    => 2,
                 'term_id'       => 1,
                 'stage_id'      => 2,
+                'grade_id'      => $gradeId,
+                'translations'  => [
+                    'en' => ['name' => 'Social Studies'],
+                    'ar' => ['name' => 'الدراسات الاجتماعية'],
+                ],
+                'image'         => '/social_studies.png',
+                'icon'          => '/Social-icon.png',
+            ],
+        ];
+
+        $additionalCourses = $gradeId >= 10 ? [
+            [
+                'term_price'    => 200,
+                'monthly_price' => 100,
+                'term_end_date' => '2025-06-10',
+                'teacher_id'    => 4,
+                'term_id'       => 1,
+                'stage_id'      => 3,
+                'type'          => Type::Scientific->value,
+                'grade_id'      => $gradeId,
+                'translations'  => [
+                    'en' => ['name' => 'Chemistry'],
+                    'ar' => ['name' => 'الكيمياء'],
+                ],
+             //   'image'         => '/chemistry.png',
+              //  'icon'          => '/Chem-icon.png',
+            ],
+            [
+                'term_price'    => 250,
+                'monthly_price' => 120,
+                'term_end_date' => '2025-06-10',
+                'teacher_id'    => 5,
+                'term_id'       => 1,
+                'stage_id'      => 3,
+                'type'          => Type::Scientific->value,
+                'grade_id'      => $gradeId,
+                'translations'  => [
+                    'en' => ['name' => 'Physics'],
+                    'ar' => ['name' => 'الفيزياء'],
+                ],
+              //  'image'         => '/physics.png',
+              //  'icon'          => '/Physics-icon.png',
+            ],
+            [
+                'term_price'    => 220,
+                'monthly_price' => 110,
+                'term_end_date' => '2025-06-10',
+                'teacher_id'    => 6,
+                'term_id'       => 1,
+                'stage_id'      => 3,
                 'type'          => Type::Literary->value,
                 'grade_id'      => $gradeId,
                 'translations'  => [
-                    'en' => ['name' => 'Geography'],
-                    'ar' => ['name' => 'الجغرافيا'],
+                    'en' => ['name' => 'History'],
+                    'ar' => ['name' => 'التاريخ'],
                 ],
-                'image'         => '/geography.png',
-                'icon'          => '/Geo-icon.png',
+              //  'image'         => '/history.png',
+              // 'icon'          => '/Hist-icon.png',
             ],
-        ];
+            [
+                'term_price'    => 230,
+                'monthly_price' => 115,
+                'term_end_date' => '2025-06-10',
+                'teacher_id'    => 2,
+                'term_id'       => 1,
+                'stage_id'      => 3,
+                'type'          => Type::Scientific->value,
+                'grade_id'      => $gradeId,
+                'translations'  => [
+                    'en' => ['name' => 'Biology'],
+                    'ar' => ['name' => 'الأحياء'],
+                ],
+              //  'image'         => '/biology.png',
+              //  'icon'          => '/Bio-icon.png',
+            ],
+        ] : [];
+
+        if ($gradeId >= 6 && $gradeId <= 9) {
+            $commonCourses = array_map(fn ($course) => Arr::except($course, ['type']), $commonCourses);
+        }
+
+        return array_merge($commonCourses, $additionalCourses);
     }
 }

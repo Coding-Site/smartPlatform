@@ -15,8 +15,12 @@ class BooksTableSeeder extends Seeder
     {
         $teacherIds = DB::table('teachers')->pluck('id');
         $termIds = DB::table('terms')->pluck('id');
-        $stageIds = DB::table('stages')->pluck('id');
-        $gradeIds = DB::table('grades')->pluck('id');
+
+        $stagesAndGrades = [
+            1 => range(1, 5),
+            2 => range(6, 9),
+            3 => range(10, 12)
+        ];
 
         $books = [
             [
@@ -58,6 +62,9 @@ class BooksTableSeeder extends Seeder
         ];
 
         foreach ($books as $bookData) {
+            $randomGrade = rand(4, 12);
+            $stageId = $this->getStageIdByGrade($randomGrade, $stagesAndGrades);
+
             $book = Book::create([
                 'type' => ['Scientific', 'Literary'][array_rand(['Scientific', 'Literary'])],
                 'paper_price' => 50.00,
@@ -67,8 +74,8 @@ class BooksTableSeeder extends Seeder
                 'quantity' => 20,
                 'teacher_id' => $teacherIds->random(),
                 'term_id' => $termIds->random(),
-                'stage_id' => $stageIds->random(),
-                'grade_id' => $gradeIds->random(),
+                'stage_id' => $stageId,
+                'grade_id' => $randomGrade,
             ]);
 
             foreach ($bookData['translations'] as $locale => $translation) {
@@ -79,5 +86,17 @@ class BooksTableSeeder extends Seeder
                 ]);
             }
         }
+    }
+
+
+    private function getStageIdByGrade(int $gradeId, array $stagesAndGrades): int
+    {
+        foreach ($stagesAndGrades as $stageId => $grades) {
+            if (in_array($gradeId, $grades)) {
+                return $stageId;
+            }
+        }
+
+        throw new \Exception("Grade ID $gradeId does not belong to any stage.");
     }
 }
