@@ -74,10 +74,8 @@ class CourseController extends Controller
     public function getCourse(Course $course)
     {
         try {
-            // Load related data
             $course->load('teacher', 'grade', 'grade.courses');
 
-            // Prepare course details
             $courseDetails = [
                 'id' => $course->id,
                 'name' => $course->name,
@@ -94,8 +92,8 @@ class CourseController extends Controller
                             'name' => $otherCourse->name,
                         ];
                     })
-                    ->values() // Ensure array format
-                    ->toArray(), // Convert collection to an array
+                    ->values()
+                    ->toArray(),
             ];
 
             return ApiResponse::sendResponse(200, 'Course details retrieved successfully', $courseDetails);
