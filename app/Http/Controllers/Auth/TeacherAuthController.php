@@ -36,7 +36,7 @@ class TeacherAuthController extends Controller
             return ApiResponse::sendResponse(500, __('messages.Registration_failed'), $e->getMessage());
         }
     }
-
+//me 
     // public function verifyEmail(VerifyEmailRequest $request)
     // {
     //     try {

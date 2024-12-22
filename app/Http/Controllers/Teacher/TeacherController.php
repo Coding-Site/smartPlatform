@@ -18,7 +18,7 @@ class TeacherController extends Controller
         try {
 
             $request->validate([
-                'type' => 'nullable|in:online_course,recorded_course,private_teacher',
+                'type'   => 'nullable|in:online_course,recorded_course,private_teacher',
                 'search' => 'nullable|string|max:255',
             ]);
 
