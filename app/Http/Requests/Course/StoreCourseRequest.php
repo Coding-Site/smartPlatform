@@ -29,18 +29,9 @@ class StoreCourseRequest extends FormRequest
             'term_price'            => 'required|numeric',
             'monthly_price'         => 'required|numeric',
             'term_id'               => 'required|exists:terms,id',
-            'teacher_id'            => 'required|exists:teachers,id',
             'stage_id'              => 'required|exists:stages,id',
             'grade_id'              => 'required|exists:grades,id',
             'type'                  => 'nullable|string|in:Scientific,Literary',
         ];
-    }
-
-
-    protected function prepareForValidation()
-    {
-        $this->merge([
-            'teacher_id' => auth()->guard('teacher')->user()->id,
-        ]);
     }
 }

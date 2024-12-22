@@ -28,12 +28,14 @@ class RegisterRequest extends FormRequest
             'email'     => ['required', 'email', new UniqueEmailAcrossGuards],
             'password'  => 'required|string|min:8|confirmed',
             'phone'     => ['required','unique:teachers,phone','digits:8','min:8','max:8'],
-            'bio'                 => 'nullable|string|max:500',
-            'description'         => 'nullable|string',
+            'bio_ar'                 => 'nullable|string|max:500',
+            'bio_en'                 => 'nullable|string|max:500',
+            'description_ar'         => 'nullable|string',
+            'description_en'         => 'nullable|string',
             'years_of_experience' => 'nullable|integer|min:0',
             'video_preview'       => 'nullable|url',
-            'stage_id'            => 'required|string',
             'grade_id'            => 'required|string',
+            'specialization'      => 'required|string',
             'type'                => 'nullable|string|in:online_course,recorded_course,private_teacher',
         ];
 

@@ -33,21 +33,21 @@ class CourseController extends Controller
         try {
             $gradeIds = $request->query('grade_ids', []);
 
-            $courses = Course::whereIn('grade_id', $gradeIds)->get();
+            $courses = Course::whereIn('grade_id', $gradeIds)
+                ->with('grade')
+                ->get();
 
-            $courseData = $courses->map(function ($course) {
+            $uniqueCourses = $courses->groupBy('name')->map(function ($group) {
                 return [
-                    'value' => $course->id,
-                    'label' => $course->name . ' - ' . $course->grade->name,
+                    'label' => $group->first()->name,
                 ];
-            });
+            })->values();
 
-            return ApiResponse::sendResponse(200, 'Courses retrieved successfully', $courseData);
+            return ApiResponse::sendResponse(200, 'Courses retrieved successfully', $uniqueCourses);
         } catch (Exception $e) {
             return ApiResponse::sendResponse(500, 'Unable to fetch courses. ' . $e->getMessage());
         }
     }
-
     public function getFilteredCourseNames(Request $request)
     {
         try {
@@ -90,7 +90,7 @@ class CourseController extends Controller
                         return [
                             'id' => $otherCourse->id,
                             'name' => $otherCourse->name,
-                            'icon' => $otherCourse->getFirstMediaUrl('icons'),
+                            'icon'=> $otherCourse->getFirstMediaUrl('icons'),
                         ];
                     })
                     ->values()

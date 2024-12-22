@@ -35,6 +35,7 @@ class DatabaseSeeder extends Seeder
             CitySeeder::class,
             MandubSeeder::class,
             ContactUsSeeder::class,
+            TeacherCourseSeeder::class,
         ]);
     }
 }

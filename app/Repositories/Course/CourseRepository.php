@@ -19,6 +19,7 @@ class CourseRepository
 
     public function create(array $data): Course
     {
+        $teacherId = Auth::id();
         $course = Course::create($data);
 
         $course->translateOrNew('ar')->name = $data['name_ar'];
@@ -33,12 +34,14 @@ class CourseRepository
         }
 
         $course->save();
+        $course->teachers()->attach($teacherId);
 
         return $course;
     }
 
     public function update($id, array $data)
     {
+        $teacherId = Auth::id();
         $course = Course::findOrFail($id);
 
         $course->update($data);
@@ -62,6 +65,9 @@ class CourseRepository
         }
 
         $course->save();
+        if (!$course->teachers()->where('teacher_id', $teacherId)->exists()) {
+            $course->teachers()->attach($teacherId);
+        }
 
         return $course;
     }
