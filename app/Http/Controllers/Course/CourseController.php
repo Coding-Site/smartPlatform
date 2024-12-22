@@ -20,7 +20,7 @@ class CourseController extends Controller
             $gradeId = $request->query('grade_id');
             $type = $request->query('type');
 
-            $courses = Course::filter($stageId, $gradeId,$type)->get();
+            $courses = Course::filter($stageId, $gradeId, $type)->get();
 
             return ApiResponse::sendResponse(200, 'Courses retrieved successfully', CourseResource::collection($courses));
         } catch (Exception $e) {
@@ -48,6 +48,7 @@ class CourseController extends Controller
             return ApiResponse::sendResponse(500, 'Unable to fetch courses. ' . $e->getMessage());
         }
     }
+
     public function getFilteredCourseNames(Request $request)
     {
         try {
@@ -90,7 +91,7 @@ class CourseController extends Controller
                         return [
                             'id' => $otherCourse->id,
                             'name' => $otherCourse->name,
-                            'icon'=> $otherCourse->getFirstMediaUrl('icons'),
+                            'icon' => $otherCourse->getFirstMediaUrl('icons'),
                         ];
                     })
                     ->values()
@@ -139,4 +140,60 @@ class CourseController extends Controller
         }
     }
 
-}
+    public function getLessonsWithQuiz(Course $course)
+    {
+        try {
+            $course->load(['units.lessons' => function ($query) {
+                $query->whereHas('quiz');
+            }]);
+
+            $unitsWithLessons = $course->units->filter(function ($unit) {
+                return $unit->lessons->isNotEmpty();
+            })->map(function ($unit) {
+                return [
+                    'unit_id' => $unit->id,
+                    'unit_title' => $unit->title,
+                    'lessons' => $unit->lessons->map(function ($lesson) {
+                        return [
+                            'lesson_id' => $lesson->id,
+                            'lesson_title' => $lesson->title,
+                            'quiz_title' => $lesson->quiz->title,
+                        ];
+                    }),
+                ];
+            });
+
+            return ApiResponse::sendResponse(200, 'Units with Lessons and Quiz retrieved successfully', $unitsWithLessons);
+        } catch (Exception $e) {
+            return ApiResponse::sendResponse(500, 'Something went wrong: ' . $e->getMessage());
+        }
+    }
+    public function getLessonsWithCards(Course $course)
+    {
+        try {
+            $course->load(['units.lessons' => function ($query) {
+                $query->whereHas('cards');
+            }]);
+
+            $unitsWithLessons = $course->units->filter(function ($unit) {
+                return $unit->lessons->isNotEmpty();
+            })->map(function ($unit) {
+                return [
+                    'unit_id' => $unit->id,
+                    'unit_title' => $unit->title,
+                    'lessons' => $unit->lessons->map(function ($lesson) {
+                        return [
+                            'lesson_id' => $lesson->id,
+                            'lesson_title' => $lesson->title,
+                        ];
+                    }),
+                ];
+            });
+
+            return ApiResponse::sendResponse(200, 'Units with Lessons and Cards retrieved successfully', $unitsWithLessons);
+        } catch (Exception $e) {
+            return ApiResponse::sendResponse(500, 'Something went wrong: ' . $e->getMessage());
+        }
+    }}
+
+//Add endpoints to return only lessons that have quiz and cards
