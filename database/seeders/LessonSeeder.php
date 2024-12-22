@@ -49,11 +49,16 @@ class LessonSeeder extends Seeder
             foreach ($lessons as $lessonData) {
                 $lesson = Lesson::create([
                     'url' => $lessonData['url'],
+                    'is_free' => $lessonData['is_free'],
                     'unit_id' => $lessonData['unit_id'],
                 ]);
 
                 foreach ($lessonData['translations'] as $locale => $translation) {
-                    $lesson->translateOrNew($locale)->title = $translation['title'];
+                    DB::table('lesson_translations')->insert([
+                        'lesson_id' => $lesson->id,
+                        'locale' => $locale,
+                        'title' => $translation['title'],
+                    ]);
                 }
 
                 $lesson->save();

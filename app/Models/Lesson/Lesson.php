@@ -13,10 +13,12 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
-class Lesson extends Model
+class Lesson extends Model implements HasMedia
 {
-    use HasFactory, Translatable;
+    use HasFactory, Translatable , InteractsWithMedia;
 
     protected $fillable = ['url', 'is_free', 'unit_id'];
 
@@ -32,12 +34,6 @@ class Lesson extends Model
     {
         return $this->hasMany(Card::class);
     }
-
-    public function lessonNote() : HasOne
-    {
-        return $this->hasOne(LessonNote::class);
-    }
-
 
     public function quiz() : HasOne
     {

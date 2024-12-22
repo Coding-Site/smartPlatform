@@ -22,11 +22,11 @@ class StoreLessonRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'title_en'              => 'required|string',
+            'title_ar'              => 'required|string',
             'url'                   => 'required|url',
             'unit_id'               => 'required|exists:units,id',
-            'translations'          => 'required|array',
-            'translations.*.locale' => 'required|string|max:2',
-            'translations.*.title'  => 'required|string|max:255',
+            'lesson_note'           => 'nullable|file|mimes:pdf,doc,docx|max:2048',
         ];
     }
 }

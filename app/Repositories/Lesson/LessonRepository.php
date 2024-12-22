@@ -19,26 +19,43 @@ class LessonRepository
     public function create(array $data)
     {
         $lesson = Lesson::create($data);
-        foreach ($data['translations'] as $translation) {
-            $lesson->translateOrNew($translation['locale'])->title = $translation['title'];
+
+        $lesson->translateOrNew('en')->title = $data['title_en'];
+        $lesson->translateOrNew('ar')->title = $data['title_ar'];
+
+        if (isset($data['lesson_note'])) {
+            $lesson->addMedia($data['lesson_note'])
+                ->toMediaCollection('lesson_note');
         }
+
         $lesson->save();
         return$lesson;
     }
+
 
     public function update($id, array $data)
     {
         $lesson = Lesson::findOrFail($id);
         $lesson->update($data);
 
-        if (!empty($data['translations'])) {
-            foreach ($data['translations'] as $translation) {
-                $lesson->translateOrNew($translation['locale'])->title = $translation['title'];
-            }
-            $lesson->save();
+        if (!empty($data['title_en'])) {
+            $lesson->translateOrNew('en')->title = $data['title_en'];
         }
+
+        if (!empty($data['title_ar'])) {
+            $lesson->translateOrNew('ar')->title = $data['title_ar'];
+        }
+
+        if (isset($data['lesson_note'])) {
+            $lesson->clearMediaCollection('lesson_note');
+            $lesson->addMedia($data['lesson_note'])
+                ->toMediaCollection('lesson_note');
+        }
+
+        $lesson->save();
         return $lesson;
     }
+
 
     public function delete($id)
     {

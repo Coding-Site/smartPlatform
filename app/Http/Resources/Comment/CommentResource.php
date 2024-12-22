@@ -33,8 +33,9 @@ class CommentResource extends JsonResource
             $response['content'] = $this->content;
         }
 
-        $response['replies'] = CommentResource::collection($this->whenLoaded('replies'));
-
+        if ($this->replies->isNotEmpty()) {
+            $response['replies'] = CommentResource::collection($this->replies);
+        }
         return $response;
     }
 }

@@ -10,6 +10,7 @@ use App\Http\Controllers\ContactUs\ContactUsController;
 use App\Http\Controllers\Course\CourseController;
 use App\Http\Controllers\Exam\ExamBankController;
 use App\Http\Controllers\Exam\ExamController;
+use App\Http\Controllers\Lesson\LessonController;
 use App\Http\Controllers\Lesson\LessonNoteController;
 use App\Http\Controllers\Order\OrderController;
 use App\Http\Controllers\Package\PackageController;
@@ -62,7 +63,8 @@ Route::get('courses/{course}', [CourseController::class, 'getCourse']);
 Route::get('course/{course}/details', [CourseController::class, 'showCourseDetails'])->middleware('auth.optional');
 
 //lessons
-Route::get('/lesson-note/download/{lessonNote}', [LessonNoteController::class, 'download']);
+Route::get('lessons/{lesson}', [LessonController::class, 'show']);
+Route::get('/lesson-note/download/{lesson}', [LessonController::class, 'download']);
 Route::get('/cards/lesson/{lesson}', [CardController::class, 'get']);
 Route::post('/cards/{card}/save', [CardController::class, 'save']);
 Route::post('/cards/{card}/forget', [CardController::class, 'forget']);
