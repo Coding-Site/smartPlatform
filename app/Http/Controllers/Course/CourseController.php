@@ -28,6 +28,26 @@ class CourseController extends Controller
         }
     }
 
+    public function getCoursesByGradeIds(Request $request)
+    {
+        try {
+            $gradeIds = $request->query('grade_ids', []);
+
+            $courses = Course::whereIn('grade_id', $gradeIds)
+                ->with('grade')
+                ->get();
+
+            $uniqueCourses = $courses->groupBy('name')->map(function ($group) {
+                return [
+                    'label' => $group->first()->name,
+                ];
+            })->values();
+
+            return ApiResponse::sendResponse(200, 'Courses retrieved successfully', $uniqueCourses);
+        } catch (Exception $e) {
+            return ApiResponse::sendResponse(500, 'Unable to fetch courses. ' . $e->getMessage());
+        }
+    }
     public function getFilteredCourseNames(Request $request)
     {
         try {
@@ -51,6 +71,37 @@ class CourseController extends Controller
     }
 
 
+    public function getCourse(Course $course)
+    {
+        try {
+            $course->load('teacher', 'grade', 'grade.courses');
+
+            $courseDetails = [
+                'id' => $course->id,
+                'name' => $course->name,
+                'image' => $course->getFirstMediaUrl('images'),
+                'term_price' => $course->term_price,
+                'monthly_price' => $course->monthly_price,
+                'teacher_name' => $course->teacher->name,
+                'teacher_image' => $course->teacher->getFirstMediaUrl('image'),
+                'other_courses_in_same_grade' => $course->grade->courses
+                    ->where('id', '!=', $course->id)
+                    ->map(function ($otherCourse) {
+                        return [
+                            'id' => $otherCourse->id,
+                            'name' => $otherCourse->name,
+                            'icon'=> $otherCourse->getFirstMediaUrl('icons'),
+                        ];
+                    })
+                    ->values()
+                    ->toArray(),
+            ];
+
+            return ApiResponse::sendResponse(200, 'Course details retrieved successfully', $courseDetails);
+        } catch (Exception $e) {
+            return ApiResponse::sendResponse(500, 'Something went wrong: ' . $e->getMessage());
+        }
+    }
 
 
     public function showCourseDetails($courseId)
