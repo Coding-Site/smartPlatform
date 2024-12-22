@@ -50,105 +50,282 @@ class OrderRepository
                 'status'       => 'pending',
             ]);
 
-            $orderItemsData = $cart->items->map(function ($item) use ($cart, &$totalPrice, $order, $data) {
-                $profit = 0;
-                $price = 0;
+            $orderItemsData = $cart->items->map(function ($item) use (&$totalPrice, $order) {
+                $price = $item->price * $item->quantity;
 
                 if ($item->course_id) {
-                    $totalPrice += $item->price * $item->quantity;
-                    $teacherProfitRate = $item->course->teacher->teacher_profit_rate;
-                    $profit = ($teacherProfitRate / 100) * $item->price * $item->quantity;
+                    $course = $item->course;
 
-                    $this->createTeacherProfit(
-                        $item->course->teacher_id,
-                        null,
-                        $item->course_id,
-                        $profit,
-                        $item->quantity,
-                        $order->id
+                    $teacher = $course->teachers->first();
+                    $teacherProfitRate = $teacher->video_profit_rate;
+                    $profit = ($teacherProfitRate / 100) * $price;
+
+                    DB::table('walet_transactions')->insert([
+                        'walet_id'   => $teacher->walet->id,
+                        'book_id'    => null,
+                        'course_id'  => $item->course_id,
+                        'profit'     => $profit,
+                        'quantity'   => $item->quantity,
+                        'order_id'   => $order->id,
+                    ]);
+
+                    DB::table('walets')->updateOrInsert(
+                        ['teacher_id' => $teacher->id],
+                        ['final_profit' => DB::raw("COALESCE(final_profit, 0) + {$profit}")]
                     );
                 }
 
                 if ($item->book_id) {
-                    $totalPrice += $item->price * $item->quantity;
                     $book = $item->book;
                     $cost = ($book->paper_price * $book->paper_count) + $book->covering_price;
                     $teacherProfitRate = $book->teacher->teacher_profit_rate;
-                    $profit = ($teacherProfitRate / 100) * ($book->price - $cost) * $item->quantity;
+                    $profit = ($teacherProfitRate / 100) * ($item->price - $cost) * $item->quantity;
 
-                    $this->createTeacherProfit(
-                        $book->teacher_id,
-                        $book->id,
-                        null,
-                        $profit,
-                        $item->quantity,
-                        $order->id
+                    DB::table('walet_transactions')->insert([
+                        'walet_id'   => $book->teacher->walet->id,
+                        'book_id'    => $book->id,
+                        'course_id'  => null,
+                        'profit'     => $profit,
+                        'quantity'   => $item->quantity,
+                        'order_id'   => $order->id,
+                    ]);
+
+                    DB::table('walets')->updateOrInsert(
+                        ['teacher_id' => $book->teacher->id],
+                        ['final_profit' => DB::raw("COALESCE(final_profit, 0) + {$profit}")]
                     );
                 }
 
                 if ($item->package_id) {
                     $package = Package::find($item->package_id);
                     if ($package) {
-                        $courseItems = $package->courses;
-                        $bookItems = $package->books;
+                        foreach ($package->courses as $course) {
+                            $courseProfit = ($course->teacher->teacher_profit_rate / 100) * $course->monthly_price * $item->quantity;
+                            DB::table('walet_transactions')->insert([
+                                'walet_id'   => $course->teacher->walet->id,
+                                'book_id'    => null,
+                                'course_id'  => $course->id,
+                                'profit'     => $courseProfit,
+                                'quantity'   => $item->quantity,
+                                'order_id'   => $order->id,
+                            ]);
 
-                        $totalPrice += $package->price * $item->quantity;
-
-                        foreach ($courseItems as $course) {
-                            $price += $course->monthly_price;
-
-                            $teacherProfitRate = $course->teacher->teacher_profit_rate;
-                            $profit = ($teacherProfitRate / 100) * $course->monthly_price * $item->quantity;
-
-                            $this->createTeacherProfit(
-                                $course->teacher_id,
-                                null,
-                                $course->id,
-                                $profit,
-                                $item->quantity,
-                                $order->id
+                            DB::table('walets')->updateOrInsert(
+                                ['teacher_id' => $course->teacher->id],
+                                ['final_profit' => DB::raw("COALESCE(final_profit, 0) + {$courseProfit}")]
                             );
                         }
 
-                        foreach ($bookItems as $book) {
+                        foreach ($package->books as $book) {
                             $cost = ($book->paper_price * $book->paper_count) + $book->covering_price;
-                            $teacherProfitRate = $book->teacher->teacher_profit_rate;
-                            $profit = ($teacherProfitRate / 100) * ($book->price - $cost) * $item->quantity;
+                            $bookProfit = ($book->teacher->teacher_profit_rate / 100) * ($book->price - $cost) * $item->quantity;
 
-                            $this->createTeacherProfit(
-                                $book->teacher_id,
-                                $book->id,
-                                null,
-                                $profit,
-                                $item->quantity,
-                                $order->id
+                            DB::table('walet_transactions')->insert([
+                                'walet_id'   => $book->teacher->walet->id,
+                                'book_id'    => $book->id,
+                                'course_id'  => null,
+                                'profit'     => $bookProfit,
+                                'quantity'   => $item->quantity,
+                                'order_id'   => $order->id,
+                            ]);
+
+                            DB::table('walets')->updateOrInsert(
+                                ['teacher_id' => $book->teacher->id],
+                                ['final_profit' => DB::raw("COALESCE(final_profit, 0) + {$bookProfit}")]
                             );
                         }
                     }
                 }
 
+                $totalPrice += $price;
+
                 return [
                     'order_id'   => $order->id,
                     'course_id'  => $item->course_id,
                     'book_id'    => $item->book_id,
+                    'package_id' => $item->package_id,
                     'quantity'   => $item->quantity,
                     'price'      => $price,
                 ];
             })->toArray();
 
             OrderItem::insert($orderItemsData);
-
             $order->update(['total_price' => $totalPrice]);
+
             $cart->items()->delete();
 
             DB::commit();
-
             return $order;
         } catch (Exception $e) {
             DB::rollBack();
             throw $e;
         }
     }
+
+
+    // public function createOrder(Request $request, $data)
+    // {
+    //     DB::beginTransaction();
+
+    //     try {
+    //         $cart = $this->getCart($request);
+    //         if (!$cart || $cart->items->isEmpty()) {
+    //             throw new Exception('Cart is empty');
+    //         }
+
+    //         $totalPrice = 0;
+
+    //         $order = Order::create([
+    //             'user_id'      => $cart->user_id,
+    //             'order_number' => strtoupper(uniqid('ORD-')),
+    //             'total_price'  => 0,
+    //             'status'       => 'pending',
+    //         ]);
+
+    //         $orderItemsData = $cart->items->map(function ($item) use ($cart, &$totalPrice, $order, $data) {
+    //             $profit = 0;
+    //             $price = 0;
+
+    //             if ($item->course_id) {
+    //                 $totalPrice += $item->price * $item->quantity;
+    //                 $teacherProfitRate = $item->course->teacher->video_profit_rate;
+    //                 $profit = ($teacherProfitRate / 100) * $item->price * $item->quantity;
+
+    //                 DB::table('walet_transactions')->insert([
+    //                     "walet_id"  => $item->course->teacher->walet->id,
+    //                     "book_id"     => null,
+    //                     "course_id"   => $item->course_id,
+    //                     "profit"      => $profit,
+    //                     "quantity"    => $item->quantity,
+    //                     "order_id"    => $order->id
+    //                 ]);
+
+    //                 DB::table('walets')->insert([
+    //                     "teacher_id"  => $item->course->teacher->id,
+    //                     "final_profit" => ($profit * $item->quantity)
+    //                 ]);
+
+    //             }
+
+    //             if ($item->book_id) {
+    //                 $totalPrice += $item->price * $item->quantity;
+    //                 $book = $item->book;
+    //                 $cost = ($book->paper_price * $book->paper_count) + $book->covering_price;
+    //                 $teacherProfitRate = $book->teacher->teacher_profit_rate;
+    //                 $profit = ($teacherProfitRate / 100) * ($book->price - $cost) * $item->quantity;
+
+    //                 DB::table('walet_transactions')->insert([
+    //                     "walet_id"  => $item->course->teacher->walet->id,
+    //                     "book_id"     => $book->id,
+    //                     "course_id"   => null,
+    //                     "profit"      => $profit,
+    //                     "quantity"    => $item->quantity,
+    //                     "order_id"    => $order->id
+    //                 ]);
+
+    //                 DB::table('walets')->insert([
+    //                     "teacher_id"  => $item->course->teacher->id,
+    //                     "final_profit" => ($profit * $item->quantity)
+    //                 ]);
+
+
+    //             }
+
+    //             if ($item->package_id) {
+    //                 $package = Package::find($item->package_id);
+    //                 if ($package) {
+    //                     $courseItems = $package->courses;
+    //                     $bookItems = $package->books;
+
+    //                     $totalPrice += $package->price * $item->quantity;
+
+    //                     foreach ($courseItems as $course) {
+    //                         $price += $course->monthly_price;
+
+    //                         $teacherProfitRate = $course->teacher->teacher_profit_rate;
+    //                         $profit = ($teacherProfitRate / 100) * $course->monthly_price * $item->quantity;
+
+    //                         DB::table('walet_transactions')->insert([
+    //                             "walet_id"  => $item->course->teacher->walet->id,
+    //                             "book_id"     => $book->id,
+    //                             "course_id"   => null,
+    //                             "profit"      => $profit,
+    //                             "quantity"    => $item->quantity,
+    //                             "order_id"    => $order->id
+    //                         ]);
+
+    //                         DB::table('walets')->insert([
+    //                             "teacher_id"  => $item->course->teacher->id,
+    //                             "final_profit" => ($profit * $item->quantity)
+    //                         ]);
+
+    //                     }
+
+    //                     foreach ($bookItems as $book) {
+    //                         $cost = ($book->paper_price * $book->paper_count) + $book->covering_price;
+    //                         $teacherProfitRate = $book->teacher->teacher_profit_rate;
+    //                         $profit = ($teacherProfitRate / 100) * ($book->price - $cost) * $item->quantity;
+
+    //                         DB::table('walet_transactions')->insert([
+    //                             "walet_id"  => $item->course->teacher->walet->id,
+    //                             "book_id"     => $book->id,
+    //                             "course_id"   => null,
+    //                             "profit"      => $profit,
+    //                             "quantity"    => $item->quantity,
+    //                             "order_id"    => $order->id
+    //                         ]);
+
+    //                         DB::table('walets')->insert([
+    //                             "teacher_id"  => $item->course->teacher->id,
+    //                             "final_profit" => ($profit * $item->quantity)
+    //                         ]);
+    //                     }
+    //                 }
+    //             }
+
+    //             return [
+    //                 'order_id'   => $order->id,
+    //                 'course_id'  => $item->course_id,
+    //                 'book_id'    => $item->book_id,
+    //                 'quantity'   => $item->quantity,
+    //                 'price'      => $price,
+    //             ];
+    //         })->toArray();
+
+    //         OrderItem::insert($orderItemsData);
+
+    //         $order->update(['total_price' => $totalPrice]);
+    //         $cart->items()->delete();
+
+    //         DB::commit();
+
+    //         return $order;
+    //     } catch (Exception $e) {
+    //         DB::rollBack();
+    //         throw $e;
+    //     }
+    // }
+
+    // public function insertToWalet(array $data, array $booksWithQuantities)
+    // {
+    //     $orderBook = DB::table('walets')->insertGetId([
+    //         'phone'       => $data['phone'],
+    //         'address'     => $data['address'],
+    //         'city_id'     => $data['city_id'],
+    //         'user_id'     => $data['user_id'],
+    //         'status'      => 'new',
+    //     ]);
+
+    //     $orderBookDetails = collect($booksWithQuantities)->map(function ($quantity, $bookId) use ($orderBook) {
+    //         return [
+    //             'order_book_id' => $orderBook,
+    //             'book_id'       => $bookId,
+    //             'quantity'      => $quantity,
+    //         ];
+    //     })->toArray();
+
+    //     DB::table('order_book_details')->insert($orderBookDetails);
+    // }
 
     private function createTeacherProfit($teacherId, $bookId, $courseId, $profit, $quantity, $orderId)
     {

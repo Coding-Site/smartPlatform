@@ -30,7 +30,8 @@ class Teacher extends Authenticatable implements  HasMedia
     protected $guard_name = 'teacher';
 
     protected $fillable = [
-        'name', 'email', 'phone','password' , 'years_of_experience','video_preview','specialization', 'type', 'grade_id'
+        'name', 'email', 'phone','password' , 'years_of_experience','video_preview',
+        'book_profit','video_profit_rate','specialization', 'type', 'grade_id'
     ];
 
     protected $with = ['translations'];
@@ -84,6 +85,11 @@ class Teacher extends Authenticatable implements  HasMedia
     // {
     //     return $this->belongsTo(Stage::class);
     // }
+
+    public function walet()
+    {
+        return $this->hasOne(Walet::class);
+    }
 
     public function grade()
     {

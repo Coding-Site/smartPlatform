@@ -20,7 +20,8 @@ class TeachersTableSeeder extends Seeder
                 "name" => "John Doe",
                 "email" => "teacher@teacher.com",
                 "phone" => "69734921",
-               // "teacher_profit_rate"     => 50,
+                "video_profit_rate"     => 50,
+                "book_profit"  => 10,
 
                 "password" => Hash::make('Mm.1@23456'),
                 "years_of_experience" => 5,
@@ -32,7 +33,8 @@ class TeachersTableSeeder extends Seeder
 
                 "email" => "teacher1@teacher.com",
                 "phone" => "62734921",
-                //"teacher_profit_rate"     => 50,
+                "video_profit_rate"     => 50,
+                "book_profit"  => 10,
 
                 "password" => Hash::make('Mm.1@23456'),
                 "years_of_experience" => 3,
@@ -44,7 +46,8 @@ class TeachersTableSeeder extends Seeder
 
                 "email" => "teacher2@teacher.com",
                 "phone" => "69714921",
-                //"teacher_profit_rate"     => 50,
+                "video_profit_rate"     => 50,
+                "book_profit"  => 10,
 
                 "password" => Hash::make('Mm.1@23456'),
                 "years_of_experience" => 7,
@@ -53,6 +56,8 @@ class TeachersTableSeeder extends Seeder
             ],
             [
                 "name" => "John Doe",
+                "video_profit_rate"     => 50,
+                "book_profit"  => 10,
 
                 "email" => "teacher3@teacher.com",
                 "phone" => "69724921",
@@ -63,6 +68,8 @@ class TeachersTableSeeder extends Seeder
             ],
             [
                 "name" => "John Doe",
+                "video_profit_rate"     => 50,
+                "book_profit"  => 10,
 
                 "email" => "teacher4@teacher.com",
                 "phone" => "69734922",
@@ -73,7 +80,8 @@ class TeachersTableSeeder extends Seeder
             ],
             [
                 "name" => "John Doe",
-
+                "video_profit_rate"     => 50,
+                "book_profit"  =>10,
                 "email" => "teacher5@teacher.com",
                 "phone" => "69734923",
                 "password" => Hash::make('Mm.1@23456'),
@@ -168,6 +176,33 @@ class TeachersTableSeeder extends Seeder
                 "bio" => "معلمة خاصة ذات خبرة",
                 "description" => "سارة ويلسون لديها 6 سنوات من الخبرة كمعلمة خاصة."
             ]
+        ]);
+
+        DB::table('walets')->insert([
+            [
+                "teacher_id" => 1,
+                "final_profit"  => 0
+            ],
+            [
+                "teacher_id" => 2,
+                "final_profit"  => 0
+            ],
+            [
+                "teacher_id" => 3,
+                "final_profit"  => 0
+            ],
+            [
+                "teacher_id" => 4,
+                "final_profit"  => 0
+            ],
+            [
+                "teacher_id" => 5,
+                "final_profit"  => 0
+            ],
+            [
+                "teacher_id" => 6,
+                "final_profit"  => 0
+            ],
         ]);
     }
 }

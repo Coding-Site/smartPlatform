@@ -9,10 +9,11 @@ use App\Http\Requests\Auth\Teacher\ForgotPasswordRequest;
 use App\Http\Requests\Auth\Teacher\LoginRequest;
 use App\Http\Requests\Auth\Teacher\RegisterRequest;
 use App\Http\Resources\Teacher\DetailedTeacherResource;
-
+use App\Models\Teacher\Walet;
 use App\Repositories\Auth\TeacherAuthRepository;
 use Exception;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class TeacherAuthController extends Controller
 {
@@ -25,15 +26,21 @@ class TeacherAuthController extends Controller
 
     public function register(RegisterRequest $request)
     {
+        DB::beginTransaction();
+
         try {
             $teacher = $this->authRepository->createTeacher($request->validated());
-            // dd('medhat');
-
-            // $token = $this->authRepository->generateTeacherActivationToken($teacher);
+            $walet = new Walet([
+                'final_profit' => 0.00,
+            ]);
+            $teacher->walet()->save($walet);
             $teacher->token = $teacher->createToken('Api Token')->plainTextToken;
-            // dd("ahmed");
+            DB::commit();
+
             return ApiResponse::sendResponse(201, __('messages.user_register'),new DetailedTeacherResource($teacher));
         } catch (Exception $e) {
+            DB::rollBack();
+
             return ApiResponse::sendResponse(500, __('messages.Registration_failed'), $e->getMessage());
         }
     }

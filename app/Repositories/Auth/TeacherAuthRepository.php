@@ -28,7 +28,7 @@ class TeacherAuthRepository
         $teacher->translateOrNew()->bio = $data['bio_en'] ?? null;
         $teacher->translateOrNew()->description = $data['description_ar'] ?? null;
         $teacher->translateOrNew()->description = $data['description_en'] ?? null;
-
+        
         if ($image) {
             $teacher->addMedia($image)
                 ->toMediaCollection('image');

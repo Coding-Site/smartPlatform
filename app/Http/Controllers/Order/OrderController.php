@@ -20,17 +20,6 @@ class OrderController extends Controller
         $this->orderRepo = $orderRepo;
     }
 
-    public function show(Order $order)
-    {
-        if ($order->user_id !== auth()->id()) {
-            return ApiResponse::sendResponse(403, 'Unauthorized access');
-        }
-
-        $order->load('items.course', 'items.note');
-
-        return ApiResponse::sendResponse(200, 'Order details retrieved successfully', new OrderResource($order));
-    }
-
     public function checkout(CheckoutRequest $request)
     {
         $data = $request->validated();
@@ -38,7 +27,7 @@ class OrderController extends Controller
 
         try {
             $order = $this->orderRepo->createOrder($request, $data);
-
+            // dd($order);
             // payment process
             $subscriptionType = $data['subscription_type'];
             foreach ($order->items as $orderItem) {
@@ -66,6 +55,18 @@ class OrderController extends Controller
             return ApiResponse::sendResponse(500, 'Order placement failed: ' . $e->getMessage());
         }
     }
+
+    public function show(Order $order)
+    {
+        if ($order->user_id !== auth()->id()) {
+            return ApiResponse::sendResponse(403, 'Unauthorized access');
+        }
+
+        $order->load('items.course', 'items.note');
+
+        return ApiResponse::sendResponse(200, 'Order details retrieved successfully', new OrderResource($order));
+    }
+
 
 
 }

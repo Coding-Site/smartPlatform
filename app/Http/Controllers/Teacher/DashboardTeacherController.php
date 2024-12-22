@@ -9,6 +9,7 @@ use App\Http\Requests\Auth\Teacher\UpdateTeacherRequest;
 use App\Models\Course\Course;
 use App\Models\Subscription\Subscription;
 use App\Models\Teacher\Teacher;
+use App\Models\Teacher\Walet;
 use App\Repositories\Auth\TeacherAuthRepository;
 use Exception;
 use Illuminate\Http\Request;
@@ -48,12 +49,21 @@ class DashboardTeacherController extends Controller
 
     public function store(RegisterRequest $request)
     {
+        DB::beginTransaction();
+
         try {
             $teacher = $this->authRepository->createTeacher($request->validated());
             $teacher->assignRole('super_teacher');
+            $walet = new Walet([
+                'final_profit' => 0.00,
+            ]);
+            $teacher->walet()->save($walet);
+            DB::commit();
 
             return ApiResponse::sendResponse(201, 'Teacher created and assigned role successfully', $teacher);
         } catch (Exception $e) {
+            DB::rollBack();
+
             return ApiResponse::sendResponse(500, 'Unable to create teacher. ' . $e->getMessage());
         }
     }
