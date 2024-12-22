@@ -38,8 +38,8 @@ class OrderController extends Controller
 
         try {
             $order = $this->orderRepo->createOrder($request, $data);
-            // dd($order);
-            // payment process 
+
+            // payment process
             $subscriptionType = $data['subscription_type'];
             foreach ($order->items as $orderItem) {
                 if ($orderItem->course_id) {

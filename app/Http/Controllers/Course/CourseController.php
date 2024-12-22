@@ -73,6 +73,7 @@ class CourseController extends Controller
                             return [
                                 'lesson_title' => $lesson->title,
                                 'video_url' => $isSubscribed ? $lesson->url : null,
+                                
                             ];
                         }),
                     ];
@@ -85,6 +86,6 @@ class CourseController extends Controller
         }
     }
 
-    
+
 
 }

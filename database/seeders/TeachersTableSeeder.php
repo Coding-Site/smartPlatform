@@ -19,9 +19,9 @@ class TeachersTableSeeder extends Seeder
             [
                 "email" => "teacher@teacher.com",
                 "phone" => "69734921",
-                "teacher_profit_rate"     => 50,
 
                 "password" => Hash::make('Mm.1@23456'),
+                "teacher_profit_rate"     => 50,
                 "years_of_experience" => 5,
                 "type" => Type::ONLINE_COURSE->value,
                 "stage_id" => 1,
@@ -53,6 +53,8 @@ class TeachersTableSeeder extends Seeder
                 "email" => "teacher3@teacher.com",
                 "phone" => "69724921",
                 "password" => Hash::make('Mm.1@23456'),
+                "teacher_profit_rate"     => 50,
+
                 "years_of_experience" => 2,
                 "type" => Type::ONLINE_COURSE->value,
                 "stage_id" => 2,
@@ -62,6 +64,8 @@ class TeachersTableSeeder extends Seeder
                 "email" => "teacher4@teacher.com",
                 "phone" => "69734922",
                 "password" => Hash::make('Mm.1@23456'),
+                "teacher_profit_rate"     => 50,
+
                 "years_of_experience" => 4,
                 "type" => Type::RECORDED_COURSE->value,
                 "stage_id" => 3,
@@ -71,6 +75,8 @@ class TeachersTableSeeder extends Seeder
                 "email" => "teacher5@teacher.com",
                 "phone" => "69734923",
                 "password" => Hash::make('Mm.1@23456'),
+                "teacher_profit_rate"     => 50,
+
                 "years_of_experience" => 6,
                 "type" => Type::PRIVATE_TEACHER->value,
                 "stage_id" => 3,
@@ -79,7 +85,8 @@ class TeachersTableSeeder extends Seeder
         ];
         DB::table('teachers')->insert($teachers);
 
-        DB::table('teacher_translations')->insert([
+        DB::table('teacher_translations')->insert(
+            [
             [
                 "teacher_id" => 1,
                 "locale" => "en",

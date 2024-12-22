@@ -31,128 +31,6 @@ class OrderRepository
         }
     }
 
-    // public function createOrder(Request $request, $data)
-    // {
-    //     DB::beginTransaction();
-
-    //     try {
-    //         $cart = $this->getCart($request);
-    //         if (!$cart || $cart->items->isEmpty()) {
-    //             throw new Exception('Cart is empty');
-    //         }
-
-    //         $totalPrice = 0;
-    //         $orderItemsData = $cart->items->map(function ($item) use ($cart, &$totalPrice, $data) {
-    //             $profit = 0;
-    //             $price = 0;
-
-    //             if ($item->course_id) {
-    //                 $totalPrice += $item->price * $item->quantity;
-    //                 $teacherProfitRate = $item->course->teacher->teacher_profit_rate;
-    //                 $profit = ($teacherProfitRate / 100) * $item->price * $item->quantity;
-
-    //                 $this->createTeacherProfit(
-    //                     $item->course->teacher_id,
-    //                     null,
-    //                     $item->course_id,
-    //                     $profit,
-    //                     $item->quantity,
-    //                     $cart->id
-    //                 );
-    //             }
-
-    //             if ($item->book_id) {
-    //                 $totalPrice += $item->price * $item->quantity;
-    //                 $book = $item->book;
-    //                 $cost = ($book->paper_price * $book->paper_count) + $book->covering_price;
-    //                 $teacherProfitRate = $book->teacher->teacher_profit_rate;
-    //                 $profit = ($teacherProfitRate / 100) * ($book->price - $cost) * $item->quantity;
-
-    //                 $this->createTeacherProfit(
-    //                     $book->teacher_id,
-    //                     $book->id,
-    //                     null,
-    //                     $profit,
-    //                     $item->quantity,
-    //                     $cart->id
-    //                 );
-    //             }
-
-    //             if ($item->package_id) {
-    //                 $package = Package::find($item->package_id);
-    //                 if ($package) {
-    //                     $courseItems = $package->courses;
-    //                     $bookItems = $package->books;
-
-    //                     $totalPrice += $package->price * $item->quantity;
-
-    //                     foreach ($courseItems as $course) {
-    //                         $price += $course->monthly_price;
-
-    //                         $teacherProfitRate = $course->teacher->teacher_profit_rate;
-    //                         $profit = ($teacherProfitRate / 100) * $course->monthly_price * $item->quantity;
-
-    //                         $this->createTeacherProfit(
-    //                             $course->teacher_id,
-    //                             null,
-    //                             $course->id,
-    //                             $profit,
-    //                             $item->quantity,
-    //                             $cart->id
-    //                         );
-    //                     }
-
-    //                     foreach ($bookItems as $book) {
-
-    //                         $cost = ($book->paper_price * $book->paper_count) + $book->covering_price;
-    //                         $teacherProfitRate = $book->teacher->teacher_profit_rate;
-    //                         $profit = ($teacherProfitRate / 100) * ($book->price - $cost) * $item->quantity;
-
-    //                         $this->createTeacherProfit(
-    //                             $book->teacher_id,
-    //                             $book->id,
-    //                             null,
-    //                             $profit,
-    //                             $item->quantity,
-    //                             $cart->id
-    //                         );
-    //                     }
-    //                 }
-    //             }
-
-    //             return [
-    //                 'order_id'   => $cart->id,
-    //                 'course_id'  => $item->course_id,
-    //                 'book_id'    => $item->book_id,
-    //                 'quantity'   => $item->quantity,
-    //                 'price'      => $price
-    //             ];
-    //         })->toArray();
-
-    //         $order = Order::create([
-    //             'user_id'      => $cart->user_id,
-    //             'order_number' => strtoupper(uniqid('ORD-')),
-    //             'total_price'  => $totalPrice,
-    //             'status'       => 'pending',
-    //         ]);
-
-    //         foreach ($orderItemsData as &$item) {
-    //             $item['order_id'] = $order->id;
-    //         }
-    //         OrderItem::insert($orderItemsData);
-
-    //         $cart->items()->delete();
-
-    //         DB::commit();
-
-    //         return $order;
-    //     } catch (Exception $e) {
-    //         DB::rollBack();
-    //         throw $e;
-    //     }
-    // }
-
-
     public function createOrder(Request $request, $data)
     {
         DB::beginTransaction();
@@ -319,6 +197,7 @@ class OrderRepository
             'is_active'         => true,
         ]);
     }
+
     public function getBooksFromPackage($packageId)
     {
         return DB::table('book_package')
@@ -379,8 +258,5 @@ class OrderRepository
 
         DB::table('order_book_details')->insert($orderBookDetails);
     }
-
-
-
 
 }
