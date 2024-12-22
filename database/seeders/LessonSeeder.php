@@ -19,6 +19,7 @@ class LessonSeeder extends Seeder
             $lessons = [
                 [
                     'url' => 'https://example.com/lesson-1',
+                    'is_free' => true,
                     'unit_id' => $unitId,
                     'translations' => [
                         'en' => ['title' => 'Introduction to Programming'],
@@ -27,6 +28,7 @@ class LessonSeeder extends Seeder
                 ],
                 [
                     'url' => 'https://example.com/lesson-2',
+                    'is_free' => false,
                     'unit_id' => $unitId,
                     'translations' => [
                         'en' => ['title' => 'Advanced Programming Concepts'],
@@ -35,6 +37,7 @@ class LessonSeeder extends Seeder
                 ],
                 [
                     'url' => 'https://example.com/lesson-3',
+                    'is_free' => false,
                     'unit_id' => $unitId,
                     'translations' => [
                         'en' => ['title' => 'Object-Oriented Programming'],

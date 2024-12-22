@@ -18,7 +18,7 @@ class Lesson extends Model
 {
     use HasFactory, Translatable;
 
-    protected $fillable = ['url', 'unit_id'];
+    protected $fillable = ['url', 'is_free', 'unit_id'];
 
     public $translatedAttributes = ['title'];
 
