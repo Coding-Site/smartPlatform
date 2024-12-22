@@ -117,14 +117,16 @@ class CourseController extends Controller
             $courseDetails = [
                 'course_id' => $course->id,
                 'course_name' => $course->name,
+                'course_image' => $course->getFirstMediaUrl('images'),
+                'isSubscribed' => $isSubscribed,
                 'units' => $course->units->map(function ($unit) use ($isSubscribed) {
                     return [
                         'unit_name' => $unit->title,
                         'lessons' => $unit->lessons->map(function ($lesson) use ($isSubscribed) {
                             return [
+                                'lesson_id' => $lesson->id,
                                 'lesson_title' => $lesson->title,
-                                'video_url' => $isSubscribed ? $lesson->url : null,
-                                
+                                'is_free' => $lesson->is_free,
                             ];
                         }),
                     ];
