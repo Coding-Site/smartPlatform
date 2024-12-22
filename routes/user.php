@@ -60,10 +60,12 @@ Route::get('courses', [CourseController::class, 'index']);
 Route::get('courses/by-grade-ids', [CourseController::class, 'getCoursesByGradeIds']);
 Route::get('courses/names', [CourseController::class, 'getFilteredCourseNames']);
 Route::get('courses/{course}', [CourseController::class, 'getCourse']);
+Route::get('courses/{course}/lessons-with-quiz', [CourseController::class, 'getLessonsWithQuiz']);
+Route::get('courses/{course}/lessons-with-cards', [CourseController::class, 'getLessonsWithCards']);
 Route::get('course/{course}/details', [CourseController::class, 'showCourseDetails'])->middleware('auth.optional');
 
 //lessons
-Route::get('lessons/{lesson}', [LessonController::class, 'show']);
+Route::get('lessons/{lesson}', [LessonController::class, 'show'])->middleware('auth.optional');
 Route::get('/lesson-note/download/{lesson}', [LessonController::class, 'download']);
 Route::get('/cards/lesson/{lesson}', [CardController::class, 'get']);
 Route::post('/cards/{card}/save', [CardController::class, 'save']);

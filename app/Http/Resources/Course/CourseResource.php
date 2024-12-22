@@ -14,6 +14,14 @@ class CourseResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        $firstFreeLessonId = null;
+        foreach ($this->units as $unit) {
+            if ($unit->lessons->isNotEmpty()) {
+                $firstFreeLessonId = $unit->lessons->first()->id;
+                break;
+            }
+        }
+
         return [
             'id'            => $this->id,
             'name'          => $this->name,
@@ -23,6 +31,7 @@ class CourseResource extends JsonResource
             'icon'          => $this->getFirstMediaUrl('icons'),
             'term_price'    => $this->term_price,
             'monthly_price' => $this->monthly_price,
+            'free_lesson_id' => $firstFreeLessonId,
         ];
     }
 }

@@ -28,7 +28,7 @@ Route::controller(TeacherAuthController::class)->group(function (){
     });
 });
 
-//Route::middleware(['auth:teacher'])->group(function () {
+Route::middleware(['auth:teacher'])->group(function () {
     Route::apiResource('courses', DashboardCourseController::class);
     Route::apiResource('units', UnitController::class);
     Route::apiResource('lessons', DashboardLessonController::class);
@@ -52,7 +52,7 @@ Route::controller(TeacherAuthController::class)->group(function (){
     Route::delete('/comments/{comment}', [CommentController::class, 'destroy']);
     Route::post('/comments/{comment}/approve', [CommentController::class, 'approve']);
     Route::post('/comments/{comment}/reject', [CommentController::class, 'reject']);
-//});
+});
 
 
 

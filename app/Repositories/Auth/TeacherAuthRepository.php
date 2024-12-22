@@ -6,6 +6,7 @@ namespace App\Repositories\Auth;
 use App\Enums\Teacher\Type;
 use App\Mail\PasswordResetMail;
 use App\Mail\SendVerivicationCode;
+use App\Models\Course\Course;
 use App\Models\Teacher\Teacher;
 use App\Models\Teacher\TeacherActivation;
 use Exception;
@@ -32,6 +33,19 @@ class TeacherAuthRepository
         if ($image) {
             $teacher->addMedia($image)
                 ->toMediaCollection('image');
+        }
+
+        if (!empty($data['specialization'])) {
+
+            $specialization = strtolower(trim($data['specialization']));
+
+            $courseIds = Course::whereHas('translations', function ($query) use ($specialization) {
+                $query->whereRaw('LOWER(TRIM(name)) = ?', [$specialization]);
+            })->pluck('id');
+
+            if ($courseIds->isNotEmpty()) {
+                $teacher->courses()->attach($courseIds);
+            }
         }
         return $teacher;
     }
