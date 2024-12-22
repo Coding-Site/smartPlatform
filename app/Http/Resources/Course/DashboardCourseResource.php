@@ -17,7 +17,8 @@ class DashboardCourseResource extends JsonResource
     {
         return [
                 'id'            => $this->id,
-                'image'         => $this->getFirstMediaUrl('image'),
+                'image'         => $this->getFirstMediaUrl('images'),
+                'icon'          => $this->getFirstMediaUrl('icons'),
                 'term_price'    => $this->term_price,
                 'monthly_price' => $this->monthly_price,
                 'term'          => $this->term->name ?? null,
@@ -25,6 +26,7 @@ class DashboardCourseResource extends JsonResource
                 'stage'         => $this->stage->name ?? null,
                 'grade'         => $this->grade->name ?? null,
                 'name'          => $this->name,
+                'type'          => $this->type,
                 'units'         => UnitResource::collection($this->units),
             ];
         }

@@ -2,6 +2,7 @@
 
 namespace App\Repositories\Auth;
 
+use App\Helpers\ApiResponse;
 use App\Mail\PasswordResetMail;
 use App\Mail\SendVerivicationCode;
 use App\Models\Teacher\Teacher;
@@ -11,6 +12,7 @@ use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class UserAuthRepository
 {
@@ -42,13 +44,29 @@ class UserAuthRepository
         return $token;
     }
 
-    public function findByEmail(string $email)
+    // public function findByEmail(string $email)
+    // {
+    //     $user = User::where('email', $email)->first();
+    //     if (!$user) {
+    //         throw new Exception(__('messages.User_not_found'));
+    //     }
+    //     return $user;
+    // }
+
+
+    public function findUserByEmail($email)
     {
         $user = User::where('email', $email)->first();
-        if (!$user) {
-            throw new Exception(__('messages.User_not_found'));
+        if ($user) {
+            return $user;
         }
-        return $user;
+
+        $teacher = Teacher::where('email', $email)->first();
+        if ($teacher) {
+            return $teacher;
+        }
+            throw new ModelNotFoundException(__('messages.User_not_found'));
+
     }
 
     public function createResetToken($email)
@@ -78,7 +96,7 @@ class UserAuthRepository
             throw new Exception(__('messages.Invalid_reset_token_or_email'));
         }
 
-        $user = $this->findByEmail($email);
+        $user = $this->findUserByEmail($email);
         $user->forceFill(['password' => Hash::make($password)])->save();
         DB::table('password_reset_tokens')->where('email', $email)->delete();
 

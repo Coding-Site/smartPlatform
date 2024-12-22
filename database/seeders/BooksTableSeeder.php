@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Book\Book;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -13,41 +13,90 @@ class BooksTableSeeder extends Seeder
      */
     public function run(): void
     {
+        $teacherIds = DB::table('teachers')->pluck('id');
+        $termIds = DB::table('terms')->pluck('id');
+
+        $stagesAndGrades = [
+            1 => range(1, 5),
+            2 => range(6, 9),
+            3 => range(10, 12)
+        ];
+
         $books = [
             [
-                "name" => "book 1",
-                "teacher_id" =>1,
-                "term_id"  => 1,
-                "price" => 100,
-                "quantity" => 20,
-                "grade_id" => 1
+                'translations' => [
+                    'en' => ['name' => 'Book 1'],
+                    'ar' => ['name' => 'كتاب 1'],
+                ],
             ],
             [
-                "name" => "book 2",
-                "teacher_id" =>1,
-                "term_id"  => 1,
-                "price" => 100,
-                "quantity" => 20,
-                "grade_id" => 2
-
+                'translations' => [
+                    'en' => ['name' => 'Book 2'],
+                    'ar' => ['name' => 'كتاب 2'],
+                ],
             ],
             [
-                "name" => "book 3",
-                "teacher_id" =>2,
-                "term_id"  => 2,
-                "price" => 100,
-                "quantity" => 20,
-                "grade_id" => 3
+                'translations' => [
+                    'en' => ['name' => 'Book 3'],
+                    'ar' => ['name' => 'كتاب 3'],
+                ],
             ],
             [
-                "name" => "book 4",
-                "teacher_id" =>2,
-                "term_id"  => 2,
-                "price" => 100,
-                "quantity" => 20,
-                "grade_id" => 4
+                'translations' => [
+                    'en' => ['name' => 'Book 4'],
+                    'ar' => ['name' => 'كتاب 4'],
+                ],
+            ],
+            [
+                'translations' => [
+                    'en' => ['name' => 'Book 5'],
+                    'ar' => ['name' => 'كتاب 5'],
+                ],
+            ],
+            [
+                'translations' => [
+                    'en' => ['name' => 'Book 6'],
+                    'ar' => ['name' => 'كتاب 6'],
+                ],
             ],
         ];
-        DB::table('books')->insert($books);
+
+        foreach ($books as $bookData) {
+            $randomGrade = rand(4, 12);
+            $stageId = $this->getStageIdByGrade($randomGrade, $stagesAndGrades);
+
+            $book = Book::create([
+                'type' => ['Scientific', 'Literary'][array_rand(['Scientific', 'Literary'])],
+                'paper_price' => 50.00,
+                'paper_count' => 100,
+                'covering_price' => 50.00,
+                'price' => 1000.00,
+                'quantity' => 20,
+                'teacher_id' => $teacherIds->random(),
+                'term_id' => $termIds->random(),
+                'stage_id' => $stageId,
+                'grade_id' => $randomGrade,
+            ]);
+
+            foreach ($bookData['translations'] as $locale => $translation) {
+                DB::table('book_translations')->insert([
+                    'book_id' => $book->id,
+                    'locale' => $locale,
+                    'name' => $translation['name'],
+                ]);
+            }
+        }
+    }
+
+
+    private function getStageIdByGrade(int $gradeId, array $stagesAndGrades): int
+    {
+        foreach ($stagesAndGrades as $stageId => $grades) {
+            if (in_array($gradeId, $grades)) {
+                return $stageId;
+            }
+        }
+
+        throw new \Exception("Grade ID $gradeId does not belong to any stage.");
     }
 }

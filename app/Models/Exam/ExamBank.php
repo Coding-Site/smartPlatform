@@ -16,19 +16,8 @@ class ExamBank extends Model implements HasMedia
     use HasFactory , InteractsWithMedia;
 
     protected $fillable = [
-        'name', 'grade_id', 'term_id', 'course_id',
-        'unresolved', 'solved', 'book_solution'
+        'course_id',
     ];
-
-    public function grade() : BelongsTo
-    {
-        return $this->belongsTo(Grade::class);
-    }
-
-    public function term() : BelongsTo
-    {
-        return $this->belongsTo(Term::class);
-    }
 
     public function course() : BelongsTo
     {

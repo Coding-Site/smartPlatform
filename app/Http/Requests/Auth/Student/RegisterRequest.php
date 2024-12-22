@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Auth\Student;
 
+use App\Rules\UniqueEmailAcrossGuards;
 use Illuminate\Foundation\Http\FormRequest;
 
 class RegisterRequest extends FormRequest
@@ -22,20 +23,13 @@ class RegisterRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name'     => 'required|string|max:255',
-            'email'    => 'required|email|unique:users',
-            'password' => 'required|string|min:8|confirmed',
-            'grade_id'    => 'required|integer|exists:grades,id',
-            'stage_id'    => 'required|integer|exists:stages,id',
-            'phone' => [
-                'required',
-                'unique:users,phone,',
-                'regex:/(01)[0-9]{9}/',
-                'digits:11',
-                'min:11',
-                'max:11',
-            ],
-            'image'    => 'nullable|image|max:2048',
+            'name'        => 'required|string|max:255',
+            'email'       => ['required', 'email', new UniqueEmailAcrossGuards],
+            'password'    => 'required|string|min:8|confirmed',
+            'grade_id'    => 'required|string|exists:grades,id',
+            'stage_id'    => 'required|string|exists:stages,id',
+            'phone'       => ['required','unique:users,phone','digits:8','min:8','max:8'],
+            'image'       => 'nullable|image|max:2048',
         ];
     }
 }

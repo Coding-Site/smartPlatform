@@ -118,14 +118,30 @@ class CommentController extends Controller
 
         $validated = $request->validated();
 
-        if ($comment->media->count() > 0 && $request->has('content') && !$request->hasFile('voice_note')) {
-            $comment->media->each(function ($media) {
-                $media->delete();
-            });
+        if ($request->has('content') && $request->hasFile('voice_note')) {
+            return ApiResponse::sendResponse(422, 'You cannot upload both content and a voice note at the same time');
+        }
+
+        if ($request->has('content')) {
+            if ($comment->media->count() > 0) {
+                $comment->media->each(function ($media) {
+                    $media->delete();
+                });
+            }
             $comment->content = $validated['content'];
         }
-        elseif ($comment->content && !$request->has('content') && $request->hasFile('voice_note')) {
-            $comment->content = null;
+
+        if ($request->hasFile('voice_note')) {
+            if ($comment->content) {
+                $comment->content = null;
+            }
+
+            if ($comment->media->count() > 0) {
+                $comment->media->each(function ($media) {
+                    $media->delete();
+                });
+            }
+
             $voiceNotePath = $request->file('voice_note')->store('voice_notes', 'public');
             $comment->addMedia(storage_path("app/public/{$voiceNotePath}"))->toMediaCollection('voice_notes');
         }

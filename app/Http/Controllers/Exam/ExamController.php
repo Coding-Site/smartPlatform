@@ -32,6 +32,13 @@ class ExamController extends Controller
     }
 
 
+    public function getExamsForCourse($courseId)
+    {
+        $exams = $this->examRepository->getExamsByCourse($courseId);
+        return ApiResponse::sendResponse(200, 'Exams for Course', ExamResource::collection($exams));
+    }
+
+
     public function show(Exam $exam)
     {
         try {

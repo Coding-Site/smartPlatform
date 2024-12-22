@@ -17,7 +17,7 @@ class DetailedTeacherResource extends JsonResource
     public function toArray(Request $request): array
     {
         $totalStudents = $this->courses->sum(function ($course) {
-            return $course->subscribers->count();
+            return $course->subscriptions->count();
         });
 
         $totalVideos = $this->courses->sum(function ($course) {
@@ -30,6 +30,8 @@ class DetailedTeacherResource extends JsonResource
         return [
             'id'                    => $this->id,
             'name'                  => $this->name,
+            'type'                  => $this->type,
+            'user_type'             => 'teacher',
             'email'                 => $this->email,
             'phone'                 => $this->phone,
             'image'                 => $this->getFirstMediaUrl('image'),
@@ -37,12 +39,12 @@ class DetailedTeacherResource extends JsonResource
             'description'           => $this->description ?? null,
             'years_of_experience'   => $this->years_of_experience ?? null,
             'average_rating'        => round($this->averageRating(), 1),
-            'stage'                 => $this->stage->translations->firstWhere('locale', request()->get('lang', app()->getLocale()))->name ,
-            'totalStudents'            => $totalStudents,
+            'grade'                 => $this->grade->name ,
+            'totalStudents'         => $totalStudents,
             'totalVideos'           => $totalVideos,
-            'courses'               => CourseResource::collection($this->courses),
-            'reviews'               => ReviewResource::collection($this->reviews),
-            "token"     => $this->when(isset($this->token), $this->token),
+            // 'courses'               => CourseResource::collection($this->courses),
+            // 'reviews'               => ReviewResource::collection($this->reviews),
+            "token"                 => $this->when(isset($this->token), $this->token),
 
         ];
 

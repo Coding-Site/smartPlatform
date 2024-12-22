@@ -3,6 +3,7 @@
 
     return [
         'welcome'               => 'Welcome to our application',
+        'emailTaken'            => 'The email has already been taken',
         'login_success'         => 'Login successful',
         'login_fail'            => 'Login Failed',
         'logout_fail'           => 'logout Failed',

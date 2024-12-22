@@ -3,6 +3,7 @@
 
 namespace App\Repositories\Auth;
 
+use App\Enums\Teacher\Type;
 use App\Mail\PasswordResetMail;
 use App\Mail\SendVerivicationCode;
 use App\Models\Teacher\Teacher;
@@ -17,17 +18,21 @@ class TeacherAuthRepository
     public function createTeacher(array $data)
     {
         $data['password'] = Hash::make($data['password']);
+        $data['type'] = Type::ONLINE_COURSE->value;
 
         $image = $data['image'] ?? null;
         unset($data['image']);
-
         $teacher = Teacher::create($data);
+
+        $teacher->translateOrNew()->bio = $data['bio_ar'] ?? null;
+        $teacher->translateOrNew()->bio = $data['bio_en'] ?? null;
+        $teacher->translateOrNew()->description = $data['description_ar'] ?? null;
+        $teacher->translateOrNew()->description = $data['description_en'] ?? null;
 
         if ($image) {
             $teacher->addMedia($image)
                 ->toMediaCollection('image');
         }
-
         return $teacher;
     }
 

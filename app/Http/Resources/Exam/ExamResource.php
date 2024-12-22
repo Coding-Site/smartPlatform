@@ -17,7 +17,6 @@ class ExamResource extends JsonResource
         return [
             'id' => $this->id,
             'course' => $this->course->name,
-            'grade' => $this->grade->name,
             'short_first' => $this->getFirstMediaUrl('short_first') ?? null,
             'short_second' => $this->getFirstMediaUrl('short_second') ?? null,
             'solved_exams' => $this->getFirstMediaUrl('solved_exams') ?? null,

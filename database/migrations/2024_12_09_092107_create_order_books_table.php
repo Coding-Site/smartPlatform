@@ -19,7 +19,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('mandub_id')->nullable()->constrained()->onDelete('set null');
             $table->string('status')->default('new');
-            $table->string('total_price')->nullable(); /// books + deliver
+            // $table->string('total_price')->nullable(); /// books + deliver
             $table->timestamps();
         });
     }

@@ -23,7 +23,8 @@ class BookResource extends JsonResource
             'teacher'     => $this->teacher->name,
             'term'        => $this->term->id,
             'grade'       => $this->grade->name,
-            'image'         => $this->getFirstMediaUrl('image'),
+            'stage'       => $this->stage->name,
+            'image'       => $this->getFirstMediaUrl('image'),
         ];
     }
 }

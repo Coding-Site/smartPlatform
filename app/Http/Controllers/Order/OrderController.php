@@ -4,11 +4,11 @@ namespace App\Http\Controllers\Order;
 
 use App\Helpers\ApiResponse;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Checkout\CheckoutRequest;
 use App\Http\Resources\Order\OrderResource;
 use App\Models\Order\Order;
 use App\Repositories\Order\OrderRepository;
 use Exception;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class OrderController extends Controller
@@ -31,41 +31,41 @@ class OrderController extends Controller
         return ApiResponse::sendResponse(200, 'Order details retrieved successfully', new OrderResource($order));
     }
 
-    public function checkout(Request $request)
+    public function checkout(CheckoutRequest $request)
     {
+        $data = $request->validated();
         DB::beginTransaction();
 
         try {
-            $order = $this->orderRepo->createOrder($request);
-            $subscriptionType = $request->input('subscription_type');
+            $order = $this->orderRepo->createOrder($request, $data);
 
-            // $paymentStatus
-
-
+            // payment process
+            $subscriptionType = $data['subscription_type'];
             foreach ($order->items as $orderItem) {
                 if ($orderItem->course_id) {
-                    $this->orderRepo->createSubscriptionCourse($orderItem->course_id, $order->user_id,$subscriptionType);
+                    $this->orderRepo->createSubscriptionCourse($orderItem->course_id, $order->user_id, $subscriptionType);
                 }
+
+                if ($orderItem->book_id) {
+                    $this->orderRepo->createOrderBooks($data, [$orderItem->book_id => $orderItem->quantity]);
+                }
+
                 if ($orderItem->package_id) {
                     $this->orderRepo->createSubscriptionPackage($orderItem->package_id, $order->user_id);
-                    // $packageBooks= $this->orderRepo->getBooksFromPackage($orderItem->package_id);
-                    // add to order book table --> mandub
+                    $packageBooks = $this->orderRepo->getBooksFromPackage($orderItem->package_id);
+                    if (!empty($packageBooks)) {
+                        $this->orderRepo->processPackageBooks($data, $packageBooks);
+                    }
                 }
             }
 
             DB::commit();
-
             return ApiResponse::sendResponse(200, 'Order placed and subscription created successfully', $order);
         } catch (Exception $e) {
             DB::rollBack();
-
             return ApiResponse::sendResponse(500, 'Order placement failed: ' . $e->getMessage());
         }
     }
-
-
-
-
 
 
 }

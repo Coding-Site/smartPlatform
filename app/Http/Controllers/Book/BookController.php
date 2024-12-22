@@ -22,16 +22,21 @@ class BookController extends Controller
     {
         $this->bookRepository = $bookRepository;
     }
-
-    public function index()
+    public function index(Request $request)
     {
         try {
-            $books = $this->bookRepository->getAllBooks();
-            return ApiResponse::sendResponse(200,'All Books',BookResource::collection($books));
+            $stageId = $request->query('stage_id');
+            $gradeId = $request->query('grade_id');
+            $type = $request->query('type');
+
+            $books = $this->bookRepository->getAllBooks($stageId, $gradeId, $type);
+
+            return ApiResponse::sendResponse(200, 'All Books', BookResource::collection($books));
         } catch (Exception $e) {
-            return ApiResponse::sendResponse(500,'Failed to fetch books');
+            return ApiResponse::sendResponse(500, 'Failed to fetch books');
         }
     }
+
 
     public function show(Book $book)
     {

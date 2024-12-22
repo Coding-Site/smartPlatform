@@ -13,25 +13,36 @@ return new class extends Migration
     {
         Schema::create('teachers', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
             $table->string('email')->unique();
-            $table->string('phone')->unique()->nullable();
+            $table->string('phone')->unique();
             $table->string('password');
-            $table->string('bio')->nullable();
-            $table->text('description')->nullable();
+            $table->decimal('teacher_profit_rate', 5, 2)->nullable();
             $table->integer('years_of_experience')->nullable();
-            $table->foreignId('stage_id');
+            $table->string('video_preview')->nullable();
+            $table->string('type')->nullable();
+            $table->string('name');
+            $table->string('specialization')->nullable();
             $table->foreignId('grade_id');
-            $table->timestamp('email_verified_at')->nullable();
             $table->timestamps();
         });
+
+        Schema::create('teacher_translations', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('teacher_id')->constrained('teachers')->onDelete('cascade');
+            $table->string('locale');
+            $table->string('bio')->nullable();
+            $table->text('description')->nullable();
+            $table->unique(['teacher_id', 'locale']);
+        });
     }
+
 
     /**
      * Reverse the migrations.
      */
     public function down(): void
     {
+        Schema::dropIfExists('teacher_translations');
         Schema::dropIfExists('teachers');
     }
 };

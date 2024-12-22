@@ -23,14 +23,18 @@ class DatabaseSeeder extends Seeder
             LessonSeeder::class,
             QuizSeeder::class,
             CommentSeeder::class,
-            LessonNoteSeeder::class,
             BooksTableSeeder::class,
             // VideosTableSeeder::class,
-            RolePermissionsSeeder::class,
+            // RolePermissionsSeeder::class,
+            PackageSeeder::class,
+            BookPackageSeeder::class,
+            CoursePackageSeeder::class,
             CardSeeder::class,
             ReviewSeeder::class,
             CitySeeder::class,
             MandubSeeder::class,
+            ContactUsSeeder::class,
+            TeacherCourseSeeder::class,
         ]);
     }
 }

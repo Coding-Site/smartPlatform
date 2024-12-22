@@ -24,15 +24,15 @@ class StagesTableSeeder extends Seeder
             [
                 'translations' => [
                     'en' => ['name' => 'Preparatory School'],
-                    'ar' => ['name' => 'المرحلة الاعدادية'],
+                    'ar' => ['name' => 'المرحلة المتوسطة'],
                 ],
             ],
             [
                 'translations' => [
-                    'en' => ['name' => 'Middle School'],
-                    'ar' => ['name' => 'المرحلة المتوسطة'],
+                    'en' => ['name' => 'High School'],
+                    'ar' => ['name' => 'المرحلة الثانوية'],
                 ],
-            ]
+            ],
         ];
 
         foreach ($stages as $stageData) {

@@ -17,9 +17,11 @@ class LessonResource extends JsonResource
     {
         return [
             'id'      => $this->id,
-            'url'     => $this->url,
             'title'   => $this->title,
-            'lesson_note' => $this->lessonNote ? $this->lessonNote->id : null,
+            'url'     => $this->url,
+            'has_quiz'=> $this->quiz()->exists(),
+            'has_cards'=> $this->cards()->exists(),
+            'note_url'    => $this->getFirstMediaUrl('lesson_note') ? url('/lesson-note/download/' . $this->id) : null,
             'comments'=> CommentResource::collection($this->comments),
         ];
     }

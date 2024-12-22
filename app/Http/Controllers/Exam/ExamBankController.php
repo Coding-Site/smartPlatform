@@ -32,6 +32,12 @@ class ExamBankController extends Controller
         }
     }
 
+    public function getBanksByCourse($courseId)
+    {
+        $exams = $this->examBankRepository->getBanksByCourse($courseId);
+        return ApiResponse::sendResponse(200, 'Exam Banks for Course', ExamBankResource::collection($exams));
+    }
+
 
     public function show(ExamBank $examBank)
     {

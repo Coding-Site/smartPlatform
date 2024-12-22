@@ -22,16 +22,6 @@ class Term extends Model
         return $this->hasMany(Course::class);
     }
 
-    public function exams() : HasMany
-    {
-        return $this->hasMany(Exam::class);
-    }
-
-    public function examBanks() : HasMany
-    {
-        return $this->hasMany(ExamBank::class);
-    }
-
     public function grade() : hasMany
     {
         return $this->hasMany(Grade::class);

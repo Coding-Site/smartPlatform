@@ -6,12 +6,27 @@ namespace App\Repositories\Exam;
 use App\Models\Exam\Exam;
 use Illuminate\Http\Response;
 use App\Helpers\ApiResponse;
+use Illuminate\Support\Facades\Auth;
 
 class ExamRepository implements ExamRepositoryInterface
 {
     public function getAllExams()
     {
-        return Exam::paginate(10);
+        $teacherId = Auth::id();
+
+        return Exam::whereHas('course', function ($query) use ($teacherId) {
+            $query->where('teacher_id', $teacherId);
+        })->paginate(10);
+    }
+
+    public function getExamsByCourse($courseId)
+    {
+        return Exam::where('course_id', $courseId)->get();
+    }
+
+    public function getExamById($examId)
+    {
+        return Exam::findOrFail($examId);
     }
 
     public function createExam(array $data)
@@ -20,9 +35,18 @@ class ExamRepository implements ExamRepositoryInterface
         $shortSecondPdf = $data['short_second'] ?? null;
         $solvedExamsPdf = $data['solved_exams'] ?? null;
         $unsolvedExamsPdf = $data['unsolved_exams'] ?? null;
-        $finalRevisionPdf = $data['final_revision'] ?? null;
+        $finalReviewPdf = $data['final_review'] ?? null;
 
-        unset($data['short_first_pdf'], $data['short_second'], $data['solved_exams'], $data['unsolved_exams'], $data['final_revision']);
+        unset($data['short_first'], $data['short_second'], $data['solved_exams'], $data['unsolved_exams'], $data['final_review']);
+
+        $existingExam = Exam::where('course_id', $data['course_id'])->first();
+
+        if ($existingExam) {
+            foreach (['short_first', 'short_second', 'solved_exams', 'unsolved_exams', 'final_review'] as $collection) {
+                $existingExam->clearMediaCollection($collection);
+            }
+            $existingExam->delete();
+        }
 
         $exam = Exam::create($data);
 
@@ -42,16 +66,11 @@ class ExamRepository implements ExamRepositoryInterface
             $exam->addMedia($unsolvedExamsPdf)->toMediaCollection('unsolved_exams');
         }
 
-        if ($finalRevisionPdf) {
-            $exam->addMedia($finalRevisionPdf)->toMediaCollection('final_revision');
+        if ($finalReviewPdf) {
+            $exam->addMedia($finalReviewPdf)->toMediaCollection('final_review');
         }
 
         return $exam;
-    }
-
-    public function getExamById($examId)
-    {
-        return Exam::findOrFail($examId);
     }
 
     public function updateExam($examId, array $data)

@@ -22,16 +22,16 @@ class UpdateCourseRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'name_ar'               => 'required|string|max:255',
+            'name_en'               => 'required|string|max:255',
             'image'                 => 'nullable|image|max:2048',
+            'icon'                  => 'nullable|image|max:2048',
             'term_price'            => 'required|numeric',
             'monthly_price'         => 'required|numeric',
             'term_id'               => 'required|exists:terms,id',
-            'teacher_id'            => 'required|exists:teachers,id',
             'stage_id'              => 'required|exists:stages,id',
             'grade_id'              => 'required|exists:grades,id',
-            'translations'          => 'required|array',
-            'translations.*.locale' => 'required|string|max:2',
-            'translations.*.name'   => 'required|string|max:255',
+            'type'                  => 'nullable|string|in:Scientific,Literary',
         ];
     }
 
