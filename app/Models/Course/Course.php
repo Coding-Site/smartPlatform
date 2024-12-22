@@ -30,7 +30,6 @@ class Course extends Model implements HasMedia
         'term_end_date',
         'type',
         'term_id',
-        'teacher_id',
         'stage_id',
         'grade_id',
     ];
@@ -57,9 +56,9 @@ class Course extends Model implements HasMedia
         return $this->belongsTo(Term::class);
     }
 
-    public function teacher() : BelongsTo
+    public function teachers()
     {
-        return $this->belongsTo(Teacher::class);
+        return $this->belongsToMany(Teacher::class, 'teacher_courses');
     }
 
     public function units() : HasMany

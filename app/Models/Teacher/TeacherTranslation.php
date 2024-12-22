@@ -10,5 +10,5 @@ class TeacherTranslation extends Model
     use HasFactory;
 
     public $timestamps = false;
-    protected $fillable = ['name','bio','description'];
+    protected $fillable = ['bio','description'];
 }

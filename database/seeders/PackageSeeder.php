@@ -17,7 +17,7 @@ class PackageSeeder extends Seeder
         $basePackages = [
             [
                 'name' => 'Diamond Package',
-                'type' => Type::Diamond,
+                'type' => Type::Diamond->value,
                 'description' => 'A premium package for courses and books',
                 'price' => 200.00,
                 'expiry_day' => Carbon::now()->addMonths(3),
@@ -28,7 +28,7 @@ class PackageSeeder extends Seeder
             ],
             [
                 'name' => 'Course Package',
-                'type' => Type::Course,
+                'type' => Type::Course->value,
                 'description' => 'A premium package for courses',
                 'price' => 50.00,
                 'expiry_day' => Carbon::now()->addYear(),
@@ -39,7 +39,7 @@ class PackageSeeder extends Seeder
             ],
             [
                 'name' => 'Book Package',
-                'type' => Type::Book,
+                'type' => Type::Book->value,
                 'description' => 'A premium package for Books',
                 'price' => 150.00,
                 'expiry_day' => Carbon::now()->addMonths(6),

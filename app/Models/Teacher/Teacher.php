@@ -12,6 +12,7 @@ use Astrotomic\Translatable\Translatable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -28,11 +29,11 @@ class Teacher extends Authenticatable implements  HasMedia
     protected $guard_name = 'teacher';
 
     protected $fillable = [
-        'email', 'phone','password' , 'years_of_experience','video_preview', 'type', 'stage_id', 'grade_id'
+        'name', 'email', 'phone','password' , 'years_of_experience','video_preview','specialization', 'type', 'grade_id'
     ];
 
     protected $with = ['translations'];
-    public $translatedAttributes = ['name','bio','description'];
+    public $translatedAttributes = ['bio','description'];
 
     protected $casts = [
         'type' => Type::class,
@@ -73,9 +74,9 @@ class Teacher extends Authenticatable implements  HasMedia
         return $this->hasMany(Book::class);
     }
 
-    public function courses() : HasMany
+    public function courses()
     {
-        return $this->hasMany(Course::class);
+        return $this->belongsToMany(Course::class, 'teacher_courses');
     }
 
     public function stage() : BelongsTo

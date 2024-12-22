@@ -18,7 +18,6 @@ return new class extends Migration
             $table->date('term_end_date')->nullable();
             $table->string('type')->nullable();
             $table->foreignId('term_id')->constrained('terms')->onDelete('cascade');
-            $table->foreignId('teacher_id')->constrained('teachers')->onDelete('cascade');
             $table->foreignId('stage_id')->constrained('stages')->onDelete('cascade');
             $table->foreignId('grade_id')->constrained('grades')->onDelete('cascade');
             $table->timestamps();

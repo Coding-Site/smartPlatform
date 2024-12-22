@@ -20,6 +20,7 @@ class CourseResource extends JsonResource
             'grade'         => $this->grade->name,
             'grade_id'      => $this->grade_id,
             'image'         => $this->getFirstMediaUrl('images'),
+            'icon'          => $this->getFirstMediaUrl('icons'),
             'term_price'    => $this->term_price,
             'monthly_price' => $this->monthly_price,
         ];

@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Route;
 // Route::post('/login', [AdminAuthController::class, 'login']);
 
 Route::middleware('auth:admin')->group(function () {
-    Route::resource('teachers', DashboardTeacherController::class);
+  //  Route::resource('teachers', DashboardTeacherController::class);
     Route::get('/orders', [DashboardOrderController::class, 'index']);
 
     Route::apiResource('roles', RoleController::class);

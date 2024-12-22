@@ -91,7 +91,9 @@ class PackageController extends Controller
         try {
             $packages = $this->packageRepository->getFilteredPackages($request);
 
-            $packagesObject = PackageResource::collection($packages)->keyBy('type');
+            $packagesObject = $packages->mapWithKeys(function ($package) {
+                return [$package->type->value => new PackageResource($package)];
+            });
 
             return ApiResponse::sendResponse(200, 'Packages', $packagesObject);
         } catch (Exception $e) {
