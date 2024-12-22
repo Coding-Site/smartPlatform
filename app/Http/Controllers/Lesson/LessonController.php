@@ -7,13 +7,19 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\Lesson\LessonResource;
 use App\Models\Lesson\Lesson;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
 
 class LessonController extends Controller
 {
 
     public function show(Lesson $lesson)
     {
-        return new LessonResource($lesson);
+        $courseId = $lesson->unit->course_id;
+        $isSubscribed = auth()->check() ? auth()->user()->hasActiveSubscription($courseId) : false;
+        if($lesson->is_free || $isSubscribed ) {
+            return new LessonResource($lesson);
+        }
+        return ApiResponse::sendResponse(Response::HTTP_FORBIDDEN, 'This lesson is not free and you are not subscribed to the course.');
     }
 
     public function download(Lesson $lesson)

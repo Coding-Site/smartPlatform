@@ -20,14 +20,17 @@ class CourseController extends Controller
             $gradeId = $request->query('grade_id');
             $type = $request->query('type');
 
-            $courses = Course::filter($stageId, $gradeId, $type)->get();
+            $courses = Course::filter($stageId, $gradeId, $type)->with(['units.lessons' => function ($query) {
+                $query->where('is_free', true);
+            }])->get();
 
-            return ApiResponse::sendResponse(200, 'Courses retrieved successfully', CourseResource::collection($courses));
+            $coursesWithFreeLessons = CourseResource::collection($courses);
+
+            return ApiResponse::sendResponse(200, 'Courses retrieved successfully', $coursesWithFreeLessons);
         } catch (Exception $e) {
             return ApiResponse::sendResponse(500, 'Unable to fetch courses. ' . $e->getMessage());
         }
     }
-
     public function getCoursesByGradeIds(Request $request)
     {
         try {
@@ -196,4 +199,3 @@ class CourseController extends Controller
         }
     }}
 
-//Add endpoints to return only lessons that have quiz and cards

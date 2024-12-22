@@ -65,7 +65,7 @@ Route::get('courses/{course}/lessons-with-cards', [CourseController::class, 'get
 Route::get('course/{course}/details', [CourseController::class, 'showCourseDetails'])->middleware('auth.optional');
 
 //lessons
-Route::get('lessons/{lesson}', [LessonController::class, 'show']);
+Route::get('lessons/{lesson}', [LessonController::class, 'show'])->middleware('auth.optional');
 Route::get('/lesson-note/download/{lesson}', [LessonController::class, 'download']);
 Route::get('/cards/lesson/{lesson}', [CardController::class, 'get']);
 Route::post('/cards/{card}/save', [CardController::class, 'save']);
