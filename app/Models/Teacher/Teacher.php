@@ -6,6 +6,7 @@ use App\Enums\Teacher\Type;
 use App\Models\Book\Book;
 use App\Models\Comment\Comment;
 use App\Models\Course\Course;
+use App\Models\Grade\Grade;
 use App\Models\Review\Review;
 use App\Models\Stage\Stage;
 use Astrotomic\Translatable\Translatable;
@@ -79,9 +80,14 @@ class Teacher extends Authenticatable implements  HasMedia
         return $this->belongsToMany(Course::class, 'teacher_courses');
     }
 
-    public function stage() : BelongsTo
+    // public function stage() : BelongsTo
+    // {
+    //     return $this->belongsTo(Stage::class);
+    // }
+
+    public function grade()
     {
-        return $this->belongsTo(Stage::class);
+        return $this->belongsTo(Grade::class);
     }
 
     public function comments() : HasMany

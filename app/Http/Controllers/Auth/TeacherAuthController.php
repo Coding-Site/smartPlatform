@@ -27,16 +27,17 @@ class TeacherAuthController extends Controller
     {
         try {
             $teacher = $this->authRepository->createTeacher($request->validated());
+            // dd('medhat');
 
-            $token = $this->authRepository->generateTeacherActivationToken($teacher);
+            // $token = $this->authRepository->generateTeacherActivationToken($teacher);
             $teacher->token = $teacher->createToken('Api Token')->plainTextToken;
-
+            // dd("ahmed");
             return ApiResponse::sendResponse(201, __('messages.user_register'),new DetailedTeacherResource($teacher));
         } catch (Exception $e) {
             return ApiResponse::sendResponse(500, __('messages.Registration_failed'), $e->getMessage());
         }
     }
-//me 
+//me
     // public function verifyEmail(VerifyEmailRequest $request)
     // {
     //     try {

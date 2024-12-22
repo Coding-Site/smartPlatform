@@ -22,7 +22,6 @@ class TeacherAuthRepository
 
         $image = $data['image'] ?? null;
         unset($data['image']);
-
         $teacher = Teacher::create($data);
 
         $teacher->translateOrNew()->bio = $data['bio_ar'] ?? null;

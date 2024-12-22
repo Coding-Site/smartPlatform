@@ -39,11 +39,11 @@ class DetailedTeacherResource extends JsonResource
             'description'           => $this->description ?? null,
             'years_of_experience'   => $this->years_of_experience ?? null,
             'average_rating'        => round($this->averageRating(), 1),
-            'stage'                 => $this->stage->translations->firstWhere('locale', request()->get('lang', app()->getLocale()))->name ,
+            'grade'                 => $this->grade->name ,
             'totalStudents'         => $totalStudents,
             'totalVideos'           => $totalVideos,
-            'courses'               => CourseResource::collection($this->courses),
-            'reviews'               => ReviewResource::collection($this->reviews),
+            // 'courses'               => CourseResource::collection($this->courses),
+            // 'reviews'               => ReviewResource::collection($this->reviews),
             "token"                 => $this->when(isset($this->token), $this->token),
 
         ];
