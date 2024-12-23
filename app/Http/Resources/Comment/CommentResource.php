@@ -14,8 +14,8 @@ class CommentResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-
         $voiceNoteUrl = $this->getFirstMediaUrl('voice_notes');
+        $authUserId = auth()->id(); 
         $response = [
             'id' => $this->id,
             'created_at' => $this->created_at->diffForHumans(),
@@ -23,10 +23,20 @@ class CommentResource extends JsonResource
 
         if ($this->teacher_id) {
             $response['teacher_name'] = $this->teacher ? $this->teacher->name : null;
-            $response['image']        = $this->teacher ? $this->getFirstMediaUrl('image') : null;
+            $response['image'] = $this->teacher ? $this->getFirstMediaUrl('image') : null;
+
+            $response['is_liked'] = $this->likes
+                ->where('user_id', $authUserId)
+                ->where('user_type', 'teacher')
+                ->isNotEmpty();
         } else {
             $response['user_name'] = $this->user ? $this->user->name : null;
-            $response['image']        = $this->user ? $this->user->image : null;
+            $response['image'] = $this->user ? $this->user->image : null;
+
+            $response['is_liked'] = $this->likes
+                ->where('user_id', $authUserId)
+                ->where('user_type', 'user')
+                ->isNotEmpty();
         }
 
         if ($voiceNoteUrl) {
@@ -43,4 +53,5 @@ class CommentResource extends JsonResource
 
         return $response;
     }
+
 }
