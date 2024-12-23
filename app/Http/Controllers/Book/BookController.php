@@ -54,4 +54,21 @@ class BookController extends Controller
     {
         return $this->bookRepository->downloadFileSample($book);
     }
+
+
+    public function getBooksByIds(Request $request)
+    {
+        try {
+            $validated = $request->validate([
+                'ids' => 'required|array|min:1',
+                'ids.*' => 'integer|exists:books,id',
+            ]);
+
+            $books = Book::whereIn('id', $validated['ids'])->get();
+            return ApiResponse::sendResponse(200, 'All Books', BookResource::collection($books));
+
+        } catch (Exception $e) {
+            return ApiResponse::sendResponse(500, 'Failed to fetch books' . $e->getMessage());
+        }
+    }
 }

@@ -3,6 +3,7 @@
 namespace App\Repositories\Book;
 
 use App\Helpers\ApiResponse;
+use App\Http\Resources\Book\BookResource;
 use App\Models\Book\Book;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
@@ -105,6 +106,11 @@ class BookRepository implements BookRepositoryInterface
         }
 
         return ApiResponse::sendResponse(Response::HTTP_NOT_FOUND, 'File not found.');
+    }
+    public function getBooksByIds(array $ids)
+    {
+        $books = Book::whereIn('id', $ids)->get();
+        return ApiResponse::sendResponse(200,'All Books',BookResource::collection($books));
     }
 }
 

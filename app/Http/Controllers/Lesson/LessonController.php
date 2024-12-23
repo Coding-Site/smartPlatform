@@ -15,6 +15,7 @@ class LessonController extends Controller
     public function show(Lesson $lesson)
     {
         $courseId = $lesson->unit->course_id;
+        
         $isSubscribed = auth()->check() ? auth()->user()->hasActiveSubscription($courseId) : false;
         if($lesson->is_free || $isSubscribed ) {
             return new LessonResource($lesson);

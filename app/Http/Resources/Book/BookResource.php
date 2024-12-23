@@ -19,7 +19,7 @@ class BookResource extends JsonResource
             'name'        => $this->name,
             'price'       => $this->price,
             'file_sample' => $this->getFirstMediaUrl('file_samples'),
-            'quantity'    => $this->quantity,
+            // 'quantity'    => $this->quantity,
             'teacher'     => $this->teacher->name,
             'term'        => $this->term->id,
             'grade'       => $this->grade->name,

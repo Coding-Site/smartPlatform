@@ -16,11 +16,14 @@ class LessonResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
+            //unit name
+            //
             'id'      => $this->id,
             'title'   => $this->title,
             'url'     => $this->url,
             'has_quiz'=> $this->quiz()->exists(),
             'has_cards'=> $this->cards()->exists(),
+            'unit_name'  => $this->unit->title,
             'note_url'    => $this->getFirstMediaUrl('lesson_note') ? url('/lesson-note/download/' . $this->id) : null,
             'comments'=> CommentResource::collection($this->comments),
         ];

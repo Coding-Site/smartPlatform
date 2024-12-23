@@ -11,4 +11,6 @@ interface BookRepositoryInterface
     public function getBookById(Book $book);
     public function updateBook(Book $book, array $data);
     public function deleteBook(Book $book);
+    public function getBooksByIds(array $ids);
+
 }

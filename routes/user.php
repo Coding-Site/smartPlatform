@@ -31,6 +31,8 @@ Route::middleware(['set-language'])->group(function () {
     });
 
 });
+Route::post('/books/guest', [BookController::class, 'getBooksByIds']);
+Route::post('/guest/checkout', [OrderController::class, 'createOrder']);
 
 Route::middleware(['auth:sanctum'])->group(function () {
 //cart

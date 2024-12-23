@@ -5,10 +5,14 @@ namespace App\Http\Controllers\Order;
 use App\Helpers\ApiResponse;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Checkout\CheckoutRequest;
+use App\Http\Requests\Checkout\GuestCheckoutRequest;
 use App\Http\Resources\Order\OrderResource;
+use App\Models\Book\Book;
 use App\Models\Order\Order;
+use App\Models\Order\OrderItem;
 use App\Repositories\Order\OrderRepository;
 use Exception;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class OrderController extends Controller
@@ -56,6 +60,43 @@ class OrderController extends Controller
         }
     }
 
+    public function checkoutForGuest(GuestCheckoutRequest $request)
+    {
+        $validated = $request->validated();
+
+        $totalPrice = 0;
+
+        $books = Book::whereIn('id', array_column($validated['books'], 'id'))->get();
+        $bookQuantities = collect($validated['books'])->keyBy('id');
+
+        foreach ($books as $book) {
+            $quantity = $bookQuantities[$book->id]['quantity'];
+            $totalPrice += $book->price * $quantity;
+        }
+
+        $order = Order::create([
+            'customer_name' => $validated['customer_name'],
+            'customer_email' => $validated['customer_email'],
+            'customer_address' => $validated['customer_address'],
+            'total_price' => $totalPrice,
+        ]);
+
+        foreach ($books as $book) {
+            $quantity = $bookQuantities[$book->id]['quantity'];
+            OrderItem::create([
+                'order_id' => $order->id,
+                'book_id' => $book->id,
+                'quantity' => $quantity,
+                'price' => $book->price,
+            ]);
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Order created successfully',
+            'order_id' => $order->id,
+        ]);
+    }
     public function show(Order $order)
     {
         if ($order->user_id !== auth()->id()) {
