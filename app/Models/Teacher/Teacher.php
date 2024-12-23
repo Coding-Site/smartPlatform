@@ -7,6 +7,7 @@ use App\Models\Book\Book;
 use App\Models\Comment\Comment;
 use App\Models\Course\Course;
 use App\Models\Grade\Grade;
+use App\Models\Like\Like;
 use App\Models\Review\Review;
 use App\Models\Stage\Stage;
 use Astrotomic\Translatable\Translatable;
@@ -105,5 +106,12 @@ class Teacher extends Authenticatable implements  HasMedia
     {
         return $this->hasMany(Review::class);
     }
+
+    public function likes()
+    {
+        return $this->morphMany(Like::class, 'likable');
+    }
+
+
 
 }

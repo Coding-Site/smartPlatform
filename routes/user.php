@@ -12,6 +12,7 @@ use App\Http\Controllers\Exam\ExamBankController;
 use App\Http\Controllers\Exam\ExamController;
 use App\Http\Controllers\Lesson\LessonController;
 use App\Http\Controllers\Lesson\LessonNoteController;
+use App\Http\Controllers\Like\LikeController;
 use App\Http\Controllers\Order\OrderController;
 use App\Http\Controllers\Package\PackageController;
 use App\Http\Controllers\Quiz\QuizController;
@@ -105,5 +106,7 @@ Route::prefix('teachers')->group(function () {
 Route::post('contact-us', [ContactUsController::class, 'create']);
 
 
+// likes
+Route::post('comments/{comment}/like', [LikeController::class, 'toggleLike'])->middleware('auth:sanctum');
 
 

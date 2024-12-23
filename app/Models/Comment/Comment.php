@@ -4,6 +4,7 @@ namespace App\Models\Comment;
 
 use App\Enums\Comment\Status;
 use App\Models\Lesson\Lesson;
+use App\Models\Like\Like;
 use App\Models\Teacher\Teacher;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -79,5 +80,12 @@ class Comment extends Model implements HasMedia
     {
         return $this->status === Status::REJECTED;
     }
+
+    public function likes()
+    {
+        return $this->hasMany(Like::class);
+    }
+
+
 
 }

@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Models\Cart\Cart;
 use App\Models\Comment\Comment;
 use App\Models\Grade\Grade;
+use App\Models\Like\Like;
 use App\Models\Order\Order;
 use App\Models\Review\Review;
 use App\Models\Stage\Stage;
@@ -121,6 +122,12 @@ class User extends Authenticatable implements MustVerifyEmail , HasMedia
 
         return $hasCourseSubscription || $hasPackageSubscription;
     }
+
+    public function likes()
+    {
+        return $this->morphMany(Like::class, 'likable');
+    }
+
 
 
 
