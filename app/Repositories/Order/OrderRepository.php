@@ -170,6 +170,44 @@ class OrderRepository
         }
     }
 
+    public function createGuestOrder($data){
+        DB::beginTransaction();
+        try {
+            $validated = $data;
+
+            $totalPrice = 0;
+
+            $books = Book::whereIn('id', array_column($validated['books'], 'id'))->get();
+            $bookQuantities = collect($validated['books'])->keyBy('id');
+
+            foreach ($books as $book) {
+                $quantity = $bookQuantities[$book->id]['quantity'];
+                $totalPrice += $book->price * $quantity;
+            }
+
+            $order = Order::create([
+                'order_number' => strtoupper(uniqid('ORD-')),
+                'status'       => 'pending',
+                'total_price'  => $totalPrice,
+            ]);
+            // dd($order);
+            foreach ($books as $book) {
+                $quantity = $bookQuantities[$book->id]['quantity'];
+                OrderItem::create([
+                    'order_id' => $order->id,
+                    'book_id' => $book->id,
+                    'quantity' => $quantity,
+                    'price' => $book->price,
+                ]);
+            }
+
+            DB::commit();
+            return $order;
+        } catch (Exception $e) {
+            DB::rollBack();
+            throw $e;
+        }
+    }
 
 
     public function createSubscriptionCourse($courseId, $userId,$type)
@@ -225,7 +263,8 @@ class OrderRepository
             'phone'       => $data['phone'],
             'address'     => $data['address'],
             'city_id'     => $data['city_id'],
-            'user_id'     => $data['user_id'],
+            'user_id'     => $data['user_id'] ?? null,
+            'name'        => Auth::user()->name ?? $data['name'],
             'status'      => 'new',
         ]);
 
@@ -253,7 +292,8 @@ class OrderRepository
             'phone'       => $data['phone'],
             'address'     => $data['address'],
             'city_id'     => $data['city_id'],
-            'user_id'     => $data['user_id'],
+            'user_id'     => $data['user_id'] ?? null,
+            'name'        => Auth::user()->name ?? $data['name'],
             'status'      => 'new',
             // 'total_price' => $totalPrice,
         ]);

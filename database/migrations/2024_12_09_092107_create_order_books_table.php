@@ -16,7 +16,8 @@ return new class extends Migration
             $table->string('phone');
             $table->text('address');
             $table->foreignId('city_id')->constrained()->onDelete('cascade');
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->foreignId('user_id')->nullable()->onDelete('cascade');
+            $table->string('name')->nullable();
             $table->foreignId('mandub_id')->nullable()->constrained()->onDelete('set null');
             $table->string('status')->default('new');
             // $table->string('total_price')->nullable(); /// books + deliver

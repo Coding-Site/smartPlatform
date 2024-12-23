@@ -61,40 +61,31 @@ class OrderController extends Controller
 
     public function checkoutForGuest(GuestCheckoutRequest $request)
     {
-        $validated = $request->validated();
+        $data = $request->validated();
+        DB::beginTransaction();
+        try {
+            $order = $this->orderRepo->createGuestOrder($data);
 
-        $totalPrice = 0;
+            $booksWithQuantities = [];
+            foreach ($order->items as $orderItem) {
+                if ($orderItem->book_id) {
+                    $booksWithQuantities[$orderItem->book_id] = $orderItem->quantity;
+                }
+            }
 
-        $books = Book::whereIn('id', array_column($validated['books'], 'id'))->get();
-        $bookQuantities = collect($validated['books'])->keyBy('id');
+            if (!empty($booksWithQuantities)) {
+                $this->orderRepo->createOrderBooks($data, $booksWithQuantities);
+            }
 
-        foreach ($books as $book) {
-            $quantity = $bookQuantities[$book->id]['quantity'];
-            $totalPrice += $book->price * $quantity;
+            DB::commit();
+            return ApiResponse::sendResponse(200, 'Order created successfully', $order);
+        } catch (Exception $e) {
+            DB::rollBack();
+            return ApiResponse::sendResponse(500, 'Order failed: ' . $e->getMessage());
         }
-
-        $order = Order::create([
-            'order_number' => strtoupper(uniqid('ORD-')),
-            'status'       => 'pending',
-            'total_price'  => $totalPrice,
-        ]);
-
-        foreach ($books as $book) {
-            $quantity = $bookQuantities[$book->id]['quantity'];
-            OrderItem::create([
-                'order_id' => $order->id,
-                'book_id' => $book->id,
-                'quantity' => $quantity,
-                'price' => $book->price,
-            ]);
-        }
-
-        return response()->json([
-            'success' => true,
-            'message' => 'Order created successfully',
-            'order_id' => $order->id,
-        ]);
     }
+
+
     public function show(Order $order)
     {
         if ($order->user_id !== auth()->id()) {
