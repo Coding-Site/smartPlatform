@@ -16,8 +16,7 @@ class LessonResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            //unit name
-            //
+
             'id'      => $this->id,
             'title'   => $this->title,
             'url'     => $this->url,

@@ -31,8 +31,7 @@ class OrderController extends Controller
 
         try {
             $order = $this->orderRepo->createOrder($request, $data);
-            // dd($order);
-            // payment process
+
             $subscriptionType = $data['subscription_type'];
             foreach ($order->items as $orderItem) {
                 if ($orderItem->course_id) {
@@ -75,10 +74,9 @@ class OrderController extends Controller
         }
 
         $order = Order::create([
-            'customer_name' => $validated['customer_name'],
-            'customer_email' => $validated['customer_email'],
-            'customer_address' => $validated['customer_address'],
-            'total_price' => $totalPrice,
+            'order_number' => strtoupper(uniqid('ORD-')),
+            'status'       => 'pending',
+            'total_price'  => $totalPrice,
         ]);
 
         foreach ($books as $book) {
