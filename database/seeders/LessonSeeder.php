@@ -18,7 +18,8 @@ class LessonSeeder extends Seeder
         foreach ($unitIds as $unitId) {
             $lessons = [
                 [
-                    'url' => 'https://example.com/lesson-1',
+
+                    'url' => '1041921686',
                     'is_free' => true,
                     'unit_id' => $unitId,
                     'translations' => [
@@ -27,7 +28,7 @@ class LessonSeeder extends Seeder
                     ],
                 ],
                 [
-                    'url' => 'https://example.com/lesson-2',
+                    'url' => '1031513196',
                     'is_free' => false,
                     'unit_id' => $unitId,
                     'translations' => [
@@ -36,7 +37,7 @@ class LessonSeeder extends Seeder
                     ],
                 ],
                 [
-                    'url' => 'https://example.com/lesson-3',
+                    'url' => '1041919586',
                     'is_free' => false,
                     'unit_id' => $unitId,
                     'translations' => [
