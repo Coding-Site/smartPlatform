@@ -3,6 +3,7 @@
 namespace App\Http\Resources\Lesson;
 
 use App\Http\Resources\Comment\CommentResource;
+use App\Models\Comment\Comment;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -24,7 +25,16 @@ class LessonResource extends JsonResource
             'has_cards'=> $this->cards()->exists(),
             'unit_name'  => $this->unit->title,
             'note_url'    => $this->getFirstMediaUrl('lesson_note') ? url('/lesson-note/download/' . $this->id) : null,
-            'comments'=> CommentResource::collection($this->comments),
+            // 'comments'=> CommentResource::collection($this->comments),
+            'comments' => Comment::where('lesson_id', $this->id)
+                ->where('parent_id', null)
+                ->approved()
+                ->with([
+                    'replies' => function($query) {
+                        $query->approved();
+                    }
+                ])
+                ->get()
         ];
     }
 }

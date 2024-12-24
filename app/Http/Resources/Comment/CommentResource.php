@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Comment;
 
+use App\Models\Comment\Comment;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -38,7 +39,6 @@ class CommentResource extends JsonResource
         } else {
             $response['content'] = $this->content;
         }
-
         if ($this->replies->isNotEmpty()) {
             $response['replies'] = CommentResource::collection($this->replies);
         }
