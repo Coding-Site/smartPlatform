@@ -15,9 +15,10 @@ class CommentController extends Controller
 {
     public function store(CommentRequest $request, Lesson $lesson)
     {
-        if (!Auth::check() && !Auth::guard('teacher')->check()) {
-            return ApiResponse::sendResponse(401, 'Unauthorized');
-        }
+        // dd(Auth::user());
+        // if (Auth::check() || !Auth::guard('teacher')->check()) {
+        //     return ApiResponse::sendResponse(401, 'Unauthorized');
+        // }
 
         if (($request->has('content') && $request->hasFile('voice_note')) || (!$request->has('content') && !$request->hasFile('voice_note'))) {
             return ApiResponse::sendResponse(422, 'Please provide either content or a voice note, but not both.');

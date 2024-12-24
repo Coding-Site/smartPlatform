@@ -91,7 +91,7 @@ class CitySeeder extends Seeder
             ]);
 
             foreach ($cityData['translations'] as $locale => $translation) {
-                DB::table('cities_translations')->insert([
+                DB::table('city_translations')->insert([
                     'city_id' => $city,
                     'locale' => $locale,
                     'name' => $translation['name'],

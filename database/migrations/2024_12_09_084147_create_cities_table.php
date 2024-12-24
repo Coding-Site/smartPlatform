@@ -17,7 +17,7 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        Schema::create('cities_translations', function (Blueprint $table) {
+        Schema::create('city_translations', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('city_id');
             $table->string('locale')->index();
@@ -31,7 +31,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('cities_translations');
+        Schema::dropIfExists('city_translations');
         Schema::dropIfExists('cities');
     }
 };

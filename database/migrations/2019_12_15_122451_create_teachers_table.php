@@ -21,9 +21,9 @@ return new class extends Migration
             $table->integer('years_of_experience')->nullable();
             $table->string('video_preview')->nullable();
             $table->string('type')->nullable();
-            $table->string('name');
+            $table->string('name')->nullable();
             $table->string('specialization')->nullable();
-            $table->foreignId('grade_id');
+            $table->foreignId('grade_id')->nullable();
             $table->timestamps();
         });
 

@@ -23,30 +23,31 @@ class TeacherAuthRepository
 
         $image = $data['image'] ?? null;
         unset($data['image']);
+
         $teacher = Teacher::create($data);
 
         $teacher->translateOrNew()->bio = $data['bio_ar'] ?? null;
         $teacher->translateOrNew()->bio = $data['bio_en'] ?? null;
         $teacher->translateOrNew()->description = $data['description_ar'] ?? null;
         $teacher->translateOrNew()->description = $data['description_en'] ?? null;
-        
+
         if ($image) {
             $teacher->addMedia($image)
                 ->toMediaCollection('image');
         }
 
-        if (!empty($data['specialization'])) {
+        // if (!empty($data['specialization'])) {
 
-            $specialization = strtolower(trim($data['specialization']));
+        //     $specialization = strtolower(trim($data['specialization']));
 
-            $courseIds = Course::whereHas('translations', function ($query) use ($specialization) {
-                $query->whereRaw('LOWER(TRIM(name)) = ?', [$specialization]);
-            })->pluck('id');
+        //     $courseIds = Course::whereHas('translations', function ($query) use ($specialization) {
+        //         $query->whereRaw('LOWER(TRIM(name)) = ?', [$specialization]);
+        //     })->pluck('id');
 
-            if ($courseIds->isNotEmpty()) {
-                $teacher->courses()->attach($courseIds);
-            }
-        }
+        //     if ($courseIds->isNotEmpty()) {
+        //         $teacher->courses()->attach($courseIds);
+        //     }
+        // }
         return $teacher;
     }
 

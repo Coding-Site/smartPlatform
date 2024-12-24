@@ -5,15 +5,17 @@ namespace App\Http\Controllers\Auth;
 use App\Helpers\ApiResponse;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\Teacher\ChangePasswordRequest;
-use App\Http\Requests\Auth\Teacher\ForgotPasswordRequest;
-use App\Http\Requests\Auth\Teacher\LoginRequest;
 use App\Http\Requests\Auth\Teacher\RegisterRequest;
 use App\Http\Resources\Teacher\DetailedTeacherResource;
+use App\Models\Course\Course;
 use App\Models\Teacher\Walet;
 use App\Repositories\Auth\TeacherAuthRepository;
 use Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+use App\Enums\Teacher\Type;
+use App\Models\Teacher\Teacher;
 
 class TeacherAuthController extends Controller
 {
@@ -27,13 +29,39 @@ class TeacherAuthController extends Controller
     public function register(RegisterRequest $request)
     {
         DB::beginTransaction();
+        $validated = $request->validated();
+
+        $courseIds = Course::whereHas('translations', function ($query) use ($validated) {
+            $query->where('name', 'like', '%' . $validated['course_name'] . '%');
+        })->pluck('id');
+        $gradeIds = $validated['grades'];
+
+        unset($validated['grades']);
+        unset($validated['course_name']);
+
+        // i have grades and courses ids
+        // dd($validated['grades']);
+        // dd($courseIds);
 
         try {
-            $teacher = $this->authRepository->createTeacher($request->validated());
-            $walet = new Walet([
-                'final_profit' => 0.00,
-            ]);
-            $teacher->walet()->save($walet);
+            $validated['password'] = Hash::make($validated['password']);
+            $validated['type'] = Type::ONLINE_COURSE->value;
+
+            $image = $validated['image'] ?? null;
+            unset($validated['image']);
+
+            $teacher = Teacher::create($validated);
+
+            $teacher->translateOrNew()->bio = $validated['bio_ar'] ?? null;
+            $teacher->translateOrNew()->bio = $validated['bio_en'] ?? null;
+            $teacher->translateOrNew()->description = $validated['description_ar'] ?? null;
+            $teacher->translateOrNew()->description = $validated['description_en'] ?? null;
+
+            if ($image) {
+                $teacher->addMedia($image)
+                    ->toMediaCollection('image');
+            }
+
             $teacher->token = $teacher->createToken('Api Token')->plainTextToken;
             DB::commit();
 

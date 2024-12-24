@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Course\Course;
+use App\Models\Grade\Grade;
 use App\Models\Teacher\Teacher;
 use App\Models\TeacherCourse;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -17,13 +18,17 @@ class TeacherCourseSeeder extends Seeder
         {
             $teacherIds = Teacher::pluck('id')->toArray();
             $courseIds = Course::pluck('id')->toArray();
+            $gradeIds = Grade::pluck('id')->toArray();
 
             foreach ($teacherIds as $teacherId) {
                 foreach ($courseIds as $courseId) {
-                    TeacherCourse::create([
-                        'teacher_id' => $teacherId,
-                        'course_id' => $courseId,
-                    ]);
+                    foreach ($gradeIds as $gradeId) {
+                        TeacherCourse::create([
+                            'teacher_id' => $teacherId,
+                            'course_id'  => $courseId,
+                            'grade_id'   => $gradeId,
+                        ]);
+                    }
                 }
             }
         }

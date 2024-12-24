@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\UserAuthController;
 use App\Http\Controllers\Book\BookController;
 use App\Http\Controllers\Card\CardController;
 use App\Http\Controllers\Cart\CartController;
+use App\Http\Controllers\City\CityController;
 use App\Http\Controllers\Comment\CommentController;
 use App\Http\Controllers\ContactUs\ContactUsController;
 use App\Http\Controllers\Course\CourseController;
@@ -35,6 +36,7 @@ Route::middleware(['set-language'])->group(function () {
 
 Route::post('/books/guest', [BookController::class, 'getBooksByIds']);
 Route::post('/guest/checkout', [OrderController::class, 'checkoutForGuest']);
+Route::get('cities',[CityController::class, 'index']);
 
 Route::middleware(['auth:sanctum'])->group(function () {
 //cart
@@ -78,7 +80,7 @@ Route::get('/lesson/{lesson}/score', [CardController::class, 'calculateScore']);
 
 //comments
 Route::get('/lessons/{lesson}/comments', [CommentController::class, 'showComments']);
-Route::post('/lessons/{lesson}/comments', [CommentController::class, 'store']);
+Route::post('/lessons/{lesson}/comments', [CommentController::class, 'store'])->middleware('auth:sanctum');
 Route::post('/comments/{comment}', [CommentController::class, 'update']);
 Route::delete('/comments/{comment}', [CommentController::class, 'destroy']);
 
